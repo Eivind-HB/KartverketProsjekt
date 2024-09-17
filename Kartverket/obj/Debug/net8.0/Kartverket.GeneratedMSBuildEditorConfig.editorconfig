@@ -9,47 +9,55 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Kartverket
 build_property.RootNamespace = Kartverket
-build_property.ProjectDir = C:\Users\Eivind\source\repos\Kartverket\Kartverket\
+build_property.ProjectDir = C:\Users\Bruker\Desktop\KartverketProsjekt\KartverketProsjekt\Kartverket\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Eivind\source\repos\Kartverket\Kartverket
+build_property.MSBuildProjectDirectory = C:\Users\Bruker\Desktop\KartverketProsjekt\KartverketProsjekt\Kartverket
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/Eivind/source/repos/Kartverket/Kartverket/Views/Home/Index.cshtml]
+[C:/Users/Bruker/Desktop/KartverketProsjekt/KartverketProsjekt/Kartverket/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Eivind/source/repos/Kartverket/Kartverket/Views/Home/MidlertidigEndring.cshtml]
+[C:/Users/Bruker/Desktop/KartverketProsjekt/KartverketProsjekt/Kartverket/Views/Home/MidlertidigEndring.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxNaWRsZXJ0aWRpZ0VuZHJpbmcuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Eivind/source/repos/Kartverket/Kartverket/Views/Home/Privacy.cshtml]
+[C:/Users/Bruker/Desktop/KartverketProsjekt/KartverketProsjekt/Kartverket/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Eivind/source/repos/Kartverket/Kartverket/Views/Home/RettIVeier.cshtml]
+[C:/Users/Bruker/Desktop/KartverketProsjekt/KartverketProsjekt/Kartverket/Views/Home/RegistrationForm.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZWdpc3RyYXRpb25Gb3JtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Bruker/Desktop/KartverketProsjekt/KartverketProsjekt/Kartverket/Views/Home/RettIVeier.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZXR0SVZlaWVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Eivind/source/repos/Kartverket/Kartverket/Views/Shared/Error.cshtml]
+[C:/Users/Bruker/Desktop/KartverketProsjekt/KartverketProsjekt/Kartverket/Views/Home/UDOverview.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxVRE92ZXJ2aWV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Bruker/Desktop/KartverketProsjekt/KartverketProsjekt/Kartverket/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Eivind/source/repos/Kartverket/Kartverket/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Bruker/Desktop/KartverketProsjekt/KartverketProsjekt/Kartverket/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Eivind/source/repos/Kartverket/Kartverket/Views/_ViewImports.cshtml]
+[C:/Users/Bruker/Desktop/KartverketProsjekt/KartverketProsjekt/Kartverket/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Eivind/source/repos/Kartverket/Kartverket/Views/_ViewStart.cshtml]
+[C:/Users/Bruker/Desktop/KartverketProsjekt/KartverketProsjekt/Kartverket/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Eivind/source/repos/Kartverket/Kartverket/Views/Shared/_Layout.cshtml]
+[C:/Users/Bruker/Desktop/KartverketProsjekt/KartverketProsjekt/Kartverket/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-xkvoa6o39m
