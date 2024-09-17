@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "gxPYgsbLXxg=",
+  "dgSpecHash": "Y/V5HpLtps0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Eivind\\source\\repos\\Kartverket\\Kartverket\\Kartverket.csproj",
+  "projectFilePath": "C:\\Users\\Niri A Lorentzen\\Documents\\!UiA\\fag\\is-202\\prosjektarbeid\\KartverketProsjekt\\Kartverket\\Kartverket.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Eivind\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.21.0\\microsoft.visualstudio.azure.containers.tools.targets.1.21.0.nupkg.sha512"
+    "C:\\Users\\Niri A Lorentzen\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.21.0\\microsoft.visualstudio.azure.containers.tools.targets.1.21.0.nupkg.sha512"
   ],
   "logs": []
 }

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Eivind\\source\\repos\\Kartverket\\Kartverket\\Kartverket.csproj": {}
+    "C:\\Users\\Niri A Lorentzen\\Documents\\!UiA\\fag\\is-202\\prosjektarbeid\\KartverketProsjekt\\Kartverket\\Kartverket.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Eivind\\source\\repos\\Kartverket\\Kartverket\\Kartverket.csproj": {
+    "C:\\Users\\Niri A Lorentzen\\Documents\\!UiA\\fag\\is-202\\prosjektarbeid\\KartverketProsjekt\\Kartverket\\Kartverket.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Eivind\\source\\repos\\Kartverket\\Kartverket\\Kartverket.csproj",
+        "projectUniqueName": "C:\\Users\\Niri A Lorentzen\\Documents\\!UiA\\fag\\is-202\\prosjektarbeid\\KartverketProsjekt\\Kartverket\\Kartverket.csproj",
         "projectName": "Kartverket",
-        "projectPath": "C:\\Users\\Eivind\\source\\repos\\Kartverket\\Kartverket\\Kartverket.csproj",
-        "packagesPath": "C:\\Users\\Eivind\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Eivind\\source\\repos\\Kartverket\\Kartverket\\obj\\",
+        "projectPath": "C:\\Users\\Niri A Lorentzen\\Documents\\!UiA\\fag\\is-202\\prosjektarbeid\\KartverketProsjekt\\Kartverket\\Kartverket.csproj",
+        "packagesPath": "C:\\Users\\Niri A Lorentzen\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Niri A Lorentzen\\Documents\\!UiA\\fag\\is-202\\prosjektarbeid\\KartverketProsjekt\\Kartverket\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Eivind\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Niri A Lorentzen\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -70,7 +70,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
