@@ -72,3 +72,13 @@ body {
     padding-right: 1rem;
     padding-left: 1rem
 }
+
+.standard-pfp {
+    border-style: solid;
+    border-color: #156630;
+    border-radius: 20px;
+}
+
+.pfp-element {
+    padding-right: 1rem
+}
