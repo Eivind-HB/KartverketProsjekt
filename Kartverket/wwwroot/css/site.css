@@ -76,9 +76,10 @@ body {
 .standard-pfp {
     border-style: solid;
     border-color: #156630;
-    border-radius: 20px;
+    border-radius: 30px;
 }
 
 .pfp-element {
-    padding-right: 1rem
+    padding-right: 1rem;
+    padding-left: 2rem
 }
