@@ -23,14 +23,26 @@ namespace Kartverket.Controllers
             return View();
         }
 
-        public IActionResult RettIVeier()
+        public IActionResult RoadCorrection()
         {
             return View();
         }
 
-        public IActionResult MidlertidigEndring()
+        public IActionResult TemporaryChanges()
         {
             return View();
+        }
+
+        [HttpGet]
+        public ViewResult RegistrationForm()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ViewResult RegistrationForm(UserData userData)
+        {
+            return View("UDOverview", userData);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
