@@ -31,7 +31,7 @@ body {
     box-shadow: 0 0 2px #0000001a;
     border-bottom: 2px solid rgba(112,112,112,.18);
     background: #ffffff;
-    padding: 18px 0
+    padding: 16px 0
 }
 
 .container-fluid {
@@ -57,7 +57,7 @@ body {
 
 .kartverket-logo {
     padding-right: 1rem;
-    padding-left: 1rem
+    padding-left: 0.65rem;
 }
 
 .nav-item {
