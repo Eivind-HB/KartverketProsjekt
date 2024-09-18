@@ -1,5 +1,6 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
+    background: #f5f2f2;
 }
 
 @media (min-width: 768px) {
@@ -31,7 +32,7 @@ body {
     box-shadow: 0 0 2px #0000001a;
     border-bottom: 2px solid rgba(112,112,112,.18);
     background: #ffffff;
-    padding: 18px 0
+    padding: 16px 0
 }
 
 .container-fluid {
@@ -57,7 +58,7 @@ body {
 
 .kartverket-logo {
     padding-right: 1rem;
-    padding-left: 1rem
+    padding-left: 0.65rem;
 }
 
 .nav-item {
@@ -76,6 +77,20 @@ body {
 .standard-pfp {
     border-style: solid;
     border-color: #156630;
+    border-radius: 30px;
+}
+
+.pfp-element {
+    padding-right: 1rem;
+    padding-left: 2rem
+}
+
+footer {
+    border-top: 8px solid #1a833b;
+    background: #f5f2f2;
+    padding: 35px 0 18px;
+    position: relative;
+    margin-top: 18px
     border-radius: 20px;
 }
 
