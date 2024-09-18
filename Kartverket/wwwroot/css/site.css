@@ -91,4 +91,9 @@ footer {
     padding: 35px 0 18px;
     position: relative;
     margin-top: 18px
+    border-radius: 20px;
+}
+
+.pfp-element {
+    padding-right: 1rem
 }
