@@ -11,3 +11,6 @@ bld/
 [Oo]bj/
 *.csproj.user
 /database
+
+bin/
+obj/
