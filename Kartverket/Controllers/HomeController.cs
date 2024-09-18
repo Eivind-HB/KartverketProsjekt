@@ -23,12 +23,12 @@ namespace Kartverket.Controllers
             return View();
         }
 
-        public IActionResult RettIVeier()
+        public IActionResult RoadCorrection()
         {
             return View();
         }
 
-        public IActionResult MidlertidigEndring()
+        public IActionResult TemporaryChanges()
         {
             return View();
         }

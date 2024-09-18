@@ -22,10 +22,6 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Bruker/Desktop/KartverketProsjekt/KartverketProsjekt/Kartverket/Views/Home/MidlertidigEndring.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxNaWRsZXJ0aWRpZ0VuZHJpbmcuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/Bruker/Desktop/KartverketProsjekt/KartverketProsjekt/Kartverket/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -34,8 +30,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZWdpc3RyYXRpb25Gb3JtLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Bruker/Desktop/KartverketProsjekt/KartverketProsjekt/Kartverket/Views/Home/RettIVeier.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZXR0SVZlaWVyLmNzaHRtbA==
+[C:/Users/Bruker/Desktop/KartverketProsjekt/KartverketProsjekt/Kartverket/Views/Home/RoadCorrection.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSb2FkQ29ycmVjdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Bruker/Desktop/KartverketProsjekt/KartverketProsjekt/Kartverket/Views/Home/TemporaryChanges.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxUZW1wb3JhcnlDaGFuZ2VzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Bruker/Desktop/KartverketProsjekt/KartverketProsjekt/Kartverket/Views/Home/UDOverview.cshtml]
