@@ -1,5 +1,3 @@
-bin/
-obj/
 .vs/
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -13,3 +11,5 @@ bld/
 [Oo]bj/
 *.csproj.user
 /database
+/bin
+/obj
