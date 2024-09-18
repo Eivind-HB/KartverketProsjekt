@@ -20,3 +20,65 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.NavHeader {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 30;
+    transition: padding .1s linear,height .1s linear;
+    box-shadow: 0 0 2px #0000001a;
+    border-bottom: 2px solid rgba(112,112,112,.18);
+    background: #ffffff;
+    padding: 18px 0
+}
+
+.container-fluid {
+    clear: both;
+    margin-right: auto;
+    margin-left: auto;
+    width: auto;
+    min-width: 240px;
+    max-width: 1500px;
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    gap: 18px;
+    width: 100%;
+    height: 100%
+}
+
+.main-padding {
+    padding-top: 120px
+}
+
+.kartverket-logo {
+    padding-right: 1rem;
+    padding-left: 1rem
+}
+
+.nav-item {
+    border-style: solid;
+    border-color: #156630;
+    border-radius: 8px;
+    font-family: Muli,Verdana,sans-serif;
+    font-size: .8125rem;
+    font-weight: 400;
+    color: #505050;
+    white-space: nowrap;
+    padding-right: 1rem;
+    padding-left: 1rem
+}
+
+.standard-pfp {
+    border-style: solid;
+    border-color: #156630;
+    border-radius: 20px;
+}
+
+.pfp-element {
+    padding-right: 1rem
+}
