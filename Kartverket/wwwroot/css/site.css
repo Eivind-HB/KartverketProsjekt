@@ -20,6 +20,7 @@ html {
 
 body {
   margin-bottom: 60px;
+  font-family: Muli,Verdana,sans-serif
 }
 
 .NavHeader {
@@ -96,4 +97,8 @@ footer {
 
 .pfp-element {
     padding-right: 1rem
+}
+
+.registration-form {
+    text-align: center
 }

@@ -1,43 +1,25 @@
 ﻿@model Kartverket.Models.UserData
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "RegistrationForm";
 }
 
+<h1 class="registration-form">Bruker Registrering</h1>
 
-<!DOCTYPE html>
-
-<head>
-    @*Når vi faktisk går for å style dette, må det inn i CSS og heller bruke klasser for å style det videre*@
-    <style>
-        h1 {
-            text-align: center;
-        }
-        body {
-            text-align: center;
-        }
-    </style>
-</head>
-
-    <div class="text-center">
-        <h1 class="display-4">Bruker Registrering</h1>
+<form asp-action="RegistrationForm" method="post" class="registration-form">
+    <div>
+        <label asp-for="Name">Navnet ditt:</label>
+        <input asp-for="Name" />
     </div>
-    
-<body>
-    <form asp-action="RegistrationForm" method="post">
-        <div>
-            <label asp-for="Name">Navnet ditt:</label>
-            <input asp-for="Name" />
-        </div>
-        <div>
-            <label asp-for="Email">Emailen din:</label>
-            <input asp-for="Email" />
-        </div>
-        <div>
-            <label asp-for="HomeMunicipality">Hjemme kommunen din</label>
-            <input asp-for="HomeMunicipality" />
-        </div>
-        <button type="submit" class="btn btn-primary">Send Informasjon</button>
-    </form>
-</body>
+    <div>
+        <label asp-for="Email">Emailen din:</label>
+        <input asp-for="Email" />
+    </div>
+    <div>
+        <label asp-for="HomeMunicipality">Hjemme kommunen din</label>
+        <input asp-for="HomeMunicipality" />
+    </div>
+    <button type="submit" class="btn btn-primary">Send Informasjon</button>
+</form>
+
 
