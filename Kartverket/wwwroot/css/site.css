@@ -102,3 +102,9 @@ footer {
 .registration-form {
     text-align: center
 }
+
+/* Gjør endringer på leaflet map ID'en*/
+#map { 
+    height: 1000px;
+    width: 100%;
+}
