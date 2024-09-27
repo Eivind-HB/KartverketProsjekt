@@ -2,8 +2,16 @@
     ViewData["Title"] = "Midlerting Endringer";
 }
 
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+
 <div class="text-center">
     <h1 class="display-4">Midlerting Endringer</h1>
     <p>Her skal det komme innmeldings skejma og Leaflet GUI til midlertidige endringer</p>
-
 </div>
+
+@*Lager leaflet kart. Tar i bruk størrelse definert i site.css. Og script både definert av leaflet https://leafletjs.com/examples/quick-start/ og fra site.js*@
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script> src="site.js"</script>
