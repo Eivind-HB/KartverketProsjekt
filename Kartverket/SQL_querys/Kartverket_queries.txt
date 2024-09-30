@@ -1,0 +1,61 @@
+CREATE DATABASE KartverketProject;
+
+CREATE TABLE IF NOT EXISTS `KartverketProject`.`KartverketEmployee` (
+`EmployeeID` INT NOT NULL,
+`PhoneNo` INT(8) NULL,
+`Mail` VARCHAR(45) NOT NULL,
+`Title` VARCHAR(45) NOT NULL,
+`Wage` INT NOT NULL,
+`Firstname` VARCHAR(45) NOT NULL,
+`Lastname` VARCHAR(45) NOT NULL,
+PRIMARY KEY (`EmployeeID`),
+UNIQUE INDEX `AnsattNr_UNIQUE` (`EmployeeID` ASC) VISIBLE,
+UNIQUE INDEX `TelefonNr_UNIQUE` (`PhoneNo` ASC) VISIBLE,
+UNIQUE INDEX `mail_UNIQUE` (`Mail` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `KartverketProject`.`User` (
+`UserID` INT NOT NULL,
+`UserName` VARCHAR(20) NOT NULL,
+`Mail` VARCHAR(45) NULL,
+PRIMARY KEY (`UserID`),
+UNIQUE INDEX `BrukerNr_UNIQUE` (`UserID` ASC) VISIBLE,
+UNIQUE INDEX `Mail_UNIQUE` (`Mail` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `KartverketProject`.`Case` (
+`CaseNo` INT NOT NULL,
+`LocationInfo` GEOMETRY NOT NULL,
+`IssueType` INT(1) NOT NULL,
+`Description` LONGTEXT NOT NULL,
+`Date` DATE NOT NULL,
+`ResponsibleEmployees` VARCHAR(45) NOT NULL,
+`User_UserID` INT NOT NULL,
+PRIMARY KEY (`CaseNo`, `User_UserID`),
+UNIQUE INDEX `SaksNr_UNIQUE` (`CaseNo` ASC) VISIBLE,
+INDEX `fk_Case_User_idx` (`User_UserID` ASC) VISIBLE,
+CONSTRAINT `fk_Case_User`
+FOREIGN KEY (`User_UserID`)
+REFERENCES `KartverketProject`.`User` (`UserID`)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `KartverketProject`.`CaseWorker` (
+`KartverketEmployee_EmployeeID` INT NOT NULL,
+`Case_CaseNo` INT NOT NULL,
+`Case_User_UserID` INT NOT NULL,
+PRIMARY KEY (`KartverketEmployee_EmployeeID`, `Case_CaseNo`, `Case_User_UserID`),
+INDEX `fk_KartverketEmployee_has_Case_Case1_idx` (`Case_CaseNo` ASC, `Case_User_UserID` ASC) VISIBLE,
+INDEX `fk_KartverketEmployee_has_Case_KartverketEmployee1_idx` (`KartverketEmployee_EmployeeID` ASC) VISIBLE,
+CONSTRAINT `fk_KartverketEmployee_has_Case_KartverketEmployee1`
+FOREIGN KEY (`KartverketEmployee_EmployeeID`)
+REFERENCES `KartverketProject`.`KartverketEmployee` (`EmployeeID`)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION,
+CONSTRAINT `fk_KartverketEmployee_has_Case_Case1`
+FOREIGN KEY (`Case_CaseNo` , `Case_User_UserID`)
+REFERENCES `KartverketProject`.`Case` (`CaseNo` , `User_UserID`)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION)
+ENGINE = InnoDB;
