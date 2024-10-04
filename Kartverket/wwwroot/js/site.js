@@ -80,12 +80,12 @@ map.addControl(drawControl);
         var geojsonData = layer.toGeoJSON();
 
      //GeoJSON Data
-        fetch('@Url.Action("GetGeoJsonData", "MapController")')
-            .then(response => response.json())
-            .then(geojsonData => {
-                L.geoJSON(geojsonData).addTo(map);
-            })
-            .catch(error => console.error('Error ved lasting av GeoJSON data:', error));
+        //fetch('@Url.Action("GetGeoJsonData", "MapController")')
+        //    .then(response => response.json())
+        //    .then(geojsonData => {
+        //        L.geoJSON(geojsonData).addTo(map);
+        //    })
+        //    .catch(error => console.error('Error ved lasting av GeoJSON data:', error));
 
      //Sender ny GeoJSON data til serveren
         fetch('@Url.Action("SaveGeoJsonData", "MapController")', {
