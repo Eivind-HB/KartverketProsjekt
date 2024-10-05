@@ -3,7 +3,13 @@
     ViewData["Title"] = "Overview";
 }
 
-<h2>Overview of Registered Changes</h2>
+@*Denne viewen viser Id, GeoJSON data og beskrivelsene av endringene som er sendt ut. 
+    Den lar også bruker se hvor de tegnet tidligere
+   
+*@
+
+
+<h2>Oversikt av registrerte endringer</h2>
 
 <table class="table">
     <thread>
@@ -25,19 +31,12 @@
     </tbody>
 </table>
 
-<div id="map" style="height:400px;"></div>
+<div id="map"></div>
 
 @section Scripts {
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unplug.com/leaflet/dist/leaflet.js"></script>
+    <script src="~/js/site.js"></script>
 
     <script>
-        var map = L.map('map').setView([51.505, -0.09], 13);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors'
-        }).addTo(map);
-
         var changes = @Html.Raw(Json.Serialize(Model));
 
         changes.forEach(function (change) {

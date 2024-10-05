@@ -9,6 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\MapController.cs" />
+    <Compile Remove="Controllers\UserController.cs" />
+    <Compile Remove="Models\MapModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Home\CorrectionOverview.cshtml" />
+    <Content Remove="Views\Home\CorrectMap.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="leaflet" Version="0.7.3" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
   </ItemGroup>

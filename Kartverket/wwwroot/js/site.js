@@ -1,14 +1,16 @@
-﻿
+﻿/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Denne siden har inntil videre majoriteten av Leaflet funksjonene. Dette skal separeres i flere moduler senere//
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Lager en kartvariabel med koodrinater for å vise hele Norge, tar i bruk kode fra https://leafletjs.com/
 var map = L.map('map').setView([60.14, 10.25], 5);
 
 
 //Lager kart variablene. KAN VÆRE LURT Å VISE TIL HVOR KARTA ER FRA 
-var topographyLayer = L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png')
-    grayToneLayer = L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topograatone/default/webmercator/{z}/{y}/{x}.png'),
-    hikingLayer = L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/toporaster/default/webmercator/{z}/{y}/{x}.png'),
-    seaLayer = L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/sjokartraster/default/webmercator/{z}/{y}/{x}.png');
+var topographyLayer = L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png');
+var grayToneLayer = L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topograatone/default/webmercator/{z}/{y}/{x}.png');
+var hikingLayer = L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/toporaster/default/webmercator/{z}/{y}/{x}.png');
+var seaLayer = L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/sjokartraster/default/webmercator/{z}/{y}/{x}.png');
 
 
 //Navngir Karttypene
@@ -24,25 +26,7 @@ topographyLayer.addTo(map);
 //Lager leaflet controller som tar i bruk mapLayers
 L.control.layers(mapLayers).addTo(map);
 
-//En funksjon som viser koodrinatene av der man klikker
-var popup = L.popup();
-
-
-/* MÅ FIKSE PÅ DENNE SÅ DEN FUNGERER MED TEGNEFUNKSJONEN
-
-function onMapClick(e) {
-    popup
-        .setLatLng(e.latlng)
-        .setContent("Du trykket på: " + e.latlng.toString())
-        .openOn(map);
-}
-
-map.on('click', onMapClick); */
-
-
-
-
-//Geolokasjon
+//Geolokasjon, dette må gjøres om til en knapp senere
 navigator.geolocation.getCurrentPosition(function (position) {
     var lat = position.coords.latitude;
     var lng = position.coords.longitude;
@@ -58,47 +42,33 @@ navigator.geolocation.getCurrentPosition(function (position) {
 });
 
 
-//Lagrer en featureGroup for å lagre tegnede former
+//Lager leaflet tegne kontroller
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 
-//Lager leaflet tegne kontroller
 var drawControl = new L.Control.Draw({
+    draw: {
+        polygon: true,
+        polyline: true,
+        marker: true,
+        circle: false,
+        rectangle: true
+    },
     edit: {
         featureGroup: drawnItems
     }
 });
 map.addControl(drawControl);
 
-   
+//Håndterer tegne eventen
+map.on(L.Draw.Event.CREATED, function (e) {
+    var type = e.layerType,
+        layer = e.layer;
 
-    //Håndterer eventen når en ny form er skapt
-    map.on(L.Draw.Event.CREATED, function (e) {
-        var layer = e.layer;
-        drawnItems.addLayer(layer);
+    drawnItems.addLayer(layer);
 
-        var geojsonData = layer.toGeoJSON();
+    var geoJsonData = layer.toGeoJSON();
+    var geoJsonString = JSON.stringify(geoJsonData);
 
-     //GeoJSON Data
-        //fetch('@Url.Action("GetGeoJsonData", "MapController")')
-        //    .then(response => response.json())
-        //    .then(geojsonData => {
-        //        L.geoJSON(geojsonData).addTo(map);
-        //    })
-        //    .catch(error => console.error('Error ved lasting av GeoJSON data:', error));
-
-     //Sender ny GeoJSON data til serveren
-        fetch('@Url.Action("SaveGeoJsonData", "MapController")', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(geojsonData)
-        }).then(response => {
-            if (response.ok) {
-                alert('GeoJSON lagret.');
-            } else {
-                alert('Error ved lagring av GeoJSON');
-            }
-        }).catch(error => console.error('Error:', error));
-    });
+    document.getElementById('geoJsonInput').value = geoJsonString;
+});

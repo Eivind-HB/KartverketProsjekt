@@ -2,20 +2,34 @@
     ViewData["Title"] = "Midlerting Endringer";
 }
 
-<head>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-</head>
+@*Denne sidens hensikt vil være å vise til midlertidige endringer brukere vil kunne lage slik at andre brukere kan se disse. 
+    Intill videre er den nærmest identisk til RoadCorrection
+*@
+
 
 <div class="text-center">
     <h1 class="display-4">Midlerting Endringer</h1>
-    <p>Her skal det komme innmeldings skejma og Leaflet GUI til midlertidige endringer</p>
+    <p>Her kan du sende inn endringer i kartet som kommer til å være midlertidige.</p>
+    <p>Eksempler på dette kan være flomskader. Felte trær som sperrer vei, eller andre slike ting.</p>
 </div>
 
-@*Lager leaflet kart. Tar i bruk størrelse definert i site.css. Og script både definert av leaflet https://leafletjs.com/examples/quick-start/ og fra site.js*@
-<div id="map"></div>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script> src="site.js"</script>
 
-@*Leaflet draw css og javascript*@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+<div id="map"></div>
+
+
+
+@**@
+<form asp-action="RegisterAreaChange" method="post">
+
+    <input type="hidden" id="geoJsonInput" name="geoJson" />
+    <div>
+        <label for="description">Beskriv dne midlertidige endringen du vil melde:</label>
+        <textarea id="description" name="Description" class="form-control"></textarea>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Send inn</button>
+</form>
+
+@section Scripts {
+    <script src="~/js/site.js"></script>
+}

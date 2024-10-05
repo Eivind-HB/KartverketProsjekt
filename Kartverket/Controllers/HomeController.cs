@@ -78,8 +78,8 @@ namespace Kartverket.Controllers
         {
             return View();
         }
-        [HttpPost]
 
+        [HttpPost]
         public IActionResult RegisterAreaChange(string geoJson, string description)
         {
             var newChange = new AreaChange
@@ -101,7 +101,6 @@ namespace Kartverket.Controllers
         }
 
         [HttpGet]
-
         public IActionResult AreaChangeOverview()
         {
             return View(changes);
