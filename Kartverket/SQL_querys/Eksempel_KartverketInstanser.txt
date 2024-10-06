@@ -1,0 +1,17 @@
+INSERT INTO KartverketEmployee (EmployeeID, PhoneNo, Mail, Title, Wage, Firstname, Lastname)
+VALUES (1, 44433444, "danielriccardo@gmail.com", "Geolog", 231739, "Daniel", "Riccardo");
+INSERT INTO KartverketEmployee (EmployeeID, PhoneNo, Mail, Title, Wage, Firstname, Lastname)
+VALUES (2, 48298244, "maxverstappen@gmail.com", "Saksbehandler", 992033, "Max", "Verstappen");
+INSERT INTO KartverketEmployee (EmployeeID, PhoneNo, Mail, Title, Wage, Firstname, Lastname)
+VALUES (3, 41210239, "jonpedersen@gmail.com", "IT utvikler", 293823, "Jon", "Pedersen");
+
+INSERT INTO User (UserID, UserName, Mail)
+VALUES (1, "Michael", "mikkel@gmail.com");
+
+INSERT INTO KartverketProject.Case (CaseNo, LocationInfo, IssueType, Description, Date, ResponsibleEmployees, User_UserID)
+VALUES (1, POINT(12, 12), 2, "Et tre har fallt på veien, please fix", "2024-09-30", "1 og 2", 1);
+
+INSERT INTO CaseWorker (KartverketEmployee_EmployeeID, Case_CaseNo, Case_User_UserID)
+VALUES (1, 1, 1);
+INSERT INTO CaseWorker (KartverketEmployee_EmployeeID, Case_CaseNo, Case_User_UserID)
+VALUES (2, 1, 1);
