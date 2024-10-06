@@ -1,0 +1,50 @@
+﻿@model List<Kartverket.Models.AreaChange>
+@{
+    ViewData["Title"] = "Overview";
+}
+
+@*Denne viewen viser Id, GeoJSON data og beskrivelsene av endringene som er sendt ut. 
+    Den lar også bruker se hvor de tegnet tidligere
+   
+*@
+
+
+<h2>Oversikt av registrerte endringer</h2>
+
+<table class="table">
+    <thread>
+        <tr>
+            <th>ID</th>
+            <th>GeoJSON</th>
+            <th>Description</th>
+        </tr>
+    </thread>
+    <tbody>
+        @foreach (var change in Model)
+        {
+            <tr>
+                <td>@change.Id</td>
+                <td>@change.GeoJson</td>
+                <td>@change.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="map"></div>
+
+@section Scripts {
+    <script src="~/js/site.js"></script>
+
+    <script>
+        var changes = @Html.Raw(Json.Serialize(Model));
+
+        changes.forEach(function (change) {
+            var geoJsonData = JSON.parse(change.geoJson);
+            L.geoJSON(geoJsonData).addTo(map);
+
+            var layer = L.geoJSON(geoJsonData).bindPopup(change.description);
+            layer.addTo(map);
+        });
+    </script>
+}
