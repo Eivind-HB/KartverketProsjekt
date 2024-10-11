@@ -2,7 +2,7 @@
     ViewData["Title"] = "Midlerting Endringer";
 }
 
-@*Denne sidens hensikt vil være å vise til midlertidige endringer brukere vil kunne lage slik at andre brukere kan se disse. 
+@*Denne sidens hensikt vil være å vise til midlertidige endringer brukere vil kunne lage slik at andre brukere kan se disse.
     Intill videre er den nærmest identisk til RoadCorrection
 *@
 
@@ -13,22 +13,26 @@
     <p>Eksempler på dette kan være flomskader. Felte trær som sperrer vei, eller andre slike ting.</p>
 </div>
 
+<div class="map-change-container">
 
-<div id="map"></div>
+    <button id="curLocationButton">Finn min posisjon</button>
 
-@**@
-<form asp-action="RegisterAreaChange" method="post">
+    <div id="map" class="map-section"></div>
 
-    <input type="hidden" id="geoJsonInput" name="geoJson" />
-    <div>
-        <label for="description">Beskriv dne midlertidige endringen du vil melde:</label>
-        <textarea id="description" name="Description" class="form-control"></textarea>
+    <div class="description-section">
+        <form asp-action="RegisterAreaChange" method="post">
+            <input type="hidden" id="geoJsonInput" name="geoJson" />
+            <div>
+                <label for="description">Beskriv den midlertidige endringen du vil melde:</label>
+                <textarea id="description" name="Description" class="form-control"></textarea>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary">Send inn</button>
+        </form>
     </div>
-    <br />
-    <button type="submit" class="btn btn-primary">Send inn</button>
-</form>
+</div>
 
 @section Scripts {
-    <script src="~/js/site.js"></script>
+    <script src="~/js/leafletMap.js"></script>
+    <script src="~/js/leafletDraw.js"></script>
 }
-

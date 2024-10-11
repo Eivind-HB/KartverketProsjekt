@@ -5,24 +5,31 @@
 <div class="text-center">
     <h1 class="display-4">Rett i veger og stier</h1>
     <p>Her kan du vise til endringer i kartet</p>
- </div>
+</div>
 
-<div id="map"></div>
-
-<form asp-action="RegisterAreaChange" method="post">
-
-    <input type="hidden" id="geoJsonInput" name="geoJson" />
-    <div>
-        <label for="description">Beskriv endringen du vil melde:</label>
-        <textarea id="description" name="Description" class="form-control"></textarea>
+<!-- Flex container for map and where you edit the changes -->
+<div class="map-change-container">
+    <!-- Map section -->
+    
+    <button id="curLocationButton">Finn min posisjon</button>
+    
+    <div id="map" class="map-section"></div>
+    
+    <!-- Description section -->
+    <div class="description-section">
+        <form asp-action="RegisterAreaChange" method="post">
+            <input type="hidden" id="geoJsonInput" name="geoJson" />
+            <div>
+                <label for="description">Beskriv endringen du vil melde:</label>
+                <textarea id="description" name="Description" class="form-control"></textarea>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary">Send inn</button>
+        </form>
     </div>
-    <br />
-    <button type="submit" class="btn btn-primary">Send inn</button>
-</form>
-
-
+</div>
 
 @section Scripts {
-<script src="~/js/site.js"></script>
+    <script src="~/js/leafletMap.js"></script>
+    <script src="~/js/leafletDraw.js"></script>
 }
-
