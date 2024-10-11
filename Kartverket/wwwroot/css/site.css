@@ -104,10 +104,31 @@ footer {
     text-align: center
 }
 
-/* Gjør endringer på leaflet map ID'en*/
+/*Leaflet basic map*/
 #map {
-    height: 50rem;
-    width: 100%; 
-    z-index: 50;
+    height: 30rem;
+    width: 100%;
+    z-index: 10;
     border-style: dotted;
+}
+
+/* Flex container to hold map and description */
+.map-change-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* Map takes 70% of the width */
+.map-section {
+    height: 30rem;
+    width: 60%;
+    z-index: 10;
+    border-style: dotted;
+}
+
+/* Description section takes 30% of the width */
+.description-section {
+    width: 40%;
+    padding-left: 20px;
 }
