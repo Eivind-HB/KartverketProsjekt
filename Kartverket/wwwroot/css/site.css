@@ -104,14 +104,6 @@ footer {
     text-align: center
 }
 
-/*Leaflet basic map*/
-#map {
-    height: 30rem;
-    width: 100%;
-    z-index: 10;
-    border-style: dotted;
-}
-
 /* Flex container to hold map and description */
 .map-change-container {
     display: flex;
@@ -131,4 +123,20 @@ footer {
 .description-section {
     width: 40%;
     padding-left: 20px;
+}
+
+/*Leaflet basic map*/
+#map {
+    height: 30rem;
+    width: 100%;
+    z-index: 10;
+    border-style: dotted;
+    border-color: #156630;
+}
+
+#curLocationButton {
+    border-style: solid;
+    border-color: #156630;
+    border-radius: 8px;
+    font-family: Muli,Verdana,sans-serif;
 }
