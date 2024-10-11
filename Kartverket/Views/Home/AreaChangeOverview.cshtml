@@ -3,22 +3,16 @@
     ViewData["Title"] = "Overview";
 }
 
-@*Denne viewen viser Id, GeoJSON data og beskrivelsene av endringene som er sendt ut. 
-    Den lar også bruker se hvor de tegnet tidligere
-   
-*@
-
-
 <h2>Oversikt av registrerte endringer</h2>
 
 <table class="table">
-    <thread>
+    <thead>
         <tr>
             <th>ID</th>
             <th>GeoJSON</th>
             <th>Description</th>
         </tr>
-    </thread>
+    </thead>
     <tbody>
         @foreach (var change in Model)
         {
@@ -31,7 +25,7 @@
     </tbody>
 </table>
 
-<div id="map"></div>
+<div id="map" style="height: 500px;"></div>
 
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
@@ -41,10 +35,25 @@
 
         changes.forEach(function (change) {
             var geoJsonData = JSON.parse(change.geoJson);
-            L.geoJSON(geoJsonData).addTo(map);
-
             var layer = L.geoJSON(geoJsonData).bindPopup(change.description);
             layer.addTo(map);
+
+            // Extract coordinates from GeoJSON
+            var coordinates = geoJsonData.features[0].geometry.coordinates;
+            var latitude = coordinates[1];
+            var longitude = coordinates[0];
+
+            var url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    var address = data.display_name ? data.display_name : "Address not found";
+                    layer.bindPopup(`${change.description}<br>Address: ${address}`).openPopup();
+                })
+                .catch(error => {
+                    layer.bindPopup(`${change.description}<br>Address not available`).openPopup();
+                });
         });
     </script>
 }
