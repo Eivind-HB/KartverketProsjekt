@@ -30,9 +30,9 @@
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
 
+
     <script>
         // Ensure the map variable is defined and initialized in leafletMap.js
-        // var map = L.map('map').setView([0, 0], 2); // This line is commented out to avoid re-initialization
 
         // Add tile layer to the map if not already added
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -73,6 +73,7 @@
                         var popupContent = `${change.description}<br>Address: ${address}`;
                         layer.setPopupContent(popupContent).openPopup();
                         console.log(`Popup updated for change ID ${change.Id}: ${popupContent}`);
+                        map.setView([geocoordinates[1], geocoordinates[0]], 13);
                     })
                     .catch(error => {
                         var popupContent = `${change.description}<br>Address not available`;
