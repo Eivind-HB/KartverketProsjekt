@@ -19,7 +19,7 @@ var mapLayers = {
 
 //Setter topographyLayer som basis kart
 topographyLayer.addTo(map);
-//Lager leaflet controller som tar i bruk mapLayers
+//Lager leaflet controller som tar i bruk mapLayers 
 L.control.layers(mapLayers).addTo(map);
 
 /*Geolocation, function with eventlistener. If button is clicked user is prompted to give their location.

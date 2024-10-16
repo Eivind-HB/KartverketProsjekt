@@ -31,29 +31,57 @@
     <script src="~/js/leafletMap.js"></script>
 
     <script>
+        // Ensure the map variable is defined and initialized in leafletMap.js
+        // var map = L.map('map').setView([0, 0], 2); // This line is commented out to avoid re-initialization
+
+        // Add tile layer to the map if not already added
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Get the changes data from the model
         var changes = @Html.Raw(Json.Serialize(Model));
 
+        // Process each change
         changes.forEach(function (change) {
             var geoJsonData = JSON.parse(change.geoJson);
             var layer = L.geoJSON(geoJsonData).bindPopup(change.description);
             layer.addTo(map);
 
             // Extract coordinates from GeoJSON
-            var coordinates = geoJsonData.features[0].geometry.coordinates;
-            var latitude = coordinates[1];
-            var longitude = coordinates[0];
+            var geocoordinates = geoJsonData.geometry.coordinates;
+            if (geocoordinates && geocoordinates.length >= 2) {
+                var latitude = geocoordinates[1];
+                var longitude = geocoordinates[0];
 
-            var url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+                console.log(`Processing change ID ${change.Id} with coordinates: ${latitude}, ${longitude}`);
 
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    var address = data.display_name ? data.display_name : "Address not found";
-                    layer.bindPopup(`${change.description}<br>Address: ${address}`).openPopup();
-                })
-                .catch(error => {
-                    layer.bindPopup(`${change.description}<br>Address not available`).openPopup();
-                });
+                // Construct the URL for reverse geocoding
+                var url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+
+                // Fetch the address using reverse geocoding
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Network response was not ok: ${response.statusText}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(`Received data for change ID ${change.Id}:`, data);
+                        var address = data.display_name ? data.display_name : "Address not found";
+                        var popupContent = `${change.description}<br>Address: ${address}`;
+                        layer.setPopupContent(popupContent).openPopup();
+                        console.log(`Popup updated for change ID ${change.Id}: ${popupContent}`);
+                    })
+                    .catch(error => {
+                        var popupContent = `${change.description}<br>Address not available`;
+                        layer.setPopupContent(popupContent).openPopup();
+                        console.error(`Failed to update popup for change ID ${change.Id}: ${error}`);
+                    });
+            } else {
+                console.error(`Invalid coordinates for change ID ${change.Id}`);
+            }
         });
     </script>
 }
