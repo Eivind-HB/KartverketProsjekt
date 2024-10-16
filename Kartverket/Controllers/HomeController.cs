@@ -1,4 +1,5 @@
 using Kartverket.Models;
+using Kartverket.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,15 +8,17 @@ namespace Kartverket.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IKommuneInfoApiService _KommuneInfoApiService;
 
         //private static List<PositionModel> positions = new List<PositionModel>();
 
         private static List<AreaChange> changes = new List<AreaChange>();
         private static List<PositionModel> positions = new List<PositionModel>();
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IKommuneInfoApiService kommuneInfoApiService)
         {
             _logger = logger;
+            _KommuneInfoApiService = kommuneInfoApiService;
         }
 
         public IActionResult Index()
@@ -104,6 +107,37 @@ namespace Kartverket.Controllers
         public IActionResult AreaChangeOverview()
         {
             return View(changes);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> KommuneInfoApi(string kommuneNr)
+        {
+            if (string.IsNullOrEmpty(kommuneNr))
+            {
+                ViewData["Error"] = "Venligst legg inn et gyldig Kommunenummer. Det skal være 4 siffer.";
+                return View("RoadCorrection");
+            }
+
+
+            var kommuneInfo = await _KommuneInfoApiService.GetKommuneInfoAsync(kommuneNr);
+            if (kommuneInfo != null)
+            {
+                var viewModel = new KommuneInfoViewModel
+                {
+                    Kommunenavn = kommuneInfo.Kommunenavn,
+                    Kommunenummer = kommuneInfo.Kommunenummer,
+                    Fylkesnavn = kommuneInfo.Fylkesnavn,
+                    SamiskForvaltningsomrade = kommuneInfo.SamiskForvaltningsomrade
+                };
+                return View("KommuneInfo", viewModel);
+            }
+            else
+            {
+                ViewData["Error"] = $"No results found for Kommune Number '{kommuneNr}'.";
+                return View("Index");
+            }
+
         }
     }
 }

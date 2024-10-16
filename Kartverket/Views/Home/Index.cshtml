@@ -8,6 +8,23 @@
 
     <h4>Noen av funskjonene til denne siden vil kreve at du registrer deg! Gjør det her:</h4>
     <h3><a asp-action="RegistrationForm">Registrer deg</a> </h3>
+
+    @* Test område:*@
+    <h2>Søk etter kommune informasjon</h2>
+    <form asp-action="KommuneInfoApi" method="post">
+        @Html.AntiForgeryToken()
+        <label for="kommuneNr">Kommune Nummer:</label>
+        <input type="text" id="kommuneNr" name="kommuneNr" />
+        <button type="submit">Søk</button>
+    </form>  
+
+    @if (ViewData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @ViewData["Error"]
+        </div>
+    }
+
 </div>
 
 <script>
