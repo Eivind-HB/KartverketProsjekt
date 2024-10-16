@@ -116,7 +116,7 @@ namespace Kartverket.Controllers
             if (string.IsNullOrEmpty(kommuneNr))
             {
                 ViewData["Error"] = "Venligst legg inn et gyldig Kommunenummer. Det skal være 4 siffer.";
-                return View("RoadCorrection");
+                return View("Index");
             }
 
 
@@ -130,11 +130,11 @@ namespace Kartverket.Controllers
                     Fylkesnavn = kommuneInfo.Fylkesnavn,
                     SamiskForvaltningsomrade = kommuneInfo.SamiskForvaltningsomrade
                 };
-                return View("KommuneInfo", viewModel);
+                return View("Index", viewModel);
             }
             else
             {
-                ViewData["Error"] = $"No results found for Kommune Number '{kommuneNr}'.";
+                ViewData["Error"] = $"Ingen resultater for dette nummeret: '{kommuneNr}'.";
                 return View("Index");
             }
 

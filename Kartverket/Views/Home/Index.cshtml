@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Kartverket.Models.KommuneInfoViewModel
+
+@{
     ViewData["Title"] = "Feilmelding til kart";
 }
 
@@ -9,7 +11,7 @@
     <h4>Noen av funskjonene til denne siden vil kreve at du registrer deg! Gjør det her:</h4>
     <h3><a asp-action="RegistrationForm">Registrer deg</a> </h3>
 
-    @* Test område:*@
+    @*Kommune Informasjon via API:*@
     <h2>Søk etter kommune informasjon</h2>
     <form asp-action="KommuneInfoApi" method="post">
         @Html.AntiForgeryToken()
@@ -25,6 +27,18 @@
         </div>
     }
 
+    @*Test på å få informasjonen på samme view:*@
+    @if (Model != null)
+    {
+        <h2>Kommune informasjon</h2>
+
+        <p>Kommunenavn: @Model.Kommunenavn</p>
+        <p>Kommunenummer: @Model.Kommunenummer</p>
+        <p>Fylkesnavn: @Model.Fylkesnavn</p>
+        <p>Samisk Forvaltningsområde: @(Model.SamiskForvaltningsomrade ? "Ja" : "Nei")</p>
+    }
+    
+     
 </div>
 
 <script>
