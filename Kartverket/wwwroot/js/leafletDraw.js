@@ -51,3 +51,4 @@ if (typeof map === 'undefined') {
         }
     });
 }
+
