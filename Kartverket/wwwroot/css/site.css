@@ -1,163 +1,193 @@
+:root { /*Variables for more consistency in code*/
+    /* Colors */
+    --primary-green: #1a833b;
+    --light-green: #e8f5eb;
+    --hover-green: #156630;
+    --gray-bg: #f5f2f2;
+    --border-gray: rgba(112,112,112,.18);
+    --text-color: #505050;
+    /* Shadows */
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    /* Fonts */
+    --main-font: Muli, Verdana, sans-serif;
+    /* Sizes */
+    --base-font-size: 14px;
+    --large-font-size: 16px;
+    /* Border */
+    --border-radius-sm: 8px;
+    --border-radius-lg: 30px;
+}
+
+/* Base styles */
 html {
-    font-size: 14px;
-    background: #f5f2f2;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    font-size: var(--base-font-size);
+    background: var(--gray-bg);
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
-  font-family: Muli,Verdana,sans-serif
+    margin-bottom: 60px;
+    font-family: var(--main-font);
 }
 
+/* Media query for larger screens */
+@media (min-width: 768px) {
+    html {
+        font-size: var(--large-font-size);
+    }
+}
+
+/* Common styles */
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+/* Header & Navigation */
 .NavHeader {
-    position: fixed;
+    position: sticky;
     top: 0;
-    right: 0;
-    left: 0;
     z-index: 30;
-    transition: padding .1s linear,height .1s linear;
-    box-shadow: 0 0 2px #0000001a;
-    border-bottom: 2px solid rgba(112,112,112,.18);
+    transition: padding .1s linear, height .1s linear;
+    box-shadow: var(--shadow-sm);
+    border-bottom: 2px solid var(--border-gray);
     background: #ffffff;
     padding: 16px 0;
-    position: sticky
 }
 
 .container-fluid {
-    clear: both;
-    margin-right: auto;
-    margin-left: auto;
-    width: auto;
-    min-width: 240px;
-    max-width: 1500px;
     display: flex;
-    position: relative;
     justify-content: space-between;
     align-items: center;
+    max-width: 1500px;
+    margin: 0 auto;
     padding: 0 15px;
     gap: 18px;
-    width: 100%;
-    height: 100%
+    height: 100%;
 }
 
 .main-padding {
-    padding-top: 0px
+    padding-top: 0px;
 }
 
 .kartverket-logo {
     padding-right: 1rem;
     padding-left: 0.65rem;
+    transition: transform 0.2s;
 }
 
-.nav-item {
-    border-style: solid;
-    border-color: #156630;
-    border-radius: 8px;
-    font-family: Muli,Verdana,sans-serif;
-    font-size: .8125rem;
-    font-weight: 400;
-    color: #505050;
-    white-space: nowrap;
-    padding-right: 1rem;
-    padding-left: 1rem
+    .kartverket-logo:hover {
+        transform: scale(1.05);
+    }
+
+/* Common button/nav item styles */
+.nav-item, #curLocationButton {
+    border: 2px solid var(--primary-green);
+    border-radius: var(--border-radius-sm);
+    font-family: var(--main-font);
+    font-size: 0.8125rem;
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
 }
+
+    .nav-item:hover, #curLocationButton:hover {
+        background: var(--light-green);
+        transform: translateY(-2px);
+    }
 
 .standard-pfp {
-    border-style: solid;
-    border-color: #156630;
-    border-radius: 30px;
+    border: 2px solid var(--primary-green);
+    border-radius: var(--border-radius-lg);
+    transition: transform 0.2s;
 }
+
+    .standard-pfp:hover {
+        transform: scale(1.1);
+    }
 
 .pfp-element {
     padding-right: 1rem;
-    padding-left: 2rem
+    padding-left: 2rem;
 }
 
+/* Footer */
 footer {
-    border-top: 8px solid #1a833b;
-    background: #f5f2f2;
+    border-top: 8px solid var(--primary-green);
+    background: var(--gray-bg);
     padding: 35px 0 18px;
     position: relative;
-    margin-top: 18px
-    border-radius: 20px;
+    margin-top: 18px;
 }
 
-.pfp-element {
-    padding-right: 1rem
-}
-
-.registration-form {
-    text-align: center
-}
-
-/* Flex container to hold map and description */
+/* Map Components */
 .map-change-container {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
 }
 
-/* Map takes 70% of the width */
 .map-section {
     height: 30rem;
     width: 60%;
-    z-index: 10;
-    border-style: dotted;
 }
 
-/* Description section takes 30% of the width */
 .description-section {
     width: 40%;
     padding-left: 20px;
 }
 
-/*Leaflet basic map*/
 #map {
     height: 30rem;
     width: 100%;
-    z-index: 10;
-    border-style: dotted;
-    border-color: #156630;
+    border: 2px dotted var(--primary-green);
+    border-radius: var(--border-radius-sm);
 }
 
-/* Flex container to hold map and description */
-.map-change-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+/* Forms */
+.registration-form {
+    text-align: center;
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--shadow-sm);
+    max-width: 800px;
+    margin: 2rem auto;
 }
 
-/* Map takes 70% of the width */
-.map-section {
-    height: 30rem;
-    width: 60%;
-    z-index: 10;
-    border-style: dotted;
+/* Responsive Design */
+@media (max-width: 992px) {
+    .container-fluid {
+        padding: 0 1rem;
+    }
+
+    .navbar-nav {
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .map-change-container {
+        flex-direction: column;
+    }
+
+    .map-section,
+    .description-section {
+        width: 100%;
+    }
+
+    .description-section {
+        margin-top: 1rem;
+    }
 }
 
-/* Description section takes 30% of the width */
-.description-section {
-    width: 40%;
-    padding-left: 20px;
-}
-#curLocationButton {
-    border-style: solid;
-    border-color: #156630;
-    border-radius: 8px;
-    font-family: Muli,Verdana,sans-serif;
-}
+@media (max-width: 768px) {
+    .nav-item {
+        width: 100%;
+        text-align: center;
+    }
 
+    .pfp-element {
+        padding: 1rem;
+    }
+}
