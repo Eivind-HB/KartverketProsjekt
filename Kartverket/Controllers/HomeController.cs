@@ -2,6 +2,7 @@ using Kartverket.Models;
 using Kartverket.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Kartverket.Data;
 
 namespace Kartverket.Controllers
 {
@@ -9,16 +10,19 @@ namespace Kartverket.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IKommuneInfoApiService _KommuneInfoApiService;
+        // EF
+        private readonly ApplicationDbContext _context;
 
         //private static List<PositionModel> positions = new List<PositionModel>();
 
         private static List<AreaChange> changes = new List<AreaChange>();
         private static List<PositionModel> positions = new List<PositionModel>();
 
-        public HomeController(ILogger<HomeController> logger, IKommuneInfoApiService kommuneInfoApiService)
+        public HomeController(ILogger<HomeController> logger, IKommuneInfoApiService kommuneInfoApiService, ApplicationDbContext context)
         {
             _logger = logger;
             _KommuneInfoApiService = kommuneInfoApiService;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -85,16 +89,30 @@ namespace Kartverket.Controllers
         [HttpPost]
         public IActionResult RegisterAreaChange(string geoJson, string description)
         {
-            var newChange = new AreaChange
+            try
             {
-                Id = Guid.NewGuid().ToString(),
-                GeoJson = geoJson,
-                Description = description
-            };
+                if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
+                {
+                    return BadRequest("Invalid data.");
+                }
 
-            changes.Add(newChange);
+                var newGeoChange = new GeoChange
+                {
+                    GeoJson = geoJson,
+                    Description = description
+                };
 
-            return RedirectToAction("AreaChangeOverview");
+                // Save to the database
+                _context.GeoChanges.Add(newGeoChange);
+                _context.SaveChanges();
+
+                return RedirectToAction("AreaChangeOverview");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}, Inner Exception: {ex.InnerException?.Message}");
+                throw;
+            }
         }
 
         [HttpGet]
@@ -106,7 +124,8 @@ namespace Kartverket.Controllers
         [HttpGet]
         public IActionResult AreaChangeOverview()
         {
-            return View(changes);
+            var changes_db = _context.GeoChanges.ToList();
+            return View(changes_db);
         }
 
 

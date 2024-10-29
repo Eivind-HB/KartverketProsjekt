@@ -1,4 +1,5 @@
-﻿@model List<Kartverket.Models.AreaChange>
+﻿@*@model List<Kartverket.Models.AreaChange>*@
+@model List<Kartverket.Data.GeoChange>
 @{
     ViewData["Title"] = "Overview";
 }
@@ -14,13 +15,20 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var change in Model)
+        @if (Model !=null)
         {
-            <tr>
+            @foreach (var change in Model)
+            {
+                <tr>
                 <td>@change.Id</td>
                 <td>@change.GeoJson</td>
                 <td>@change.Description</td>
             </tr>
+            }
+        }
+        else
+        {
+            <tr><td colspan="3">No data available</td></tr>
         }
     </tbody>
 </table>
