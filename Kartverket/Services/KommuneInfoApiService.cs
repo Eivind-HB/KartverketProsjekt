@@ -16,6 +16,33 @@ namespace Kartverket.Services
             _logger = logger;
             _apiSettings = apisettings.Value;
         }
+
+        
+
+        public async Task<KommuneInfo> GetKommuneInfoAsync(double latitude, double longitude)
+        {
+            try
+            {
+                // Koordsys 4326 is WGS84 which is the coordinates used by leaflet
+                int koordsys = 4326;
+
+                var response = await _httpClient.GetAsync($"{_apiSettings.KommuneInfoApiBaseUrl}/punkt?nord={latitude}&ost={longitude}&koordsys={koordsys}");
+                response.EnsureSuccessStatusCode();
+
+                var json = await response.Content.ReadAsStringAsync();
+                _logger.LogInformation($"KommuneInfo Response: {json}");
+                var kommuneInfo = JsonSerializer.Deserialize<KommuneInfo>(json);
+                return kommuneInfo;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error fetching KommuneInfo for coordinates ({latitude}, {longitude}): {ex.Message}");
+                return null;
+            }
+
+        }
+
+        /*
         public async Task<KommuneInfo> GetKommuneInfoAsync(string kommuneNr)
         {
             try
@@ -35,5 +62,6 @@ namespace Kartverket.Services
             }
 
         }
+        */
     }
 }

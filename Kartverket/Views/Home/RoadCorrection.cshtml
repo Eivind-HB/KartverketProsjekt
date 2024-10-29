@@ -29,6 +29,35 @@
     </div>
 </div>
 
+@*Kommune Information via API:*@
+<h2>Søk etter kommune informasjon</h2>
+<form asp-action="KommuneInfoApi" method="post">
+    @Html.AntiForgeryToken()
+    <label for="latitude">Høydegrad:</label>
+    <input type="number" id="latitude" name="Høydegrad" />
+    <label for="longitude">Lengdegrad:</label>
+    <input type="number" id="longitude" name="Lengdegrad" />
+    <button type="submit">Søk</button>
+</form>
+
+@if (ViewData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @ViewData["Error"]
+    </div>
+}
+
+@*Kommune information showing up when searched for*@
+@if (Model != null)
+{
+    <h2>Kommune informasjon</h2>
+
+    <p>Kommunenavn: @Model.Kommunenavn</p>
+    <p>Kommunenummer: @Model.Kommunenummer</p>
+    <p>Fylkesnavn: @Model.Fylkesnavn</p>
+    <p>Samisk Forvaltningsområde: @(Model.SamiskForvaltningsomrade ? "Ja" : "Nei")</p>
+}
+
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
     <script src="~/js/leafletDraw.js"></script>

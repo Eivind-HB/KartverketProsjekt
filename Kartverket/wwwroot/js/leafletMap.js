@@ -30,15 +30,30 @@ function findCurrentLocation() {
         var lat = position.coords.latitude;
         var lng = position.coords.longitude;
 
-        //Setter kartets visning til brukerens nåværende posisjon
+        //Sets the map view to the users current coodinates.
         map.setView([lat, lng], 17);
 
         L.marker([lat, lng]).addTo(map)
-            .bindPopup('Du er her!').openPopup();
-        //Error om geolokasjon feiler
+            .bindPopup(`Du er her! Latidue: ${lat} Longitude: ${lng}`).openPopup();
+        //Error if geolocation fails
     }, function (error) {
         console.error('Geolokasjon feilet: ', error);
     });
 }
+
+map.on('click', function (e) {
+
+    const { lat, lng } = e.latlng;
+    console.log(`Clicked on: Latitude: ${lat}, Longitude: ${lng}`);
+
+    //Antageligvis feil
+    fetch(`/api/kommuneinfo?latitude=${lat}&longitude=${lng}`) 
+        .then(response => response.json())
+        .then(data => {
+            console.log('Kommuneinfo:', data);
+            
+        })
+        .catch(error => console.error('Feil ved henting av kommuneinfo:', error));
+});
 
 document.getElementById("curLocationButton").addEventListener("click", findCurrentLocation);
