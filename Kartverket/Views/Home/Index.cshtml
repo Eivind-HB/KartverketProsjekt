@@ -4,46 +4,68 @@
     ViewData["Title"] = "Feilmelding til kart";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Melding om feil i kart</h1>
-    <p>Kartverkets data er sentrale i Norges offisielle datagrunnlag og brukes i en lang rekke kart på papir og nett. Her kan du hjelpe oss med å holde kartene oppdatert.</p>
+<div class="page-container index-container">
+    <h1>Melding om feil i kart</h1>
+    <p class="lead">Kartverkets data er sentrale i Norges offisielle datagrunnlag og brukes i en lang rekke kart på papir og nett. Her kan du hjelpe oss med å holde kartene oppdatert.</p>
 
-    <h4>Noen av funskjonene til denne siden vil kreve at du registrer deg! Gjør det her:</h4>
-    <h3><a asp-action="RegistrationForm">Registrer deg</a> </h3>
+    <div class="registration-section">
+        <h2>Registrering</h2>
+        <p>Noen av funksjonene til denne siden vil kreve at du registrerer deg. Gjør det her:</p>
+        <a asp-action="RegistrationForm" class="btn btn-primary">Registrer deg</a>
+    </div>
 
-    @*Kommune Information via API:*@
-    <h2>Søk etter kommune informasjon</h2>
-    <form asp-action="KommuneInfoApi" method="post">
-        @Html.AntiForgeryToken()
-        <label for="kommuneNr">Kommune Nummer:</label>
-        <input type="text" id="kommuneNr" name="kommuneNr" />
-        <button type="submit">Søk</button>
-    </form>  
+    <div class="kommune-search-section">
+        <h2>Søk etter kommune informasjon</h2>
+        <form asp-action="KommuneInfoApi" method="post" class="kommune-form">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label for="kommuneNr">Kommune Nummer:</label>
+                <input type="text" id="kommuneNr" name="kommuneNr" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Søk</button>
+        </form>
+    </div>
 
     @if (ViewData["Error"] != null)
     {
-        <div class="alert alert-danger">
+        <div class="alert alert-danger mt-3">
             @ViewData["Error"]
         </div>
     }
 
-    @*Kommune information showing up when searched for*@
     @if (Model != null)
     {
-        <h2>Kommune informasjon</h2>
-
-        <p>Kommunenavn: @Model.Kommunenavn</p>
-        <p>Kommunenummer: @Model.Kommunenummer</p>
-        <p>Fylkesnavn: @Model.Fylkesnavn</p>
-        <p>Samisk Forvaltningsområde: @(Model.SamiskForvaltningsomrade ? "Ja" : "Nei")</p>
+        <div class="kommune-info-section mt-4">
+            <h2>Kommune informasjon</h2>
+            <table class="table">
+                <tr>
+                    <th>Kommunenavn</th>
+                    <td>@Model.Kommunenavn</td>
+                </tr>
+                <tr>
+                    <th>Kommunenummer</th>
+                    <td>@Model.Kommunenummer</td>
+                </tr>
+                <tr>
+                    <th>Fylkesnavn</th>
+                    <td>@Model.Fylkesnavn</td>
+                </tr>
+                <tr>
+                    <th>Samisk Forvaltningsområde</th>
+                    <td>@(Model.SamiskForvaltningsomrade ? "Ja" : "Nei")</td>
+                </tr>
+            </table>
+        </div>
     }
-    
-     
 </div>
 
-<script>
-    function changeBackground() {
-        document.getElementById('Home').style.backgroundColor = 'lightgreen';
-    }
-    changeBackground()
-</script>
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const homeNavItem = document.querySelector('.nav-item a[href="/"]');
+            if (homeNavItem) {
+                homeNavItem.parentElement.style.backgroundColor = 'var(--light-green)';
+            }
+        });
+    </script>
+}

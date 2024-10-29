@@ -1,18 +1,36 @@
-﻿@*
-    Dette er en view for UserData Overview
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Brukerinformasjon";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-  
-   <h1>Du har nå registrert deg</h1>
-   <h3>Din informasjon:</h3>
-  
+<div class="page-container ud-overview-container">
+    <h1>Du har nå registrert deg</h1>
+    <p class="lead">Her er en oversikt over din registrerte informasjon:</p>
 
-   <body>
-       <p><strong>Navn:</strong> @Model.Name</p>
-       <p><strong>Email:</strong> @Model.Email</p>
-       <p><strong>Din hjemme kommune:</strong> @Model.HomeMunicipality</p>
+    <div class="user-info-card">
+        <h2>Din informasjon</h2>
+        <div class="info-item">
+            <strong>Navn:</strong>
+            <span>@Model.Name</span>
+        </div>
+        <div class="info-item">
+            <strong>Email:</strong>
+            <span>@Model.Email</span>
+        </div>
+        <div class="info-item">
+            <strong>Din hjemme kommune:</strong>
+            <span>@Model.HomeMunicipality</span>
+        </div>
+    </div>
+</div>
 
-   </body>
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const udOverviewNavItem = document.querySelector('.nav-item a[href*="UDOverview"]');
+            if (udOverviewNavItem) {
+                udOverviewNavItem.parentElement.style.backgroundColor = 'var(--light-green)';
+            }
+        });
+    </script>
+}

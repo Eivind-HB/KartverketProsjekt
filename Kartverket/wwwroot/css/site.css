@@ -1,20 +1,15 @@
-:root { /*Variables for more consistency in code*/
-    /* Colors */
+:root {
     --primary-green: #1a833b;
     --light-green: #e8f5eb;
     --hover-green: #156630;
     --gray-bg: #f5f2f2;
     --border-gray: rgba(112,112,112,.18);
     --text-color: #505050;
-    /* Shadows */
     --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
     --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-    /* Fonts */
     --main-font: Muli, Verdana, sans-serif;
-    /* Sizes */
     --base-font-size: 14px;
     --large-font-size: 16px;
-    /* Border */
     --border-radius-sm: 8px;
     --border-radius-lg: 30px;
 }
@@ -32,7 +27,6 @@ body {
     font-family: var(--main-font);
 }
 
-/* Media query for larger screens */
 @media (min-width: 768px) {
     html {
         font-size: var(--large-font-size);
@@ -65,10 +59,6 @@ body {
     padding: 0 15px;
     gap: 18px;
     height: 100%;
-}
-
-.main-padding {
-    padding-top: 0px;
 }
 
 .kartverket-logo {
@@ -121,6 +111,89 @@ footer {
     margin-top: 18px;
 }
 
+/* Common container styles */
+.page-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    padding: 2rem;
+    margin: 2rem auto;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.index-container, .privacy-container {
+    max-width: 800px;
+}
+
+.registration-form, .ud-overview-container {
+    max-width: 500px;
+}
+
+/* Common heading styles */
+.page-container h1 {
+    color: var(--primary-green);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.page-container h2 {
+    color: var(--hover-green);
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Common paragraph styles */
+.page-container p {
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* Form styles */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+    .form-group label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+    .form-control:focus {
+        border-color: var(--primary-green);
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(26, 131, 59, 0.1);
+    }
+
+/* Button styles */
+.btn-primary {
+    background-color: var(--primary-green);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-primary:hover {
+        background-color: var(--hover-green);
+    }
+
 /* Map Components */
 .map-change-container {
     display: flex;
@@ -145,15 +218,17 @@ footer {
     border-radius: var(--border-radius-sm);
 }
 
-/* Forms */
-.registration-form {
-    text-align: center;
-    background: white;
-    padding: 2rem;
-    border-radius: var(--border-radius-sm);
-    box-shadow: var(--shadow-sm);
-    max-width: 800px;
-    margin: 2rem auto;
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Responsive Design */
