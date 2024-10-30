@@ -119,7 +119,7 @@ footer {
     border-style: dotted;
 }
 
-/* Description section takes 30% of the width */
+/* Description section takes 40% of the width */
 .description-section {
     width: 40%;
     padding-left: 20px;
@@ -161,3 +161,17 @@ footer {
     font-family: Muli,Verdana,sans-serif;
 }
 
+.form-control {
+    border-style: solid;
+    border-color: #D3D3D3;
+    border-radius: 4px;
+    font-family: Muli,Verdana,sans-serif;
+}
+
+#issueType {
+    width: 100%;
+    border-style: solid;
+    border-color: #D3D3D3;
+    border-radius: 4px;
+    font-family: Muli,Verdana,sans-serif;
+}
