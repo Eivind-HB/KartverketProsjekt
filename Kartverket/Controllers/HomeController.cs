@@ -120,10 +120,10 @@ namespace Kartverket.Controllers
             
             var viewModel = new KommuneInfoViewModel
             {
-                Kommunenavn = kommuneInfo.Kommunenavn,
-                Kommunenummer = kommuneInfo.Kommunenummer,
-                Fylkesnavn = kommuneInfo.Fylkesnavn,
-                Fylkesnummer = kommuneInfo.Fylkesnummer
+                kommunenavn = kommuneInfo.kommunenavn,
+                kommunenummer = kommuneInfo.kommunenummer,
+                fylkesnavn = kommuneInfo.fylkesnavn,
+                fylkesnummer = kommuneInfo.fylkesnummer
             };
             
             return View("RoadCorrection", viewModel);

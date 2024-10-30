@@ -1,6 +1,4 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
-
-    //Lager en kartvariabel med koodrinater for å vise hele Norge, tar i bruk kode fra https://leafletjs.com/
+﻿    //Lager en kartvariabel med koodrinater for å vise hele Norge, tar i bruk kode fra https://leafletjs.com/
     var map = L.map('map').setView([60.14, 10.25], 5);
 
 
@@ -53,7 +51,8 @@
     });
 
 
-    // Function to send coordinates to the API
+// Function to send coordinates to the API
+ 
     function getKommuneInfo(latitude, longitude) {
 
         fetch(`/Home/GetKommuneInfo?latitude=${latitude}&longitude=${longitude}`)
@@ -81,5 +80,3 @@
         document.getElementById('fylkesnavn').innerText = data.fylkesnavn;
         document.getElementById('fylkesnummer').innerText = data.fylkesnummer;
     }
-
-});

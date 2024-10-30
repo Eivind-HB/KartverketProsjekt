@@ -6,16 +6,16 @@ namespace Kartverket.API_Models
     public class KommuneInfo
     {
         [JsonPropertyName("fylkesnavn")]
-        public string? Fylkesnavn { get; set; }
+        public string? fylkesnavn { get; set; }
 
         [JsonPropertyName("fylkesnummer")]
-        public string? Fylkesnummer { get; set; }
+        public string? fylkesnummer { get; set; }
 
         [JsonPropertyName("kommunenavn")]
-        public string? Kommunenavn { get; set; }
+        public string? kommunenavn { get; set; }
 
         [JsonPropertyName("kommunenummer")]
-        public string? Kommunenummer { get; set; }
+        public string? kommunenummer { get; set; }
        
     }
 
