@@ -109,7 +109,7 @@ namespace Kartverket.Controllers
                 
         
         [HttpGet]
-        public async Task<IActionResult> GetKommuneInfo([FromQuery] double latitude, [FromQuery] double longitude)
+        public async Task<IActionResult> GetKommuneInfo(double latitude, double longitude)
         {
             var kommuneInfo = await _KommuneInfoApiService.GetKommuneInfoAsync(latitude, longitude);
             if (kommuneInfo == null)
