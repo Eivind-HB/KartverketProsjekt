@@ -34,7 +34,7 @@
             map.setView([lat, lng], 17);
 
             L.marker([lat, lng]).addTo(map)
-                .bindPopup(`Du er her! Latidue: ${lat} Longitude: ${lng}`).openPopup();
+                .bindPopup('Du er her!').openPopup();
             //Error if geolocation fails
         }, function (error) {
             console.error('Geolokasjon feilet: ', error);
@@ -43,6 +43,8 @@
 
     document.getElementById("curLocationButton").addEventListener("click", findCurrentLocation);
 
+///////Kommentert ut for test
+/*
     map.on('click', function (e) {
         var latitude = e.latlng.lat;
         var longitude = e.latlng.lng;
@@ -80,3 +82,5 @@
         document.getElementById('fylkesnavn').innerText = data.fylkesnavn;
         document.getElementById('fylkesnummer').innerText = data.fylkesnummer;
     }
+
+    */

@@ -112,21 +112,9 @@ namespace Kartverket.Controllers
         public async Task<IActionResult> GetKommuneInfo(double latitude, double longitude)
         {
             var kommuneInfo = await _KommuneInfoApiService.GetKommuneInfoAsync(latitude, longitude);
-            if (kommuneInfo == null)
-            {
-                ViewData["Error"] = "Kommuneinformasjon ikke funnet for de oppgitte koordinatene.";
-                return View("RoadCorrection");
-            }
-            
-            var viewModel = new KommuneInfoViewModel
-            {
-                kommunenavn = kommuneInfo.kommunenavn,
-                kommunenummer = kommuneInfo.kommunenummer,
-                fylkesnavn = kommuneInfo.fylkesnavn,
-                fylkesnummer = kommuneInfo.fylkesnummer
-            };
-            
-            return View("RoadCorrection", viewModel);
+
+            // Returner kommuneinfo som JSON
+            return Json(kommuneInfo);
 
         }
 

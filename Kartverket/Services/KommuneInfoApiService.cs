@@ -35,6 +35,7 @@ namespace Kartverket.Services
                 var json = await response.Content.ReadAsStringAsync();
                 _logger.LogInformation($"KommuneInfo Response: {json}");
                 var kommuneInfo = JsonSerializer.Deserialize<KommuneInfo>(json);
+
                 return kommuneInfo;
             }
             catch (Exception ex)

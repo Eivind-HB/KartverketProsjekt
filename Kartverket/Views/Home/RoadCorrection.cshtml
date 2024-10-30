@@ -42,4 +42,47 @@
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
     <script src="~/js/leafletDraw.js"></script>
+
+    <script>
+      map.on('click', function (e) {
+        var latitude = e.latlng.lat;
+        var longitude = e.latlng.lng;
+
+        getKommuneInfo(latitude, longitude);
+    });
+
+
+// Function to send coordinates to the API
+
+        function getKommuneInfo(latitude, longitude) {
+            fetch(`/Home/GetKommuneInfo?latitude=${latitude}&longitude=${longitude}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // Vi forventer JSON som svar
+                })
+                .then(data => {
+                    if (data) {
+                        // Behandle responsdataene (f.eks. oppdater visningen)
+                        updateViewWithKommuneInfo(data); // Denne funksjonen må implementeres
+                    } 
+                })
+                .catch(error => {
+                    console.error('Error fetching kommune info:', error);
+                });
+        }
+
+
+    // Function to update the view with kommune info
+        function updateViewWithKommuneInfo(kommuneInfo) {
+            console.log(kommuneInfo);
+
+            document.getElementById("kommunenavn").innerText = kommuneInfo.kommunenavn || "Ikke tilgjengelig";
+            document.getElementById("kommunenummer").innerText = kommuneInfo.kommunenummer || "Ikke tilgjengelig";
+            document.getElementById("fylkesnavn").innerText = kommuneInfo.fylkesnavn || "Ikke tilgjengelig";
+            document.getElementById("fylkesnummer").innerText = kommuneInfo.fylkesnummer || "Ikke tilgjengelig";
+
+    }
+    </script>
 }
