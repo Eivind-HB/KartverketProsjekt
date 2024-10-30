@@ -44,6 +44,8 @@
     <script src="~/js/leafletDraw.js"></script>
 
     <script>
+//Uses KommuneInfo API to fetch municipal information when map is clicked, 
+//It then displays said information in this view
       map.on('click', function (e) {
         var latitude = e.latlng.lat;
         var longitude = e.latlng.lng;
