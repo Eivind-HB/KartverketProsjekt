@@ -106,79 +106,29 @@ namespace Kartverket.Controllers
         {
             return View(changes);
         }
-
-       
-
-        [HttpPost]
-        public async Task<IActionResult> KommuneInfoApi(double latitude, double longitude)
-        {
-            
-            var kommuneInfo = await _KommuneInfoApiService.GetKommuneInfoAsync(latitude, longitude);
-            if (kommuneInfo != null)
-            {
-                var viewModel = new KommuneInfoViewModel
-                {
-                    Kommunenavn = kommuneInfo.Kommunenavn,
-                    Kommunenummer = kommuneInfo.Kommunenummer,
-                    Fylkesnavn = kommuneInfo.Fylkesnavn,
-                    SamiskForvaltningsomrade = kommuneInfo.SamiskForvaltningsomrade
-                };
-                return View("RoadCorrection", viewModel);
-            }
-            else
-            {
-                ViewData["Error"] = $"Ingen resultater for disse koodinatene. Høydegrad: '{latitude}'. Lengdegrad: '{longitude}'";
-                return View("RoadCorrection");
-            }
-
-        }
+                
         
-        //DETTE HER FUNGERERER IKKE OG ER BARE CHATGPT:
-        ////////////////////////////////////////////////
         [HttpGet]
         public async Task<IActionResult> GetKommuneInfo([FromQuery] double latitude, [FromQuery] double longitude)
         {
             var kommuneInfo = await _KommuneInfoApiService.GetKommuneInfoAsync(latitude, longitude);
             if (kommuneInfo == null)
             {
-                return NotFound("Kommuneinformasjon ikke funnet for de oppgitte koordinatene.");
+                ViewData["Error"] = "Kommuneinformasjon ikke funnet for de oppgitte koordinatene.";
+                return View("RoadCorrection");
             }
-            return Ok(kommuneInfo);
+            
+            var viewModel = new KommuneInfoViewModel
+            {
+                Kommunenavn = kommuneInfo.Kommunenavn,
+                Kommunenummer = kommuneInfo.Kommunenummer,
+                Fylkesnavn = kommuneInfo.Fylkesnavn,
+                Fylkesnummer = kommuneInfo.Fylkesnummer
+            };
+            
+            return View("RoadCorrection", viewModel);
+
         }
-
-
-        /*
-       [HttpPost]
-       public async Task<IActionResult> KommuneInfoApi(string kommuneNr)
-       {
-           if (string.IsNullOrEmpty(kommuneNr))
-           {
-               ViewData["Error"] = "Venligst legg inn et gyldig Kommunenummer. Det skal være 4 siffer.";
-               return View("Index");
-           }
-
-
-           var kommuneInfo = await _KommuneInfoApiService.GetKommuneInfoAsync(kommuneNr);
-           if (kommuneInfo != null)
-           {
-               var viewModel = new KommuneInfoViewModel
-               {
-                   Kommunenavn = kommuneInfo.Kommunenavn,
-                   Kommunenummer = kommuneInfo.Kommunenummer,
-                   Fylkesnavn = kommuneInfo.Fylkesnavn,
-                   SamiskForvaltningsomrade = kommuneInfo.SamiskForvaltningsomrade
-               };
-               return View("Index", viewModel);
-           }
-           else
-           {
-               ViewData["Error"] = $"Ingen resultater for dette nummeret: '{kommuneNr}'.";
-               return View("Index");
-           }
-
-       }
-       */
-
 
     }
 }

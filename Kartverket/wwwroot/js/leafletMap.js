@@ -42,18 +42,41 @@ function findCurrentLocation() {
 }
 
 map.on('click', function (e) {
+    var latitude = e.latlng.lat;
+    var longitude = e.latlng.lng;
 
-    const { lat, lng } = e.latlng;
-    console.log(`Clicked on: Latitude: ${lat}, Longitude: ${lng}`);
+    getKommuneInfo(latitude, longitude);
+});
 
-    //Antageligvis feil
-    fetch(`/api/kommuneinfo?latitude=${lat}&longitude=${lng}`) 
+
+// Function to send coordinates to the API
+function getKommuneInfo(latitude, longitude) {
+
+    fetch(`/Home/GetKommuneInfo?latitude=${latitude}&longitude=${longitude}`)
         .then(response => response.json())
         .then(data => {
-            console.log('Kommuneinfo:', data);
-            
+            if (data) {
+                // Handle the response data (e.g., update the view)
+                updateViewWithKommuneInfo(data);
+            } else {
+                // Handle the case where no data is returned
+                alert('Kommuneinformasjon ikke funnet for de oppgitte koordinatene.');
+            }
         })
-        .catch(error => console.error('Feil ved henting av kommuneinfo:', error));
-});
+        .catch(error => {
+            console.error('Error fetching kommune info:', error);
+        });
+}
+
+
+// Function to update the view with kommune info
+function updateViewWithKommuneInfo(data) {
+    // Assuming you have HTML elements to display the data
+    document.getElementById('kommunenavn').innerText = data.kommunenavn;
+    document.getElementById('kommunenummer').innerText = data.kommunenummer;
+    document.getElementById('fylkesnavn').innerText = data.fylkesnavn;
+    document.getElementById('fylkesnummer').innerText = data.fylkesnavn;
+}
+
 
 document.getElementById("curLocationButton").addEventListener("click", findCurrentLocation);
