@@ -9,7 +9,7 @@ namespace Kartverket.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IKommuneInfoApiService _KommuneInfoApiService;
-              
+
         private static List<AreaChange> changes = new List<AreaChange>();
         private static List<PositionModel> positions = new List<PositionModel>();
 
@@ -81,13 +81,17 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegisterAreaChange(string geoJson, string description)
+        public IActionResult RegisterAreaChange(AreaChange model)
         {
             var newChange = new AreaChange
             {
                 Id = Guid.NewGuid().ToString(),
-                GeoJson = geoJson,
-                Description = description
+                GeoJson = model.GeoJson,
+                Description = model.Description,
+                Kommunenavn = model.Kommunenavn,
+                Kommunenummer = model.Kommunenummer,
+                Fylkesnavn = model.Fylkesnavn,
+                Fylkesnummer = model.Fylkesnummer
             };
 
             changes.Add(newChange);
@@ -106,8 +110,8 @@ namespace Kartverket.Controllers
         {
             return View(changes);
         }
-                
-        
+
+
         [HttpGet]
         public async Task<IActionResult> GetKommuneInfo(double latitude, double longitude)
         {

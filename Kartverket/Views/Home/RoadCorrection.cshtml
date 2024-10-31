@@ -19,6 +19,11 @@
     <div class="description-section">
         <form asp-action="RegisterAreaChange" method="post">
             <input type="hidden" id="geoJsonInput" name="geoJson" />
+            <input type="hidden" id="kommunenavnInput" name="Kommunenavn" />
+            <input type="hidden" id="kommunenummerInput" name="Kommunenummer" />
+            <input type="hidden" id="fylkesnavnInput" name="Fylkesnavn" />
+            <input type="hidden" id="fylkesnummerInput" name="Fylkesnummer" />
+
             <div>
                 <label for="description">Beskriv endringen du vil melde:</label>
                 <textarea id="description" name="Description" class="form-control"></textarea>
@@ -85,6 +90,12 @@
             document.getElementById("fylkesnavn").innerText = kommuneInfo.fylkesnavn || "Ikke tilgjengelig";
             document.getElementById("fylkesnummer").innerText = kommuneInfo.fylkesnummer || "Ikke tilgjengelig";
 
+
+            // Set values in hidden fields
+            document.getElementById("kommunenavnInput").value = kommuneInfo.kommunenavn || "";
+            document.getElementById("kommunenummerInput").value = kommuneInfo.kommunenummer || "";
+            document.getElementById("fylkesnavnInput").value = kommuneInfo.fylkesnavn || "";
+            document.getElementById("fylkesnummerInput").value = kommuneInfo.fylkesnummer || "";
     }
     </script>
 }
