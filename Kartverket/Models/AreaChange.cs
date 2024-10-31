@@ -7,6 +7,6 @@
         public string? Description { get; set; }
         public string? Username { get; set; }
         public string? IssueType { get; set; }
-
+        public DateTime? Date { get; set; }
     }
 }

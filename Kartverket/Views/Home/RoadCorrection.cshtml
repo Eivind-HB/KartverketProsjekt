@@ -32,6 +32,8 @@
                         <option value="3">d</option>
                     </select>
                 </fieldset>
+                <label for="picture">Last opp bilde</label>
+                <input asp-action="Upload" method="post" enctype="multipart/form-data" type="file" id="picture" name="picture" multiple />   
             </div>
             <br />
             <button type="submit" class="btn btn-primary">Send inn</button>

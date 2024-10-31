@@ -83,7 +83,7 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegisterAreaChange(string geoJson, string description, string username, string issueType)
+        public IActionResult RegisterAreaChange(string geoJson, string description, string username, string issueType, DateTime DateTime)
         {
             var newChange = new AreaChange
             {
@@ -91,7 +91,9 @@ namespace Kartverket.Controllers
                 GeoJson = geoJson,
                 Description = description,
                 Username = username,
-                IssueType = issueType
+                IssueType = issueType,
+                Date = DateTime.Now,
+
             };
 
             changes.Add(newChange);
