@@ -21,6 +21,19 @@
             <div>
                 <label for="description">Beskriv endringen du vil melde:</label>
                 <textarea id="description" name="Description" class="form-control"></textarea>
+                <label for="username"> Brukernavn:</label>
+                <input type="text" name="Username" required class="form-control" value="" />
+                <label for="issueType"> Velg type problem</label>
+                <fieldset>
+                    <select id="issueType" name="issueType">
+                        <option value="0">a</option>
+                        <option value="1">b</option>
+                        <option value="2">c</option>
+                        <option value="3">d</option>
+                    </select>
+                </fieldset>
+                <label for="picture">Last opp bilde</label>
+                <input asp-action="Upload" method="post" enctype="multipart/form-data" type="file" id="picture" name="picture" multiple />   
             </div>
             <br />
             <button type="submit" class="btn btn-primary">Send inn</button>
