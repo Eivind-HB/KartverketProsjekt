@@ -9,5 +9,7 @@
         public string? Kommunenummer { get; set; }
         public string? Fylkesnavn { get; set; }
         public string? Fylkesnummer { get; set; }
+        public string? IssueType { get; set; }
+        public DateTime IssueDate { get; set; }
     }
 }
