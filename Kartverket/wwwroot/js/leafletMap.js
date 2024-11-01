@@ -17,10 +17,11 @@
         "Sjø Kart": seaLayer
     };
 
-    //Setter topographyLayer som basis kart
+    //Sets topographyLayer as the basis map
     topographyLayer.addTo(map);
-    //Lager leaflet controller som tar i bruk mapLayers
+    //Makes a controller for the different map types
     L.control.layers(mapLayers).addTo(map);
+
 
     /*Geolocation, function with eventlistener. If button is clicked user is prompted to give their location.
       If location is given, takes map to that location and sets a marker there.

@@ -18,7 +18,6 @@ namespace Kartverket.Services
             _apiSettings = apisettings.Value;
         }
 
-
         public async Task<KommuneInfo> GetKommuneInfoAsync(double latitude, double longitude)
         {
             string formattedLatitude = latitude.ToString(CultureInfo.InvariantCulture);
@@ -41,10 +40,10 @@ namespace Kartverket.Services
             catch (Exception ex)
             {
                 _logger.LogError($"Error fetching KommuneInfo for coordinates ({latitude}, {longitude}): {ex.Message}");
+
                 return null;
             }
 
         }
-
     }
 }
