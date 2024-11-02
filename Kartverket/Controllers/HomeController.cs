@@ -139,5 +139,36 @@ namespace Kartverket.Controllers
             return Json(kommuneInfo);
 
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> KommuneInfoApi(string kommuneNr)
+        {
+            if (string.IsNullOrEmpty(kommuneNr))
+            {
+                ViewData["Error"] = "Venligst legg inn et gyldig Kommunenummer. Det skal være 4 siffer.";
+                return View("Index");
+            }
+
+
+            var kommuneInfo = await _KommuneInfoApiService.GetKommuneInfoAsync(kommuneNr);
+            if (kommuneInfo != null)
+            {
+                var viewModel = new KommuneInfoViewModel
+                {
+                    Kommunenavn = kommuneInfo.Kommunenavn,
+                    Kommunenummer = kommuneInfo.Kommunenummer,
+                    Fylkesnavn = kommuneInfo.Fylkesnavn,
+                    SamiskForvaltningsomrade = kommuneInfo.SamiskForvaltningsomrade
+                };
+                return View("Index", viewModel);
+            }
+            else
+            {
+                ViewData["Error"] = $"Ingen resultater for dette nummeret: '{kommuneNr}'.";
+                return View("Index");
+            }
+
+        }
     }
 }
