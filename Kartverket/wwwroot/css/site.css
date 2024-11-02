@@ -119,7 +119,6 @@ footer {
     border-style: dotted;
 }
 
-/* Description section takes 40% of the width */
 .description-section {
     width: 40%;
     padding-left: 20px;
@@ -161,6 +160,15 @@ footer {
     font-family: Muli,Verdana,sans-serif;
 }
 
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+    border: 1px solid;
+    border-color: #156630;
+}
+
 .form-control {
     border-style: solid;
     border-color: #D3D3D3;
@@ -178,4 +186,4 @@ footer {
 
 #picture {
     font-family: Muli,Verdana,sans-serif;
-}
+} 

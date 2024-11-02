@@ -10,9 +10,8 @@ namespace Kartverket.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IKommuneInfoApiService _KommuneInfoApiService;
 
-        //private static List<PositionModel> positions = new List<PositionModel>();
-
-        private static List<AreaChange> changes = new List<AreaChange>();
+        private static List<AreaChange> areaChanges = new List<AreaChange>();
+        private static List<UserData> UserDataChanges = new List<UserData>();
         private static List<PositionModel> positions = new List<PositionModel>();
 
         public HomeController(ILogger<HomeController> logger, IKommuneInfoApiService kommuneInfoApiService)
@@ -83,20 +82,29 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegisterAreaChange(string geoJson, string description, string username, string issueType, DateTime DateTime)
+        public IActionResult RegisterAreaChange(AreaChange areaModel, UserData userModel)
         {
             var newChange = new AreaChange
             {
-                Id = Guid.NewGuid().ToString(),
-                GeoJson = geoJson,
-                Description = description,
-                Username = username,
-                IssueType = issueType,
-                Date = DateTime.Now,
+                IssueId = Guid.NewGuid().ToString(),
+                GeoJson = areaModel.GeoJson,
+                Description = areaModel.Description,
+                IssueType = areaModel.IssueType,
+                IssueDate = DateTime.Now,
 
+                Kommunenavn = areaModel.Kommunenavn,
+                Kommunenummer = areaModel.Kommunenummer,
+                Fylkesnavn = areaModel.Fylkesnavn,
+                Fylkesnummer = areaModel.Fylkesnummer,
             };
 
-            changes.Add(newChange);
+            var userChange = new UserData
+            {
+                UserName = userModel.UserName,
+            };
+
+            areaChanges.Add(newChange);
+            UserDataChanges.Add(userChange);
 
             return RedirectToAction("AreaChangeOverview");
         }
@@ -110,7 +118,26 @@ namespace Kartverket.Controllers
         [HttpGet]
         public IActionResult AreaChangeOverview()
         {
-            return View(changes);
+            var areaChangesList = areaChanges; 
+            var userDataList = UserDataChanges;
+
+            var model = new ChangeOverviewModel
+            {
+                AreaChanges = areaChangesList,
+                Users = userDataList
+            };
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetKommuneInfo(double latitude, double longitude)
+        {
+            var kommuneInfo = await _KommuneInfoApiService.GetKommuneInfoAsync(latitude, longitude);
+
+            // Returner kommuneinfo som JSON
+            return Json(kommuneInfo);
+
         }
 
 

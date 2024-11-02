@@ -1,4 +1,5 @@
-﻿@model List<Kartverket.Models.AreaChange>
+﻿@model Kartverket.Models.ChangeOverviewModel
+
 @{
     ViewData["Title"] = "Overview";
 }
@@ -6,36 +7,53 @@
 <h2>Oversikt av registrerte endringer</h2>
 
 <table class="table">
-    <thead>
+    <thead> <!-- Add thead element for table header -->
         <tr>
-            <th>ID</th>
-            <th>GeoJSON</th>
-            <th>Description</th>
-            <th>Username</th>
-            <th>IssueType</th>
-            <th>Date</th>
+            <th>Saks ID</th> <!-- Add table header cells -->
+            <th>Saks Type</th>
+            <th>Saks Dato</th>
+            <th>GeoJson</th>
+            <th>Beskrivelse</th>            
         </tr>
     </thead>
     <tbody>
-        @foreach (var change in Model)
+        @foreach (var change in Model.AreaChanges)
         {
             <tr>
-                <td>@change.Id</td>
-                <td>@change.GeoJson</td>
-                <td>@change.Description</td>
-                <td>@change.Username</td>
+                <td>@change.IssueId</td>
                 <td>@change.IssueType</td>
-                <td>@change.Date</td>
+                <td>@change.IssueDate</td>
+                <td>@change.GeoJson</td>
+                <td>@change.Description</td>                
             </tr>
         }
     </tbody>
+    <thead>
+        <tr>
+            <th>Kommunenavn</th>
+            <th>Kommunenummer</th>
+            <th>Fylkesnavn</th>
+            <th>Fylkesnummer</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var change in Model.AreaChanges)
+        {
+            <tr>
+                <td>@change.Kommunenavn</td>
+                <td>@change.Kommunenummer</td>
+                <td>@change.Fylkesnavn</td>
+                <td>@change.Fylkesnummer</td>
+            </tr>
+        }
+    </tbody>
+
 </table>
 
 <div id="map" style="height: 500px;"></div>
 
 @section Scripts {
-    <script src="~/js/leafletMap.js"></script>
-    <script src="~/js/leafletDraw.js"></script>
+    <script src="~/js/leafletMap.js"></script>    
 
     <script>
               

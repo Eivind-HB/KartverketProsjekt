@@ -18,6 +18,11 @@
     <div class="description-section">
         <form asp-action="RegisterAreaChange" method="post">
             <input type="hidden" id="geoJsonInput" name="geoJson" />
+            <input type="hidden" id="kommunenavnInput" name="Kommunenavn" />
+            <input type="hidden" id="kommunenummerInput" name="Kommunenummer" />
+            <input type="hidden" id="fylkesnavnInput" name="Fylkesnavn" />
+            <input type="hidden" id="fylkesnummerInput" name="Fylkesnummer" />
+
             <div>
                 <label for="description">Beskriv endringen du vil melde:</label>
                 <textarea id="description" name="Description" class="form-control"></textarea>
@@ -26,14 +31,14 @@
                 <label for="issueType"> Velg type problem</label>
                 <fieldset>
                     <select id="issueType" name="issueType">
-                        <option value="0">a</option>
-                        <option value="1">b</option>
-                        <option value="2">c</option>
-                        <option value="3">d</option>
+                        <option value="0">Veg/sti</option>
+                        <option value="1">Adresse/tomt</option>
+                        <option value="2">Sjø</option>
+                        <option value="3">Annet</option>
                     </select>
                 </fieldset>
                 <label for="picture">Last opp bilde</label>
-                <input asp-action="Upload" method="post" enctype="multipart/form-data" type="file" id="picture" name="picture" multiple />   
+                <input asp-action="Upload" method="post" enctype="multipart/form-data" type="file" id="picture" name="picture" multiple />
             </div>
             <br />
             <button type="submit" class="btn btn-primary">Send inn</button>
@@ -41,7 +46,68 @@
     </div>
 </div>
 
+
+<!-- Example HTML to display kommune info -->
+<div>
+    <h3>Kommune Information</h3>
+    <p>Kommunenavn: <span id="kommunenavn"></span></p>
+    <p>Kommunenummer: <span id="kommunenummer"></span></p>
+    <p>Fylkesnavn: <span id="fylkesnavn"></span></p>
+    <p>Fylkesnummer: <span id="fylkesnummer"></span></p>
+</div>
+
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
     <script src="~/js/leafletDraw.js"></script>
+
+    <script>
+//Uses KommuneInfo API to fetch municipal information when map is clicked, 
+//It then displays said information in this view
+      map.on('click', function (e) {
+        var latitude = e.latlng.lat;
+        var longitude = e.latlng.lng;
+
+        getKommuneInfo(latitude, longitude);
+    });
+
+
+// Function to send coordinates to the API
+
+        function getKommuneInfo(latitude, longitude) {
+            fetch(`/Home/GetKommuneInfo?latitude=${latitude}&longitude=${longitude}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // Vi forventer JSON som svar
+                })
+                .then(data => {
+                    if (data) {
+                        // Behandle responsdataene (f.eks. oppdater visningen)
+                        updateViewWithKommuneInfo(data); // Denne funksjonen må implementeres
+                    } 
+                })
+                .catch(error => {
+                    console.error('Error fetching kommune info:', error);
+                });
+        }
+
+
+    // Function to update the view with kommune info
+        function updateViewWithKommuneInfo(kommuneInfo) {
+            console.log(kommuneInfo);
+
+            document.getElementById("kommunenavn").innerText = kommuneInfo.kommunenavn || "Ikke tilgjengelig";
+            document.getElementById("kommunenummer").innerText = kommuneInfo.kommunenummer || "Ikke tilgjengelig";
+            document.getElementById("fylkesnavn").innerText = kommuneInfo.fylkesnavn || "Ikke tilgjengelig";
+            document.getElementById("fylkesnummer").innerText = kommuneInfo.fylkesnummer || "Ikke tilgjengelig";
+
+
+            // Set values in hidden fields
+            document.getElementById("kommunenavnInput").value = kommuneInfo.kommunenavn || "";
+            document.getElementById("kommunenummerInput").value = kommuneInfo.kommunenummer || "";
+            document.getElementById("fylkesnavnInput").value = kommuneInfo.fylkesnavn || "";
+            document.getElementById("fylkesnummerInput").value = kommuneInfo.fylkesnummer || "";
+    }
+    </script>
 }
