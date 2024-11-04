@@ -282,18 +282,3 @@ footer {
     border-color: #156630;
 }
 
-.form-control {
-    border-style: solid;
-    border-color: #D3D3D3;
-    border-radius: 4px;
-    font-family: Muli,Verdana,sans-serif;
-}
-
-#issueType {
-    width: 100%;
-    border-style: solid;
-    border-color: #D3D3D3;
-    border-radius: 4px;
-    font-family: Muli,Verdana,sans-serif;
-}
-
