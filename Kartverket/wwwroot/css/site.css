@@ -1,122 +1,148 @@
+:root {
+    --primary-green: #1a833b;
+    --light-green: #e8f5eb;
+    --hover-green: #156630;
+    --gray-bg: #f5f2f2;
+    --border-gray: rgba(112,112,112,.18);
+    --text-color: #505050;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --main-font: Muli, Verdana, sans-serif;
+    --base-font-size: 14px;
+    --large-font-size: 16px;
+    --border-radius-sm: 8px;
+    --border-radius-lg: 30px;
+}
+
+/* Base styles */
 html {
-    font-size: 14px;
-    background: #f5f2f2;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    font-size: var(--base-font-size);
+    background: var(--gray-bg);
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
-  font-family: Muli,Verdana,sans-serif
+    margin-bottom: 60px;
+    font-family: var(--main-font);
 }
 
+@media (min-width: 768px) {
+    html {
+        font-size: var(--large-font-size);
+    }
+}
+
+/* Common styles */
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+/* Header & Navigation */
 .NavHeader {
-    position: fixed;
+    position: sticky;
     top: 0;
-    right: 0;
-    left: 0;
     z-index: 30;
-    transition: padding .1s linear,height .1s linear;
-    box-shadow: 0 0 2px #0000001a;
-    border-bottom: 2px solid rgba(112,112,112,.18);
+    transition: padding .1s linear, height .1s linear;
+    box-shadow: var(--shadow-sm);
+    border-bottom: 2px solid var(--border-gray);
     background: #ffffff;
     padding: 16px 0;
-    position: sticky
 }
 
 .container-fluid {
-    clear: both;
-    margin-right: auto;
-    margin-left: auto;
-    width: auto;
-    min-width: 240px;
-    max-width: 1500px;
     display: flex;
-    position: relative;
     justify-content: space-between;
     align-items: center;
+    max-width: 1500px;
+    margin: 0 auto;
     padding: 0 15px;
     gap: 18px;
-    width: 100%;
-    height: 100%
-}
-
-.main-padding {
-    padding-top: 0px
+    height: 100%;
 }
 
 .kartverket-logo {
     padding-right: 1rem;
     padding-left: 0.65rem;
+    transition: transform 0.2s;
 }
 
-.nav-item {
-    border-style: solid;
-    border-color: #156630;
-    border-radius: 8px;
-    font-family: Muli,Verdana,sans-serif;
-    font-size: .8125rem;
-    font-weight: 400;
-    color: #505050;
-    white-space: nowrap;
-    padding-right: 1rem;
-    padding-left: 1rem
+    .kartverket-logo:hover {
+        transform: scale(1.05);
+    }
+
+/* Common button/nav item styles */
+.nav-item, #curLocationButton {
+    border: 2px solid var(--primary-green);
+    border-radius: var(--border-radius-sm);
+    font-family: var(--main-font);
+    font-size: 0.8125rem;
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
 }
+
+    .nav-item:hover, #curLocationButton:hover {
+        background: var(--light-green);
+        transform: translateY(-2px);
+    }
 
 .standard-pfp {
-    border-style: solid;
-    border-color: #156630;
-    border-radius: 30px;
+    border: 2px solid var(--primary-green);
+    border-radius: var(--border-radius-lg);
+    transition: transform 0.2s;
 }
+
+    .standard-pfp:hover {
+        transform: scale(1.1);
+    }
 
 .pfp-element {
     padding-right: 1rem;
-    padding-left: 2rem
+    padding-left: 2rem;
 }
 
+/* Footer */
 footer {
-    border-top: 8px solid #1a833b;
-    background: #f5f2f2;
+    border-top: 8px solid var(--primary-green);
+    background: var(--gray-bg);
     padding: 35px 0 18px;
     position: relative;
-    margin-top: 18px
-    border-radius: 20px;
+    margin-top: 18px;
 }
 
-.pfp-element {
-    padding-right: 1rem
+/* Common container styles */
+.page-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    padding: 2rem;
+    margin: 2rem auto;
+    animation: fadeIn 0.5s ease-out;
 }
 
-.registration-form {
-    text-align: center
+.index-container, .privacy-container {
+    max-width: 800px;
 }
 
-/* Flex container to hold map and description */
-.map-change-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+.registration-form, .ud-overview-container {
+    max-width: 500px;
 }
 
-/* Map takes 70% of the width */
-.map-section {
-    height: 30rem;
-    width: 60%;
-    z-index: 10;
-    border-style: dotted;
+/* Common heading styles */
+.page-container h1 {
+    color: var(--primary-green);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+
+.page-container h2 {
+    color: var(--hover-green);
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
 }
 
 .description-section {
@@ -124,40 +150,127 @@ footer {
     padding-left: 20px;
 }
 
-/*Leaflet basic map*/
+/* Common paragraph styles */
+.page-container p {
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* Form styles */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+    .form-group label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+    .form-control:focus {
+        border-color: var(--primary-green);
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(26, 131, 59, 0.1);
+    }
+
+/* Button styles */
+.btn-primary {
+    background-color: var(--primary-green);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-primary:hover {
+        background-color: var(--hover-green);
+    }
+
+/* Map Components */
+.map-change-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.map-section {
+    height: 30rem;
+    width: 60%;
+}
+
+.description-section {
+    width: 40%;
+    padding-left: 20px;
+}
+
 #map {
     height: 30rem;
     width: 100%;
-    z-index: 10;
-    border-style: dotted;
-    border-color: #156630;
+    border: 2px dotted var(--primary-green);
+    border-radius: var(--border-radius-sm);
 }
 
-/* Flex container to hold map and description */
-.map-change-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* Map takes 70% of the width */
-.map-section {
-    height: 30rem;
-    width: 60%;
-    z-index: 10;
-    border-style: dotted;
+/* Responsive Design */
+@media (max-width: 992px) {
+    .container-fluid {
+        padding: 0 1rem;
+    }
+
+    .navbar-nav {
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .map-change-container {
+        flex-direction: column;
+    }
+
+    .map-section,
+    .description-section {
+        width: 100%;
+    }
+
+    .description-section {
+        margin-top: 1rem;
+    }
 }
 
-/* Description section takes 30% of the width */
-.description-section {
-    width: 40%;
-    padding-left: 20px;
-}
-#curLocationButton {
-    border-style: solid;
-    border-color: #156630;
-    border-radius: 8px;
-    font-family: Muli,Verdana,sans-serif;
+@media (max-width: 768px) {
+    .nav-item {
+        width: 100%;
+        text-align: center;
+    }
+
+    .pfp-element {
+        padding: 1rem;
+    }
 }
 
 .table {
@@ -184,6 +297,3 @@ footer {
     font-family: Muli,Verdana,sans-serif;
 }
 
-#picture {
-    font-family: Muli,Verdana,sans-serif;
-} 

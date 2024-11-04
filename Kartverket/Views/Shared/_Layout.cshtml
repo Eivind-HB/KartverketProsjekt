@@ -10,11 +10,10 @@
     <link rel="stylesheet" href="~/Kartverket.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
-
 </head>
 <body>
     <header class="NavHeader">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white mb-0">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white mb-0">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img class="kartverket-logo" src="~/Content/Logo.svg" alt="Kartverkets logo" />
@@ -27,25 +26,19 @@
                     <ul class="navbar-nav d-flex justify-content-between w-100">
                         <li class="nav-item" id="Home">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-
-                        </li>                        
+                        </li>
                         <li class="nav-item">
-
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="RoadCorrection">Rett i veier og stier</a>
                         </li>
                         <li class="nav-item" id="TemporaryChanges">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="TemporaryChanges">Midlertidig rettelse</a>
                         </li>
-
-
-                        @*Denne viewen burde muligens ikke ha knapp for å komme seg inn på den*@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AreaChangeOverview">Registrerte rettelser</a>
                         </li>
                         <li class="nav-item">
-
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>                                              
+                        </li>
                     </ul>
                     <a class="navbar-brand">
                         <div class="pfp-element">
@@ -55,7 +48,8 @@
                 </div>
             </div>
         </nav>
-    </header>
+    </header>  
+
     <div class="container">
         <main role="main" class="main-padding">
             @RenderBody()
@@ -67,14 +61,12 @@
             &copy; 2024 - Kartverket - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
-    
-    
-    
-    
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
