@@ -41,16 +41,15 @@ namespace Kartverket.Controllers
             return View();
         }
 
-        [HttpGet]
-        public ViewResult RegistrationForm()
+        public IActionResult LogInForm()
         {
             return View();
         }
 
-        [HttpPost]
-        public ViewResult RegistrationForm(UserData userData)
+        [HttpGet]
+        public ViewResult RegistrationForm()
         {
-            return View("UDOverview", userData);
+            return View();
         }
 
         [HttpGet]
