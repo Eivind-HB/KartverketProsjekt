@@ -15,7 +15,6 @@
 
 <div class="map-change-container">
 
-    <button id="curLocationButton">Finn min posisjon</button>
     <div id="map" class="map-section"></div>
 
     <div class="description-section">
@@ -34,4 +33,31 @@
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
     <script src="~/js/leafletDraw.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+    <script>
+    // Add locate control under the layers control
+        L.control.locate({
+            position: 'topleft',
+            strings: {
+                title: "Finn min posisjon"
+            },
+            locateOptions: {
+                enableHighAccuracy: true,
+                maxZoom: 18
+            },
+            flyTo: true,
+            onLocationFound: function (e) {
+                this._map.setView(e.latlng, 18, {
+                    animate: true,
+                    duration: 1
+                });
+            }
+        }).addTo(map)
+        </script>
+
+    <style>
+        .locate-control-under-layers {
+            margin-top: 10px;
+        }
+    </style>
 }

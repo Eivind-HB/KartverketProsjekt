@@ -24,6 +24,7 @@ html {
 
 body {
     margin-bottom: 60px;
+    padding-top:150px;
     font-family: var(--main-font);
 }
 
@@ -42,6 +43,8 @@ body {
 .NavHeader {
     position: sticky;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 30;
     transition: padding .1s linear, height .1s linear;
     box-shadow: var(--shadow-sm);
@@ -67,9 +70,9 @@ body {
     transition: transform 0.2s;
 }
 
-    .kartverket-logo:hover {
-        transform: scale(1.05);
-    }
+.kartverket-logo:hover {
+    transform: scale(1.05);
+}
 
 /* Common button/nav item styles */
 .nav-item, #curLocationButton {
@@ -82,10 +85,10 @@ body {
     transition: all 0.2s ease;
 }
 
-    .nav-item:hover, #curLocationButton:hover {
-        background: var(--light-green);
-        transform: translateY(-2px);
-    }
+.nav-item:hover, #curLocationButton:hover {
+    background: var(--light-green);
+    transform: translateY(-2px);
+}
 
 .standard-pfp {
     border: 2px solid var(--primary-green);
@@ -93,9 +96,9 @@ body {
     transition: transform 0.2s;
 }
 
-    .standard-pfp:hover {
-        transform: scale(1.1);
-    }
+.standard-pfp:hover {
+    transform: scale(1.1);
+}
 
 .pfp-element {
     padding-right: 1rem;
@@ -137,7 +140,6 @@ footer {
     text-align: center;
 }
 
-
 .page-container h2 {
     color: var(--hover-green);
     font-size: 1.5rem;
@@ -162,12 +164,12 @@ footer {
     margin-bottom: 1.5rem;
 }
 
-    .form-group label {
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 0.5rem;
-        display: block;
-    }
+.form-group label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+    display: block;
+}
 
 .form-control {
     width: 100%;
@@ -178,11 +180,11 @@ footer {
     transition: border-color 0.3s ease;
 }
 
-    .form-control:focus {
-        border-color: var(--primary-green);
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(26, 131, 59, 0.1);
-    }
+.form-control:focus {
+    border-color: var(--primary-green);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(26, 131, 59, 0.1);
+}
 
 /* Button styles */
 .btn-primary {
@@ -196,15 +198,22 @@ footer {
     transition: background-color 0.3s ease;
 }
 
-    .btn-primary:hover {
-        background-color: var(--hover-green);
-    }
+.btn-primary:hover {
+    background-color: var(--hover-green);
+}
 
 /* Map Components */
+.NavHeader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
 .map-change-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    position: relative;
+    z-index: 1;
 }
 
 .map-section {
@@ -230,7 +239,6 @@ footer {
         opacity: 0;
         transform: translateY(-10px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -242,21 +250,16 @@ footer {
     .container-fluid {
         padding: 0 1rem;
     }
-
     .navbar-nav {
         gap: 0.5rem;
         margin-top: 1rem;
     }
-
     .map-change-container {
         flex-direction: column;
     }
-
-    .map-section,
-    .description-section {
+    .map-section, .description-section {
         width: 100%;
     }
-
     .description-section {
         margin-top: 1rem;
     }
@@ -267,7 +270,6 @@ footer {
         width: 100%;
         text-align: center;
     }
-
     .pfp-element {
         padding: 1rem;
     }
@@ -297,3 +299,103 @@ footer {
     font-family: Muli,Verdana,sans-serif;
 }
 
+.accordion-container {
+    width: 100%;
+    margin-bottom: 2rem;
+    font-family: var(--main-font);
+}
+
+.accordion-item {
+    border: 1px solid var(--border-gray);
+    margin-bottom: 0.5rem;
+    border-radius: var(--border-radius-sm);
+    background: #ffffff;
+    box-shadow: var(--shadow-sm);
+}
+
+.accordion-header {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background-color: var(--light-green);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    text-align: left;
+    font-weight: 600;
+    color: var(--primary-green);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.accordion-header:hover {
+    background-color: #d9ede0;
+}
+
+.accordion-header.active {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.accordion-content {
+    display: none;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-bottom-left-radius: var(--border-radius-sm);
+    border-bottom-right-radius: var(--border-radius-sm);
+}
+
+.accordion-icon {
+    transition: transform 0.3s ease;
+    color: var(--primary-green);
+    font-size: 0.875rem;
+}
+
+.accordion-header.active .accordion-icon {
+    transform: rotate(180deg);
+}
+
+/* Enhanced table styles for accordion */
+.accordion-content .table {
+    margin: 0;
+    border: 1px solid var(--border-gray);
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+}
+
+.accordion-content .table thead th {
+    background-color: var(--light-green);
+    color: var(--primary-green);
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    border-bottom: 2px solid var(--primary-green);
+}
+
+.accordion-content .table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-gray);
+    color: var(--text-color);
+}
+
+.accordion-content .table tbody tr:hover {
+    background-color: rgba(232, 245, 235, 0.3);
+}
+
+/* Responsive adjustments for accordion */
+@media (max-width: 768px) {
+    .accordion-header {
+        padding: 0.875rem 1rem;
+    }
+    .accordion-content {
+        padding: 1rem;
+    }
+    .accordion-content .table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .accordion-content .table td, .accordion-content .table th {
+        white-space: nowrap;
+    }
+}
