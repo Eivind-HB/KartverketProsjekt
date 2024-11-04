@@ -2,9 +2,10 @@
 {
     public class KommuneInfoViewModel
     {
-        public string? Kommunenavn { get; set; }
-        public string? Kommunenummer { get; set; }
-        public string? Fylkesnavn { get; set; }
-        public bool SamiskForvaltningsomrade { get; set; }
+        public string? kommunenavn { get; set; }
+        public string? kommunenummer { get; set; }
+        public string? fylkesnavn { get; set; }
+        public string? fylkesnummer { get; set; }
+
     }
 }
