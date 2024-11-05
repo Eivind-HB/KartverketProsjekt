@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\MapController.cs" />
     <Compile Remove="Controllers\UserController.cs" />
     <Compile Remove="Models\MapModel.cs" />
   </ItemGroup>

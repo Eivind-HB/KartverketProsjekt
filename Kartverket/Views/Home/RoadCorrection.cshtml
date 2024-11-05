@@ -72,9 +72,8 @@
 
 
 // Function to send coordinates to the API
-
         function getKommuneInfo(latitude, longitude) {
-            fetch(`/Home/GetKommuneInfo?latitude=${latitude}&longitude=${longitude}`)
+            fetch(`/api/map/GetKommuneInfo?latitude=${latitude}&longitude=${longitude}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
