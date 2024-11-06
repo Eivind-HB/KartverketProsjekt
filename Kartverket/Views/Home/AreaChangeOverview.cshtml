@@ -79,98 +79,12 @@
 </div>
 
 @section Scripts {
-        <script src="~/js/leafletMap.js"></script>    
+    <script src="~/js/leafletMap.js"></script>
+    <script src="~/js/mapChanges.js"></script>
 
-
-        <script>
-            // Accordion functionality
-            document.querySelectorAll('.accordion-header').forEach(button => {
-                button.addEventListener('click', () => {
-                    const accordionContent = button.nextElementSibling;
-                    button.classList.toggle('active');
-
-                    if (accordionContent.style.display === 'block') {
-                        accordionContent.style.display = 'none';
-                    } else {
-                        accordionContent.style.display = 'block';
-                    }
-
-                    // Update map size when accordion changes
-                    map.invalidateSize();
-                });
-            });
-
-            // Map initialization and data handling
-            var changes = @Html.Raw(Json.Serialize(Model));
-            var allLayers = new L.FeatureGroup();
-            map.addLayer(allLayers);
-
-            // Process each change
-            changes.forEach(function (change) {
-                var geoJsonData = JSON.parse(change.geoJson);
-                var layer = L.geoJSON(geoJsonData).bindPopup(change.description);
-                allLayers.addLayer(layer);
-
-                // Extract coordinates from GeoJSON
-                var geocoordinates = geoJsonData.geometry.coordinates;
-                if (geocoordinates && geocoordinates.length >= 2) {
-                    var latitude = geocoordinates[1];
-                    var longitude = geocoordinates[0];
-
-                    console.log(`Processing change ID ${change.Id} with coordinates: ${latitude}, ${longitude}`);
-
-                    // Construct the URL for reverse geocoding
-                    var url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
-
-                    // Fetch the address using reverse geocoding
-                    fetch(url)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error(`Network response was not ok: ${response.statusText}`);
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            console.log(`Received data for change ID ${change.Id}:`, data);
-                            var address = data.display_name ? data.display_name : "Address not found";
-                            var popupContent = `${change.description}<br>Address: ${address}`;
-                            layer.setPopupContent(popupContent).openPopup();
-                        })
-                        .catch(error => {
-                            var popupContent = `${change.description}<br>Address not available`;
-                            layer.setPopupContent(popupContent).openPopup();
-                            console.error(`Failed to update popup for change ID ${change.Id}: ${error}`);
-                        });
-                } else {
-                    console.error(`Invalid coordinates for change ID ${change.Id}`);
-                }
-            });
-
-            // Fit the map bounds to all layers
-            if (allLayers.getLayers().length > 0) {
-                var bounds = allLayers.getBounds();
-                console.log("Fitting bounds:", bounds);
-                map.fitBounds(bounds);
-                map.invalidateSize();
-            }
-
-            // Handle the draw event
-            map.on(L.Draw.Event.CREATED, function (e) {
-                var type = e.layerType,
-                    layer = e.layer;
-
-                allLayers.addLayer(layer);
-
-                var bounds = allLayers.getBounds();
-                console.log("Updated bounds:", bounds);
-
-                if (bounds.isValid()) {
-                    console.log("Fitting updated bounds:", bounds);
-                    map.fitBounds(bounds);
-                    map.invalidateSize();
-                } else {
-                    console.error("Invalid updated bounds:", bounds);
-                }
-            });
-        </script>
+    <script>
+        // Passes the serialized AreaChanges model data to the mapChanges function
+        var drawnChanges = @Html.Raw(Json.Serialize(Model.AreaChanges));
+        initializeDrawnChanges(drawnChanges);
+    </script>
 }
