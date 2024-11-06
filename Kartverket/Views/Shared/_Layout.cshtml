@@ -42,11 +42,16 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
-                    <a class="navbar-brand">
+                    <a class="navbar-brand" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <div class="pfp-element">
                             <img class="standard-pfp" src="~/Content/Default-pfp.svg" alt="Standard profilbilde" width="60px" height="60px" />
                         </div>
                     </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="LogInForm">Log In</a></li>
+                        <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="RegistrationForm">Registrering</a></li>
+                        <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Settings">Settings</a></li>
+                    </ul>
                 </div>
             </div>
         </nav>

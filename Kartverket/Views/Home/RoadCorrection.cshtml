@@ -25,12 +25,12 @@
 
             <div>
                 <label for="description">Beskriv endringen du vil melde:</label>
-                <textarea id="description" name="Description" class="form-control"></textarea>
+                <textarea id="description" name="Description" required class="form-control"></textarea>
                 <label for="username"> Brukernavn:</label>
                 <input type="text" name="Username" required class="form-control" value="" />
-                <label for="issueType"> Velg type problem</label>
+                <label for="issueType"> Velg type problem:</label>
                 <fieldset>
-                    <select id="issueType" name="issueType">
+                    <select class="form-control" name="issueType">
                         <option value="0">Veg/sti</option>
                         <option value="1">Adresse/tomt</option>
                         <option value="2">Sjø</option>
@@ -92,9 +92,9 @@
             getKommuneInfo(latitude, longitude);
         });
 
-        // Function to send coordinates to the API
+// Function to send coordinates to the API
         function getKommuneInfo(latitude, longitude) {
-            fetch(`/Home/GetKommuneInfo?latitude=${latitude}&longitude=${longitude}`)
+            fetch(`/api/map/GetKommuneInfo?latitude=${latitude}&longitude=${longitude}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
