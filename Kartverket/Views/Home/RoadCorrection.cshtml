@@ -2,6 +2,7 @@
     ViewData["Title"] = "Rett i veier og stier";
 }
 
+<div class="page-container">
 <div class="text-center">
     <h1 class="display-4">Rett i veger og stier</h1>
     <p>Her kan du vise til endringer i kartet</p>
@@ -10,9 +11,8 @@
 <!-- Flex container for map and where you edit the changes -->
 <div class="map-change-container">
     <!-- Map section -->
-
-    <button id="curLocationButton">Finn min posisjon</button>
     <div id="map" class="map-section"></div>
+    
 
     <!-- Description section -->
     <div class="description-section">
@@ -55,21 +55,42 @@
     <p>Fylkesnavn: <span id="fylkesnavn"></span></p>
     <p>Fylkesnummer: <span id="fylkesnummer"></span></p>
 </div>
+</div>
 
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
     <script src="~/js/leafletDraw.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 
     <script>
-//Uses KommuneInfo API to fetch municipal information when map is clicked, 
-//It then displays said information in this view
-      map.on('click', function (e) {
-        var latitude = e.latlng.lat;
-        var longitude = e.latlng.lng;
+        // Assuming 'map' is already initialized in leafletMap.js
 
-        getKommuneInfo(latitude, longitude);
-    });
+        // Add locate control under the layers control
+        L.control.locate({
+            position: 'topleft',
+            strings: {
+                title: "Finn min posisjon"
+            },
+            locateOptions: {
+                enableHighAccuracy: true,
+                maxZoom: 18
+            },
+            flyTo: true,
+            onLocationFound: function (e) {
+                this._map.setView(e.latlng, 18, {
+                    animate: true,
+                    duration: 1
+                });
+            }
+        }).addTo(map);
 
+        // Existing functionality for map click event
+        map.on('click', function (e) {
+            var latitude = e.latlng.lat;
+            var longitude = e.latlng.lng;
+
+            getKommuneInfo(latitude, longitude);
+        });
 
 // Function to send coordinates to the API
         function getKommuneInfo(latitude, longitude) {
@@ -78,21 +99,19 @@
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
-                    return response.json(); // Vi forventer JSON som svar
+                    return response.json();
                 })
                 .then(data => {
                     if (data) {
-                        // Behandle responsdataene (f.eks. oppdater visningen)
-                        updateViewWithKommuneInfo(data); // Denne funksjonen må implementeres
-                    } 
+                        updateViewWithKommuneInfo(data);
+                    }
                 })
                 .catch(error => {
                     console.error('Error fetching kommune info:', error);
                 });
         }
 
-
-    // Function to update the view with kommune info
+        // Function to update the view with kommune info
         function updateViewWithKommuneInfo(kommuneInfo) {
             console.log(kommuneInfo);
 
@@ -101,12 +120,17 @@
             document.getElementById("fylkesnavn").innerText = kommuneInfo.fylkesnavn || "Ikke tilgjengelig";
             document.getElementById("fylkesnummer").innerText = kommuneInfo.fylkesnummer || "Ikke tilgjengelig";
 
-
             // Set values in hidden fields
             document.getElementById("kommunenavnInput").value = kommuneInfo.kommunenavn || "";
             document.getElementById("kommunenummerInput").value = kommuneInfo.kommunenummer || "";
             document.getElementById("fylkesnavnInput").value = kommuneInfo.fylkesnavn || "";
             document.getElementById("fylkesnummerInput").value = kommuneInfo.fylkesnummer || "";
-    }
+        }
     </script>
+
+    <style>
+        .locate-control-under-layers {
+            margin-top: 10px;
+        }
+    </style>
 }
