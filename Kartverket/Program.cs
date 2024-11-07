@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using Kartverket;
 using Kartverket.API_Models;
 using Kartverket.Services;
+using Kartverket.Data;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Configure Entity Framework with MariaDB
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
+    new MySqlServerVersion(new Version(10, 5, 9)),
+    mySqlOptions => mySqlOptions
+      .EnableRetryOnFailure(
+        maxRetryCount: 5,
+        maxRetryDelay: TimeSpan.FromSeconds(10),
+        errorNumbersToAdd: null)
+      ));
 
 //Binds API settings from appsettings.json
 builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
