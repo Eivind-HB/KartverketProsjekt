@@ -14,3 +14,4 @@ bld/
 *.csproj.user
 /database
 
+/Kartverket/wwwroot/images/klimafortrykk-graf.png
