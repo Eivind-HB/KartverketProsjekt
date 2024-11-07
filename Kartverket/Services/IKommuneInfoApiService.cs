@@ -4,6 +4,6 @@ namespace Kartverket.Services
 {
     public interface IKommuneInfoApiService
     {
-        Task<KommuneInfo> GetKommuneInfoAsync(string kommuneNr);
+        Task<KommuneInfo> GetKommuneInfoAsync(double latitude, double longitude);
     }
 }

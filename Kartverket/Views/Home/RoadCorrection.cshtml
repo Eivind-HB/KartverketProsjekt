@@ -2,6 +2,7 @@
     ViewData["Title"] = "Rett i veier og stier";
 }
 
+<div class="page-container">
 <div class="text-center">
     <h1 class="display-4">Rett i veger og stier</h1>
     <p>Her kan du vise til endringer i kartet</p>
@@ -10,19 +11,34 @@
 <!-- Flex container for map and where you edit the changes -->
 <div class="map-change-container">
     <!-- Map section -->
-
-    <button id="curLocationButton">Finn min posisjon</button>
     <div id="map" class="map-section"></div>
+    
 
     <!-- Description section -->
     <div class="description-section">
-        <form asp-action="RegisterAreaChange" method="post">
+            <form asp-action="RegisterAreaChange" method="post" enctype="multipart/form-data">
             <input type="hidden" id="geoJsonInput" name="geoJson" />
+            <input type="hidden" id="kommunenavnInput" name="Kommunenavn" />
+            <input type="hidden" id="kommunenummerInput" name="Kommunenummer" />
+            <input type="hidden" id="fylkesnavnInput" name="Fylkesnavn" />
+            <input type="hidden" id="fylkesnummerInput" name="Fylkesnummer" />
+
             <div>
                 <label for="description">Beskriv endringen du vil melde:</label>
-                <textarea id="description" name="Description" class="form-control"></textarea>
-                <textarea id="UserID" name="userid" class="form-control"></textarea>
-
+                <textarea id="description" name="Description" required class="form-control"></textarea>
+                <label for="username"> Brukernavn:</label>
+                <input type="text" name="Username" required class="form-control" value="" />
+                <label for="issueType"> Velg type problem:</label>
+                <fieldset>
+                    <select class="form-control" name="issueType">
+                        <option value="0">Veg/sti</option>
+                        <option value="1">Adresse/tomt</option>
+                        <option value="2">Sjø</option>
+                        <option value="3">Annet</option>
+                    </select>
+                </fieldset>
+                <label for="picture">Last opp bilde</label>
+                <input asp-action="Upload" method="post" type="file" name="ImageUpload" multiple />
             </div>
             <br />
             <button type="submit" class="btn btn-primary">Send inn</button>
@@ -30,7 +46,91 @@
     </div>
 </div>
 
+
+<!-- Example HTML to display kommune info -->
+<div>
+    <h3>Kommune Information</h3>
+    <p>Kommunenavn: <span id="kommunenavn"></span></p>
+    <p>Kommunenummer: <span id="kommunenummer"></span></p>
+    <p>Fylkesnavn: <span id="fylkesnavn"></span></p>
+    <p>Fylkesnummer: <span id="fylkesnummer"></span></p>
+</div>
+</div>
+
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
     <script src="~/js/leafletDraw.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+
+    <script>
+        // Assuming 'map' is already initialized in leafletMap.js
+
+        // Add locate control under the layers control
+        L.control.locate({
+            position: 'topleft',
+            strings: {
+                title: "Finn min posisjon"
+            },
+            locateOptions: {
+                enableHighAccuracy: true,
+                maxZoom: 18
+            },
+            flyTo: true,
+            onLocationFound: function (e) {
+                this._map.setView(e.latlng, 18, {
+                    animate: true,
+                    duration: 1
+                });
+            }
+        }).addTo(map);
+
+        // Existing functionality for map click event
+        map.on('click', function (e) {
+            var latitude = e.latlng.lat;
+            var longitude = e.latlng.lng;
+
+            getKommuneInfo(latitude, longitude);
+        });
+
+// Function to send coordinates to the API
+        function getKommuneInfo(latitude, longitude) {
+            fetch(`/api/map/GetKommuneInfo?latitude=${latitude}&longitude=${longitude}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data) {
+                        updateViewWithKommuneInfo(data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching kommune info:', error);
+                });
+        }
+
+        // Function to update the view with kommune info
+        function updateViewWithKommuneInfo(kommuneInfo) {
+            console.log(kommuneInfo);
+
+            document.getElementById("kommunenavn").innerText = kommuneInfo.kommunenavn || "Ikke tilgjengelig";
+            document.getElementById("kommunenummer").innerText = kommuneInfo.kommunenummer || "Ikke tilgjengelig";
+            document.getElementById("fylkesnavn").innerText = kommuneInfo.fylkesnavn || "Ikke tilgjengelig";
+            document.getElementById("fylkesnummer").innerText = kommuneInfo.fylkesnummer || "Ikke tilgjengelig";
+
+            // Set values in hidden fields
+            document.getElementById("kommunenavnInput").value = kommuneInfo.kommunenavn || "";
+            document.getElementById("kommunenummerInput").value = kommuneInfo.kommunenummer || "";
+            document.getElementById("fylkesnavnInput").value = kommuneInfo.fylkesnavn || "";
+            document.getElementById("fylkesnummerInput").value = kommuneInfo.fylkesnummer || "";
+        }
+    </script>
+
+    <style>
+        .locate-control-under-layers {
+            margin-top: 10px;
+        }
+    </style>
 }
