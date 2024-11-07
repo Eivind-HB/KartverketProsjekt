@@ -373,7 +373,7 @@ footer {
     border-bottom: 2px solid var(--primary-green);
 }
 
-.accordion-content .table td {
+.accordion-content .table td, .accordion.content th {
     padding: 0.75rem 1rem;
     border: 1px solid var(--border-gray);
     color: var(--text-color);
@@ -381,6 +381,15 @@ footer {
 
 .accordion-content .table tbody tr:hover {
     background-color: rgba(232, 245, 235, 0.3);
+}
+
+.accordion-content .table td:last-child,
+.accordion-content .table th:last-child {
+    max-width: 150px; /* Adjust the width as needed */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-wrap: break-word;
 }
 
 /* Responsive adjustments for accordion */
