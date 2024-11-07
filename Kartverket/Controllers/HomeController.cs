@@ -2,6 +2,7 @@ using Kartverket.Models;
 using Kartverket.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using static System.Net.WebRequestMethods;
 
 namespace Kartverket.Controllers
 {
@@ -27,6 +28,16 @@ namespace Kartverket.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public IActionResult OmOss()
+        {
+            return Redirect("https://www.kartverket.no/om-kartverket");
+        }
+
+        public IActionResult KontaktOss()
+        {
+            return Redirect("https://www.kartverket.no/om-kartverket/kontakt-oss");
         }
 
         public IActionResult RoadCorrection()
@@ -118,8 +129,23 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegisterAreaChange(AreaChange areaModel, UserData userModel)
+        public IActionResult RegisterAreaChange(AreaChange areaModel, UserData userModel, IFormFile ImageUpload)
         {
+            string imagePath = null;
+
+        if (ImageUpload != null && ImageUpload.Length > 0)
+        {
+            var uploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+            var filePath = Path.Combine(uploads, ImageUpload.FileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                ImageUpload.CopyTo(fileStream);
+            }
+
+            imagePath = $"/wwwroot/images/{ImageUpload.FileName}";
+        }
+
             var newChange = new AreaChange
             {
                 IssueId = Guid.NewGuid().ToString(),
@@ -127,6 +153,7 @@ namespace Kartverket.Controllers
                 Description = areaModel.Description,
                 IssueType = areaModel.IssueType,
                 IssueDate = DateTime.Now,
+                ImagePath = imagePath,
 
                 Kommunenavn = areaModel.Kommunenavn,
                 Kommunenummer = areaModel.Kommunenummer,

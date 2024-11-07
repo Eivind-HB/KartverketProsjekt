@@ -22,7 +22,8 @@
                             <th>Saks Type</th>
                             <th>Saks Dato</th>
                             <th>GeoJson</th>
-                            <th>Beskrivelse</th>            
+                            <th>Beskrivelse</th>  
+                            <th>Bilde</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,7 +34,8 @@
                                     <td>@change.IssueType</td>
                                     <td>@change.IssueDate</td>
                                     <td>@change.GeoJson</td>
-                                    <td>@change.Description</td>                
+                                    <td>@change.Description</td>
+                                    <td>@change.ImagePath</td>
                                 </tr>
                         }
                     </tbody>
@@ -79,30 +81,29 @@
 </div>
 
 @section Scripts {
-        <script src="~/js/leafletMap.js"></script>  
-        <script src="~/js/mapChanges.js"></script>
+    <script src="~/js/leafletMap.js"></script>
+    <script src="~/js/mapChanges.js"></script>
 
+    <script>
+        // Accordion functionality
+        document.querySelectorAll('.accordion-header').forEach(button => {
+            button.addEventListener('click', () => {
+                const accordionContent = button.nextElementSibling;
+                button.classList.toggle('active');
 
-        <script>
-            // Accordion functionality
-            document.querySelectorAll('.accordion-header').forEach(button => {
-                button.addEventListener('click', () => {
-                    const accordionContent = button.nextElementSibling;
-                    button.classList.toggle('active');
+                if (accordionContent.style.display === 'block') {
+                    accordionContent.style.display = 'none';
+                } else {
+                    accordionContent.style.display = 'block';
+                }
 
-                    if (accordionContent.style.display === 'block') {
-                        accordionContent.style.display = 'none';
-                    } else {
-                        accordionContent.style.display = 'block';
-                    }
-
-                    // Update map size when accordion changes
-                    map.invalidateSize();
-                });
+                // Update map size when accordion changes
+                map.invalidateSize();
             });
+        });
 
-            // Passes the serialized AreaChanges model data to the mapChanges function
-            var drawnChanges = @Html.Raw(Json.Serialize(Model.AreaChanges));
-            initializeDrawnChanges(drawnChanges);
-        </script>
+        // Passes the serialized AreaChanges model data to the mapChanges function
+        var drawnChanges = @Html.Raw(Json.Serialize(Model.AreaChanges));
+        initializeDrawnChanges(drawnChanges);
+    </script>
 }
