@@ -1,5 +1,5 @@
 ﻿@*@model List<Kartverket.Models.AreaChange>*@
-@model List<Kartverket.Data.GeoChange>
+@model List<Kartverket.Data.Case>
 @{
     ViewData["Title"] = "Overview";
 }
@@ -20,8 +20,8 @@
             @foreach (var change in Model)
             {
                 <tr>
-                <td>@change.Id</td>
-                <td>@change.GeoJson</td>
+                <td>@change.CaseNo</td>
+                <td>@change.LocationInfo</td>
                 <td>@change.Description</td>
             </tr>
             }

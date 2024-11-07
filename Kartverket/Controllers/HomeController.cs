@@ -3,6 +3,11 @@ using Kartverket.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Kartverket.Data;
+using MySqlConnector;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.IO;
+using Newtonsoft.Json;
+
 
 namespace Kartverket.Controllers
 {
@@ -87,7 +92,7 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegisterAreaChange(string geoJson, string description)
+        public IActionResult RegisterAreaChange(string geoJson, string description, int UserID)
         {
             try
             {
@@ -96,14 +101,67 @@ namespace Kartverket.Controllers
                     return BadRequest("Invalid data.");
                 }
 
-                var newGeoChange = new GeoChange
+                if (geoJson == null)
                 {
-                    GeoJson = geoJson,
-                    Description = description
+                    return BadRequest(geoJson);
+                }
+
+                
+
+                DateOnly date = new(2021, 1, 31);
+                //MySqlGeometry geometry = MySqlGeometry.Parse(geoJson); gml test
+
+                //var reader = new GeoJsonReader();
+
+                Geometry geometry;
+                try
+                {
+                    var reader = new GeoJsonReader();
+                    geometry = reader.Read<Geometry>(geoJson);
+                }
+                catch (Exception ex)
+                {
+                    // Log or handle parsing error
+                    Console.WriteLine($"GeoJson parsing error: {ex.Message}");
+                    return BadRequest("Invalid GeoJson format.");
+                }
+                //Geometry geometry = reader.Read<Geometry>(geoJson);
+
+                //if (geometry == null)
+                //{
+                //    return BadRequest("Invalid GeoJson data.");
+                //}
+
+                // Convert Geometry to WKB
+                //var wkbWriter = new WKBWriter();
+                //byte[] wkb = wkbWriter.Write(geometry);
+
+                //string wkt = geometry.AsText();
+                //return Ok("Geometry processed successfully.");
+
+                //Create MySqlGeometry from WKB
+                //MySqlGeometry mySqlGeometry = MySqlGeometry.FromWKB(wkb);   funker ikke :)
+
+                //random id int nummer
+                Random rnd = new Random();
+                int CaseNoNumber = rnd.Next(999999);
+
+
+
+                var newGeoChange = new Case
+                {
+                    CaseNo = CaseNoNumber,
+                    LocationInfo = geoJson,
+                    Description = description,
+                    Date = date,
+                    //CaseWorker_CaseWorkerID = 1,
+                    User_UserID = UserID, 
+                    Issue_IssueNr = 1
+
                 };
 
                 // Save to the database
-                _context.GeoChanges.Add(newGeoChange);
+                _context.Case.Add(newGeoChange);
                 _context.SaveChanges();
 
                 return RedirectToAction("AreaChangeOverview");
@@ -124,7 +182,7 @@ namespace Kartverket.Controllers
         [HttpGet]
         public IActionResult AreaChangeOverview()
         {
-            var changes_db = _context.GeoChanges.ToList();
+            var changes_db = _context.Case.ToList();
             return View(changes_db);
         }
 

@@ -12,14 +12,14 @@ builder.Services.AddControllersWithViews();
 
 // Configure Entity Framework with MariaDB
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
-new MySqlServerVersion(new Version(10, 5, 9)),
-mySqlOptions => mySqlOptions
-  .EnableRetryOnFailure(
-    maxRetryCount: 5,
-    maxRetryDelay: TimeSpan.FromSeconds(10),
-    errorNumbersToAdd: null)
-  ));
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
+    new MySqlServerVersion(new Version(10, 5, 9)),
+    mySqlOptions => mySqlOptions
+      .EnableRetryOnFailure(
+        maxRetryCount: 5,
+        maxRetryDelay: TimeSpan.FromSeconds(10),
+        errorNumbersToAdd: null)
+      ));
 
 //Binds API settings from appsettings.json
 builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
