@@ -2,20 +2,27 @@ using Kartverket;
 using Kartverket.API_Models;
 using Kartverket.Services;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-
-//Binds API settings from appsettings.json
+// Binds API settings from appsettings.json
 builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
 
-//Registers Services and Interfaces
+// Registers Services and Interfaces
 builder.Services.AddHttpClient<IKommuneInfoApiService, KommuneInfoApiService>();
 
-//Add Services to container
+// Add session services
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+// Add Services to container
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -34,6 +41,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+// Use session
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

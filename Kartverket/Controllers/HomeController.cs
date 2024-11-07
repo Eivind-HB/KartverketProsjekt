@@ -11,6 +11,7 @@ namespace Kartverket.Controllers
 
         private static List<AreaChange> areaChanges = new List<AreaChange>();
         private static List<UserData> UserDataChanges = new List<UserData>();
+        private static List<LogInData> LogInInfo = new List<LogInData>();
         private static List<PositionModel> positions = new List<PositionModel>();
 
         public HomeController(ILogger<HomeController> logger)
@@ -38,9 +39,71 @@ namespace Kartverket.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult LogInForm()
         {
-            return View();
+            return View(new LogInData());
+        }
+
+        [HttpPost]
+        public IActionResult LogInForm(LogInData model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Find the user by username and password
+                var user = UserDataChanges.FirstOrDefault(u =>
+                    u.UserName == model.Username && u.Password == model.Password);
+
+                if (user != null)
+                {
+                    // User found, set the UserId in the session
+                    HttpContext.Session.SetString("UserId", user.UserId);
+                    return RedirectToAction("Index");
+                }
+
+                ModelState.AddModelError(string.Empty, "Invalid username or password.");
+            }
+
+            // If we got this far, something failed; redisplay form
+            return View(model);
+        }
+
+
+        [HttpGet]
+        public IActionResult UDOverview()
+        {
+            var userData = GetUserData();
+            if (userData == null)
+            {
+                return RedirectToAction("RegistrationForm");
+            }
+            return View(userData);
+        }
+
+        [HttpPost]
+        public IActionResult UDOverview(UserData userData)
+        {
+            if (ModelState.IsValid)
+            {
+                var newUser = new UserData
+                {
+                    UserId = Guid.NewGuid().ToString(),
+                    UserName = userData.UserName,
+                    Email = userData.Email,
+                    HomeMunicipality = userData.HomeMunicipality,
+                    Password = userData.Password
+                };
+
+                UserDataChanges.Add(newUser);
+
+                // Set the UserId in the session
+                HttpContext.Session.SetString("UserId", newUser.UserId);
+
+                return RedirectToAction("UDOverview");
+            }
+
+            // If ModelState is not valid, return to the form
+            return View("RegistrationForm", userData);
         }
 
         [HttpGet]
@@ -91,7 +154,7 @@ namespace Kartverket.Controllers
         [HttpGet]
         public IActionResult AreaChangeOverview()
         {
-            var areaChangesList = areaChanges; 
+            var areaChangesList = areaChanges;
             var userDataList = UserDataChanges;
 
             var model = new ChangeOverviewModel
@@ -103,7 +166,15 @@ namespace Kartverket.Controllers
             return View(model);
         }
 
-        
-                
+        private UserData? GetUserData()
+        {
+            string? userId = HttpContext.Session.GetString("UserId");
+            if (string.IsNullOrEmpty(userId))
+            {
+                return null;
+            }
+            return UserDataChanges.FirstOrDefault(u => u.UserId == userId);
+        }
+
     }
 }

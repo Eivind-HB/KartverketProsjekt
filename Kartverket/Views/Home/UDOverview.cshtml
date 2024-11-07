@@ -1,14 +1,13 @@
-﻿@{
-    ViewData["Title"] = "Brukerinformasjon";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model Kartverket.Models.UserData
 
 <div class="page-container ud-overview-container">
     <h1>Du har nå registrert deg</h1>
     <p class="lead">Her er en oversikt over din registrerte informasjon:</p>
 
-    <div class="user-info-card">
-        <h2>Din informasjon</h2>
+    @if (Model != null)
+    {
+        <div class="user-info-card">
+            <h2>Din informasjon</h2>
         <div class="info-item">
             <strong>Navn:</strong>
             <span>@Model.UserName</span>
@@ -21,7 +20,16 @@
             <strong>Din hjemme kommune:</strong>
             <span>@Model.HomeMunicipality</span>
         </div>
+        <div class="info-item">
+            <strong>Bruker ID:</strong>
+            <span>@Model.UserId</span>
+        </div>
     </div>
+    }
+    else 
+    {
+        <p>Det ser ut som at noe har gått galt her. Prøv å registrere deg igjen <a href="/Home/RegistrationForm">her</a></p>
+    }
 </div>
 
 @section Scripts {
