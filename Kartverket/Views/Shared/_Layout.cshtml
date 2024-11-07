@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+    <link rel="stylesheet" href="~/css/DropDown.css"/>
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 </head>
 <body>
@@ -27,7 +28,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav d-flex justify-content-between w-100">
                         <li class="nav-item" id="Home">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Forside</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="RoadCorrection">Rett i veier og stier</a>
@@ -39,7 +40,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AreaChangeOverview">Registrerte rettelser</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="OmOss">Om oss</a>
                         </li>
                     </ul>
                     <a class="navbar-brand" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -50,7 +51,7 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="LogInForm">Log In</a></li>
                         <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="RegistrationForm">Registrering</a></li>
-                        <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Settings">Settings</a></li>
+                        <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="KontaktOss">Kontakt Oss</a></li>
                     </ul>
                 </div>
             </div>

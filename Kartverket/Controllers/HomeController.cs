@@ -2,6 +2,7 @@ using Kartverket.Models;
 using Kartverket.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using static System.Net.WebRequestMethods;
 
 namespace Kartverket.Controllers
 {
@@ -26,6 +27,16 @@ namespace Kartverket.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public IActionResult OmOss()
+        {
+            return Redirect("https://www.kartverket.no/om-kartverket");
+        }
+
+        public IActionResult KontaktOss()
+        {
+            return Redirect("https://www.kartverket.no/om-kartverket/kontakt-oss");
         }
 
         public IActionResult RoadCorrection()
