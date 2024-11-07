@@ -34,7 +34,7 @@ namespace Kartverket.Controllers
             if (ModelState.IsValid)
             {
                 positions.Add(model);
-
+                
                 return View("CorrectionOverview", positions);
             }
             return View();

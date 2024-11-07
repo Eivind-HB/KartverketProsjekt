@@ -410,3 +410,19 @@ footer {
         white-space: nowrap;
     }
 }
+
+
+.form-group input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+.form-group a {
+    color: var(--primary-green);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+    .form-group a:hover {
+        color: var(--hover-green);
+        text-decoration: underline;
+    }
