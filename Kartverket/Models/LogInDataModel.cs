@@ -2,7 +2,7 @@
 {
     public class LogInData
     {
-        public string? Username { get; set; }
-        public string? Password { get; set; }
+        public string? Brukernavn { get; set; }
+        public string? Passord { get; set; }
     }
 }
