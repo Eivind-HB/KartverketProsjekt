@@ -1,0 +1,26 @@
+﻿/* Custom styles for the dropdown menu */
+.dropdown-menu {
+    background-color: #f8f9fa; /* Light background color */
+    border: 2px solid; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    border-color: var(--primary-green); 
+    padding: 10px; /* Padding around the menu */
+    min-width: 200px; /* Minimum width */
+}
+
+.dropdown-item {
+    color: #333; /* Dark text color */
+    padding: 10px 20px; /* Padding for each item */
+    margin: 5px 0; /* Margin between items */
+    border-radius: 3px; /* Rounded corners for items */
+}
+
+    .dropdown-item:hover {
+        background-color: #e9ecef; /* Light hover background color */
+        color: #000; /* Dark text color on hover */
+    }
+
+.pfp-element {
+    display: flex;
+    align-items: center;
+}
