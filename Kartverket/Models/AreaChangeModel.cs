@@ -13,7 +13,7 @@
         public string? Fylkesnavn { get; set; }
         public string? Fylkesnummer { get; set; }
         public string? Username { get; set; }
-        
+        public string? ImagePath { get; set; }
 
     }
 }

@@ -16,7 +16,7 @@
 
     <!-- Description section -->
     <div class="description-section">
-        <form asp-action="RegisterAreaChange" method="post">
+            <form asp-action="RegisterAreaChange" method="post" enctype="multipart/form-data">
             <input type="hidden" id="geoJsonInput" name="geoJson" />
             <input type="hidden" id="kommunenavnInput" name="Kommunenavn" />
             <input type="hidden" id="kommunenummerInput" name="Kommunenummer" />
@@ -38,7 +38,7 @@
                     </select>
                 </fieldset>
                 <label for="picture">Last opp bilde</label>
-                <input asp-action="Upload" method="post" enctype="multipart/form-data" type="file" id="picture" name="picture" multiple />
+                <input asp-action="Upload" method="post" type="file" name="ImageUpload" multiple />
             </div>
             <br />
             <button type="submit" class="btn btn-primary">Send inn</button>
