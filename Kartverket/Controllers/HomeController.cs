@@ -63,7 +63,7 @@ namespace Kartverket.Controllers
             {
                 // Find the user by username and password
                 var user = UserDataChanges.FirstOrDefault(u =>
-                    u.UserName == model.Username && u.Password == model.Password);
+                    u.UserName == model.Brukernavn && u.Password == model.Passord);
 
                 if (user != null)
                 {
