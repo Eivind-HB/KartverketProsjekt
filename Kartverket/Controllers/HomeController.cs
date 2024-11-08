@@ -78,21 +78,7 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegisterAreaChange(string geoJson, string description, int UserID, AreaChange areaModel, UserData userModel, IFormFile ImageUpload)
-        {
-            string imagePath = null;
-            
-            try
-            {
-                if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
-                {
-                    return BadRequest("Invalid data.");
-                }
-
-                if (geoJson == null)
-                {
-                    return BadRequest(geoJson);
-                }
+        //public IActionResult RegisterAreaChange(string geoJson, string description, int UserID, AreaChange areaModel, UserData userModel, IFormFile ImageUpload)
         
         public IActionResult RegisterAreaChange(AreaChange areaModel, UserData userModel, IFormFile ImageUpload)
         {
@@ -134,61 +120,65 @@ namespace Kartverket.Controllers
             areaChanges.Add(newChange);
             UserDataChanges.Add(userChange);
 
-                //Niri EF faenskap
-                if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
-                {
-                    return BadRequest("Invalid data.");
-                }
 
-                if (geoJson == null)
-                {
-                    return BadRequest(geoJson);
-                }
-                Geometry geometry;
-                try
-                {
-                    var reader = new GeoJsonReader();
-                    geometry = reader.Read<Geometry>(geoJson);
-                }
-                catch (Exception ex)
-                {
-                    // Log or handle parsing error
-                    Console.WriteLine($"GeoJson parsing error: {ex.Message}");
-                    return BadRequest("Invalid GeoJson format.");
-                }
-                
-                //Create MySqlGeometry from WKB
-                //MySqlGeometry mySqlGeometry = MySqlGeometry.FromWKB(wkb);   funker ikke :)
+            //init av noen variabler som jeg selv har brukt, skal nok endres
+            var geoJson = areaModel.GeoJson;
+            var description = areaModel.Description;
 
-                //random id int nummer
-                Random rnd = new Random();
-                int CaseNoNumber = rnd.Next(999999);
+            //Niri EF faenskap
+            if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
+            {
+                return BadRequest("Invalid data.");
+            }
 
+            if (geoJson == null)
+            {
+                return BadRequest(geoJson);
+            }
 
-
-                var newGeoChange = new Case
-                {
-                    CaseNo = CaseNoNumber,
-                    LocationInfo = geoJson,
-                    Description = description,
-                    Date = DateTime.Now,
-                    //CaseWorker_CaseWorkerID = 1,
-                    User_UserID = UserID, 
-                    Issue_IssueNr = 1
-
-                };
-
-                // Save to the database
-                _context.Case.Add(newGeoChange);
-                _context.SaveChanges();
-
-                return RedirectToAction("AreaChangeOverview");
+            Geometry geometry;
+            try
+            {
+                var reader = new GeoJsonReader();
+                geometry = reader.Read<Geometry>(geoJson);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}, Inner Exception: {ex.InnerException?.Message}");
-                throw;
+                // Log or handle parsing error
+                Console.WriteLine($"GeoJson parsing error: {ex.Message}");
+                return BadRequest("Invalid GeoJson format.");
             }
+                
+            //Create MySqlGeometry from WKB
+            //MySqlGeometry mySqlGeometry = MySqlGeometry.FromWKB(wkb);   funker ikke :)
+
+            //random id int nummer
+            Random rnd = new Random();
+            int CaseNoNumber = rnd.Next(100000, 999999);
+
+            //random id nummer, placeholder
+            var userID = rnd.Next(100000, 999999);
+
+            var dateNow = DateOnly.FromDateTime(DateTime.Now);
+
+
+            var newGeoChange = new Case
+            {
+                CaseNo = CaseNoNumber,
+                LocationInfo = geoJson,
+                Description = description,
+                Date = dateNow,
+                //CaseWorker_CaseWorkerID = 1,
+                User_UserID = userID, 
+                Issue_IssueNr = 1
+
+            };
+
+            // Save to the database
+            _context.Case.Add(newGeoChange);
+            _context.SaveChanges();
+
+            return RedirectToAction("AreaChangeOverview");
         }
 
         [HttpGet]

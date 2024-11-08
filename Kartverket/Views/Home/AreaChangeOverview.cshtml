@@ -1,5 +1,5 @@
 @model List<Kartverket.Data.Case>
-﻿@model Kartverket.Models.ChangeOverviewModel
+﻿<!--model Kartverket.Models.ChangeOverviewModel-->
 
 @{
     ViewData["Title"] = "Overview";
@@ -28,15 +28,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var change in Model.AreaChanges)
+                        @foreach (var change in Model)
                         {
                                 <tr>
-                                    <td>@change.IssueId</td>
-                                    <td>@change.IssueType</td>
-                                    <td>@change.IssueDate</td>
-                                    <td>@change.GeoJson</td>
+                                    <td>@change.CaseNo</td>
+                                    <td>@change.Issue_IssueNr</td>
+                                    <td>@change.Date</td>
+                                    <td>@change.LocationInfo</td>
                                     <td>@change.Description</td>
-                                    <td>@change.ImagePath</td>
+                                    <td>@change.Images</td>
                                 </tr>
                         }
                     </tbody>
@@ -45,7 +45,7 @@
         </div>
 
         <!-- Location Details Section -->
-        <div class="accordion-item">
+        <!--<div class="accordion-item">
             <button class="accordion-header">
                 Lokasjon Detaljer
                 <span class="accordion-icon">▼</span>
@@ -61,19 +61,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var change in Model.AreaChanges)
+                        ATSYMBOLforeach (var change in Model.AreaChanges)
                         {
                                 <tr>
-                                    <td>@change.Kommunenavn</td>
-                                    <td>@change.Kommunenummer</td>
-                                    <td>@change.Fylkesnavn</td>
-                                    <td>@change.Fylkesnummer</td>
+                                    <td>ATSYMBOLchange.Kommunenavn</td>
+                                    <td>ATSYMBOLchange.Kommunenummer</td>
+                                    <td>ATSYMBOLchange.Fylkesnavn</td>
+                                    <td>ATSYMBOLchange.Fylkesnummer</td>
                                 </tr>
                         }
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div>-->
     </div>
 
 
@@ -104,8 +104,9 @@
             });
         });
 
-        // Passes the serialized AreaChanges model data to the mapChanges function
-        var drawnChanges = @Html.Raw(Json.Serialize(Model.AreaChanges));
+        // Passes the serialized AreaChanges model data to the mapChanges function 
+        var cases = List<Case>
+        var drawnChanges = @Html.Raw(Json.Serialize(Model));
         initializeDrawnChanges(drawnChanges);
 
 
