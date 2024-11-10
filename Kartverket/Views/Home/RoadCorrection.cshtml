@@ -1,60 +1,66 @@
 ﻿@{
-    ViewData["Title"] = "Rett i veier og stier";
+    ViewData["Title"] = "Retting i kartet";
 }
 
-<div class="page-container">
-<div class="text-center">
-    <h1 class="display-4">Rett i veger og stier</h1>
-    <p>Her kan du vise til endringer i kartet</p>
-</div>
-
-<!-- Flex container for map and where you edit the changes -->
-<div class="map-change-container">
-    <!-- Map section -->
-    <div id="map" class="map-section"></div>
-    
-
-    <!-- Description section -->
-    <div class="description-section">
-            <form asp-action="RegisterAreaChange" method="post" enctype="multipart/form-data">
-            <input type="hidden" id="geoJsonInput" name="geoJson" />
-            <input type="hidden" id="kommunenavnInput" name="Kommunenavn" />
-            <input type="hidden" id="kommunenummerInput" name="Kommunenummer" />
-            <input type="hidden" id="fylkesnavnInput" name="Fylkesnavn" />
-            <input type="hidden" id="fylkesnummerInput" name="Fylkesnummer" />
-
-            <div>
-                <label for="description">Beskriv endringen du vil melde:</label>
-                <textarea id="description" name="Description" required class="form-control"></textarea>
-                <label for="username"> Brukernavn:</label>
-                <input type="text" name="Username" required class="form-control" value="" />
-                <label for="issueType"> Velg type problem:</label>
-                <fieldset>
-                    <select class="form-control" name="issueType">
-                        <option value="0">Veg/sti</option>
-                        <option value="1">Adresse/tomt</option>
-                        <option value="2">Sjø</option>
-                        <option value="3">Annet</option>
-                    </select>
-                </fieldset>
-                <label for="picture">Last opp bilde</label>
-                <input asp-action="Upload" method="post" type="file" name="ImageUpload" multiple />
-            </div>
-            <br />
-            <button type="submit" class="btn btn-primary">Send inn</button>
-        </form>
+<div class="change-page-container">
+    <div class="text-center">
+        <h1 class="display-4">Rett feil i Norges kart</h1>
+        <p>Her kan du vise til feil og endringer du har funnet i kartet.</p>
+        <p>Venligst gi en beskrivelse av feilen du har funnet og tegn på kartet circa hvor feilen er. </p>
     </div>
-</div>
 
+    <!-- Flex container for map and where you edit the changes -->
+    <div class="map-description-container">
+        <!-- Map section -->
+        <div id="map" class="change-map-section"></div>
 
-<!-- Example HTML to display kommune info -->
-<div>
-    <h3>Kommune Information</h3>
-    <p>Kommunenavn: <span id="kommunenavn"></span></p>
-    <p>Kommunenummer: <span id="kommunenummer"></span></p>
-    <p>Fylkesnavn: <span id="fylkesnavn"></span></p>
-    <p>Fylkesnummer: <span id="fylkesnummer"></span></p>
-</div>
+        <!-- Description section -->
+        <div class="change-description-section">
+            <form asp-action="RegisterAreaChange" method="post" enctype="multipart/form-data">
+                <input type="hidden" id="geoJsonInput" name="geoJson" />
+                <input type="hidden" id="kommunenavnInput" name="Kommunenavn" />
+                <input type="hidden" id="kommunenummerInput" name="Kommunenummer" />
+                <input type="hidden" id="fylkesnavnInput" name="Fylkesnavn" />
+                <input type="hidden" id="fylkesnummerInput" name="Fylkesnummer" />
+
+                <div class="form-group">
+                    <label for="description">Beskriv endringen:</label>
+                    <textarea id="description" name="Description" required class="form-control"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Brukernavn:</label>
+                    <input type="text" name="Username" required class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="issueType">Velg type problem:</label>
+                    <select class="form-control" name="issueType">
+                        <option value="Veg/sti">Veg/sti</option>
+                        <option value="Adresse/tomt">Adresse/tomt</option>
+                        <option value="Sjø">Sjø</option>
+                        <option value="Annet">Annet</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="picture">Last opp bilde</label>
+                    <input asp-action="Upload" method="post" type="file" name="ImageUpload" class="form-control-file" />
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3">Send inn</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Kommune Information Section -->
+    <div class="kommune-info">
+        <h3>Kommune Informasjon</h3>
+        <p>Kommunenavn: <span id="kommunenavn"></span></p>
+        <p>Kommunenummer: <span id="kommunenummer"></span></p>
+        <p>Fylkesnavn: <span id="fylkesnavn"></span></p>
+        <p>Fylkesnummer: <span id="fylkesnummer"></span></p>
+    </div>
 </div>
 
 @section Scripts {
