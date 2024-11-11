@@ -106,8 +106,8 @@
 
         // Passes the serialized AreaChanges model data to the mapChanges function 
             //var cases = List<Case>
-            //var drawnChanges = ATSYMBOLHtml.Raw(Json.Serialize(Model));
-            //initializeDrawnChanges(drawnChanges);
+        var drawnChanges = @Html.Raw(Json.Serialize(Model));
+        initializeDrawnChanges(drawnChanges);
 
 
     </script>
