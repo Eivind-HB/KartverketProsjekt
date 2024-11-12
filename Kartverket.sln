@@ -5,6 +5,8 @@ VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kartverket", "Kartverket\Kartverket.csproj", "{635C71D2-2C46-4198-8D6E-7606699FAEEA}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{34C29FA4-DA64-47C9-9410-F747FD64AC8E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{635C71D2-2C46-4198-8D6E-7606699FAEEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{635C71D2-2C46-4198-8D6E-7606699FAEEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{635C71D2-2C46-4198-8D6E-7606699FAEEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34C29FA4-DA64-47C9-9410-F747FD64AC8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34C29FA4-DA64-47C9-9410-F747FD64AC8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34C29FA4-DA64-47C9-9410-F747FD64AC8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34C29FA4-DA64-47C9-9410-F747FD64AC8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
