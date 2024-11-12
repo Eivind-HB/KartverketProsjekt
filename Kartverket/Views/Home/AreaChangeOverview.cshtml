@@ -1,4 +1,5 @@
-﻿@model Kartverket.Models.ChangeOverviewModel
+@model List<Kartverket.Data.Case>
+﻿<!--model Kartverket.Models.ChangeOverviewModel-->
 
 @{
     ViewData["Title"] = "Overview";
@@ -55,11 +56,13 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>@change.IssueType</td>
-                                        <td>@change.IssueDate</td>
-                                        <td>@change.GeoJson</td>
+                                        <td>@change.CaseNo</td>
+                                        <td>@change.Issue_IssueNr</td>
+                                        <td>@change.Date</td>
+                                        <td>@change.LocationInfo</td>
                                         <td>@change.Description</td>
-                                        <td><img src="@change.ImagePath" alt="Bilde" class="image-thumbnail" /></td>
+                                        <td>@change.Images</td>
+                                        <!--<td><img src="ATSYMBOLchange.ImagePath" alt="Bilde" class="image-thumbnail" /></td>-->
                                     </tr>
                                 </tbody>
                             </table>
@@ -70,6 +73,7 @@
                 </div>
         }
     </div>
+
 
     <div class="map-change-container">
         <div id="map" class="map-section"></div>
@@ -99,8 +103,9 @@
             });
         });
 
-        // Passes the serialized AreaChanges model data to the mapChanges function
-        var drawnChanges = @Html.Raw(Json.Serialize(Model.AreaChanges));
+        // Passes the serialized AreaChanges model data to the mapChanges function 
+            //var cases = List<Case>
+        var drawnChanges = @Html.Raw(Json.Serialize(Model));
         initializeDrawnChanges(drawnChanges);
     </script>
 }
