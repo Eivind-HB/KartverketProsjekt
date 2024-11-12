@@ -4,7 +4,6 @@ using Kartverket.API_Models;
 using Kartverket.Services;
 using Kartverket.Data;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,13 +20,34 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         errorNumbersToAdd: null)
       ));
 
-//Binds API settings from appsettings.json
+// Configure Entity Framework with MariaDB
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
+    new MySqlServerVersion(new Version(10, 5, 9)),
+    mySqlOptions => mySqlOptions
+      .EnableRetryOnFailure(
+        maxRetryCount: 5,
+        maxRetryDelay: TimeSpan.FromSeconds(10),
+        errorNumbersToAdd: null)
+      ));
+
+
+// Binds API settings from appsettings.json
 builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
 
-//Registers Services and Interfaces
+// Registers Services and Interfaces
 builder.Services.AddHttpClient<IKommuneInfoApiService, KommuneInfoApiService>();
 
-//Add Services to container
+// Add session services
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+// Add Services to container
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -46,6 +66,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+// Use session
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
