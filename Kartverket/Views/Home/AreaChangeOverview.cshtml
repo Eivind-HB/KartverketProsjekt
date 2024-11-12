@@ -9,12 +9,12 @@
     <h1>Oversikt av registrerte endringer</h1>
 
     <div class="accordion-container">
-        @foreach (var change in Model.AreaChanges)
+        @foreach (var change in Model)
         {
                 <!-- Individual Issue Section -->
                 <div class="accordion-item">
                     <button class="accordion-header">
-                        Saks ID: @change.IssueId
+                        Saks ID: @change.Issue_IssueNr
                         <span class="accordion-icon">▼</span>
                     </button>
 
@@ -23,7 +23,7 @@
                         <div class="issue-location-details">
 
                             <!-- Lokasjon Detaljer Table -->
-                            <table class="table table-compact">
+                            <!--<table class="table table-compact">
                                 <thead>
                                     <tr>
                                         <th>Kommunenavn</th>
@@ -34,44 +34,44 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>@change.Kommunenavn</td>
-                                        <td>@change.Kommunenummer</td>
-                                        <td>@change.Fylkesnavn</td>
-                                        <td>@change.Fylkesnummer</td>
+                                        <td>ATchange.Kommunenavn</td>
+                                        <td>ATchange.Kommunenummer</td>
+                                        <td>ATchange.Fylkesnavn</td>
+                                        <td>ATchange.Fylkesnummer</td>
+                                    </tr>
+                                </tbody>
+                            </table>-->
+
+
+                            <!-- Saks Detaljer Table -->
+                            <table class="table table-compact">
+                                <thead>
+                                    <tr>
+                                        <th>Saks Type</th>
+                                        <th>Saks Dato</th>
+                                        <th>GeoJson</th>
+                                        <th>Beskrivelse</th>
+                                        <th>Bilde</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>@change.CaseNo</td>
+                                        <td>@change.Issue_IssueNr</td>
+                                        <td>@change.Date</td>
+                                        <td>@change.LocationInfo</td>
+                                        <td>@change.Description</td>
+                                        <td>@change.Images</td>
+                                        <!--<td><img src="ATSYMBOLchange.ImagePath" alt="Bilde" class="image-thumbnail" /></td>-->
                                     </tr>
                                 </tbody>
                             </table>
 
-        <!-- Location Details Section -->
-        <div class="accordion-item">
-            <button class="accordion-header">
-                Lokasjon Detaljer
-                <span class="accordion-icon">▼</span>
-            </button>
-            <div class="accordion-content">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Kommunenavn</th>
-                            <th>Kommunenummer</th>
-                            <th>Fylkesnavn</th>
-                            <th>Fylkesnummer</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var change in Model.AreaChanges)
-                        {
-                                <tr>
-                                    <td>@change.Kommunenavn</td>
-                                    <td>@change.Kommunenummer</td>
-                                    <td>@change.Fylkesnavn</td>
-                                    <td>@change.Fylkesnummer</td>
-                                </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
+
+                        </div>
+                    </div>
+                </div>
+        }
     </div>
 
 
