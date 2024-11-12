@@ -40,7 +40,13 @@ namespace Kartverket.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
+                    b.Property<int>("FylkesNo")
+                        .HasColumnType("int");
+
                     b.Property<int>("Issue_IssueNr")
+                        .HasColumnType("int");
+
+                    b.Property<int>("KommuneNo")
                         .HasColumnType("int");
 
                     b.Property<string>("LocationInfo")

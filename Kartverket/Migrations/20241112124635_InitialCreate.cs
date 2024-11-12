@@ -28,7 +28,9 @@ namespace Kartverket.Migrations
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
                     CaseWorker_CaseWorkerID = table.Column<int>(type: "int", nullable: false),
                     User_UserID = table.Column<int>(type: "int", nullable: false),
-                    Issue_IssueNr = table.Column<int>(type: "int", nullable: false)
+                    Issue_IssueNr = table.Column<int>(type: "int", nullable: false),
+                    KommuneNo = table.Column<int>(type: "int", nullable: false),
+                    FylkesNo = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

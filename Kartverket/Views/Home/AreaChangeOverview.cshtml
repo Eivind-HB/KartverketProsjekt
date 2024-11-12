@@ -14,7 +14,7 @@
                 <!-- Individual Issue Section -->
                 <div class="accordion-item">
                     <button class="accordion-header">
-                        Saks ID: @change.Issue_IssueNr
+                        Saks ID: @change.CaseNo
                         <span class="accordion-icon">▼</span>
                     </button>
 
@@ -23,7 +23,7 @@
                         <div class="issue-location-details">
 
                             <!-- Lokasjon Detaljer Table -->
-                            <!--<table class="table table-compact">
+                            <table class="table table-compact">
                                 <thead>
                                     <tr>
                                         <th>Kommunenavn</th>
@@ -34,19 +34,20 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>ATchange.Kommunenavn</td>
-                                        <td>ATchange.Kommunenummer</td>
-                                        <td>ATchange.Fylkesnavn</td>
-                                        <td>ATchange.Fylkesnummer</td>
+                                        <td>Kommunenavn</td>
+                                        <td>@change.KommuneNo</td>
+                                        <td>fylkesnavn</td>
+                                        <td>@change.FylkesNo</td>
                                     </tr>
                                 </tbody>
-                            </table>-->
+                            </table>
 
 
                             <!-- Saks Detaljer Table -->
                             <table class="table table-compact">
                                 <thead>
                                     <tr>
+                                        <th>Saks Nummer</th>
                                         <th>Saks Type</th>
                                         <th>Saks Dato</th>
                                         <th>GeoJson</th>

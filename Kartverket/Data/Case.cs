@@ -24,5 +24,9 @@ namespace Kartverket.Data
         public int Issue_IssueNr { get; set; }
         [NotMapped]
         public Blob Images { get; }
+        [Required]
+        public int KommuneNo { get; set; }
+        [Required]
+        public int FylkesNo { get; set; }
     }
 }

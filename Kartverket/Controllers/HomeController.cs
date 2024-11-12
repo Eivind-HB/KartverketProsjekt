@@ -187,6 +187,9 @@ namespace Kartverket.Controllers
             //init av noen variabler som jeg selv har brukt, skal nok endres
             var geoJson = areaModel.GeoJson;
             var description = areaModel.Description;
+            var fylkesNo = Int32.Parse(areaModel.Fylkesnummer);
+            var kommuneNo = Int32.Parse(areaModel.Kommunenummer);
+
 
             //Niri EF faenskap
             if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
@@ -233,7 +236,9 @@ namespace Kartverket.Controllers
                 Date = dateNow,
                 //CaseWorker_CaseWorkerID = 1,
                 User_UserID = userID, 
-                Issue_IssueNr = 1
+                Issue_IssueNr = 1,
+                KommuneNo = kommuneNo,
+                FylkesNo = fylkesNo
 
             };
 

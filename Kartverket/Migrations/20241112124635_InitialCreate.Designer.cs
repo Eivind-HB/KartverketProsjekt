@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kartverket.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241108000257_InitialCreate")]
+    [Migration("20241112124635_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -43,7 +43,13 @@ namespace Kartverket.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
+                    b.Property<int>("FylkesNo")
+                        .HasColumnType("int");
+
                     b.Property<int>("Issue_IssueNr")
+                        .HasColumnType("int");
+
+                    b.Property<int>("KommuneNo")
                         .HasColumnType("int");
 
                     b.Property<string>("LocationInfo")
