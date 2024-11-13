@@ -10,6 +10,8 @@ using NetTopologySuite.IO;
 using Newtonsoft.Json;
 
 using static System.Net.WebRequestMethods;
+using Kartverket.API_Models;
+using System.Data;
 
 
 namespace Kartverket.Controllers
@@ -24,6 +26,7 @@ namespace Kartverket.Controllers
         private static List<UserData> UserDataChanges = new List<UserData>();
         private static List<LogInData> LogInInfo = new List<LogInData>();
         private static List<PositionModel> positions = new List<PositionModel>();
+        private static List<User> Usersinfo = new List<User>();
 
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
@@ -69,18 +72,20 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
-        public IActionResult LogInForm(LogInData model)
+        public IActionResult LogInForm(User model1, LogInData model2)
         {
             if (ModelState.IsValid)
             {
                 // Find the user by username and password
-                var user = UserDataChanges.FirstOrDefault(u =>
-                    u.UserName == model.Brukernavn && u.Password == model.Passord);
+                var user = Usersinfo.FirstOrDefault(u =>
+                    u.UserName == model1.UserName && u.Password == model1.Password);
+                Console.Write(user);
+                Console.Write(user.UserName, model1.UserName);
 
                 if (user != null)
                 {
                     // User found, set the UserId in the session
-                    HttpContext.Session.SetString("UserId", user.UserId);
+                    HttpContext.Session.SetInt32("UserId", model1.UserID);
                     return RedirectToAction("Index");
                 }
 
@@ -88,7 +93,7 @@ namespace Kartverket.Controllers
             }
 
             // If we got this far, something failed; redisplay form
-            return View(model);
+            return View(model2);
         }
 
 
@@ -108,9 +113,12 @@ namespace Kartverket.Controllers
         {
             if (ModelState.IsValid)
             {
+                Random rnd = new Random();
+                //random id nummer -- gamle string id : UserId = Guid.NewGuid().ToString(),
+                var userID = rnd.Next(100000, 999999);
                 var newUser = new UserData
                 {
-                    UserId = Guid.NewGuid().ToString(),
+                    UserId = userID,
                     UserName = userData.UserName,
                     Email = userData.Email,
                     HomeMunicipality = userData.HomeMunicipality,
@@ -120,7 +128,10 @@ namespace Kartverket.Controllers
                 UserDataChanges.Add(newUser);
 
                 // Set the UserId in the session
-                HttpContext.Session.SetString("UserId", newUser.UserId);
+                HttpContext.Session.SetInt32("UserId", newUser.UserId);
+                HttpContext.Session.SetString("Password", newUser.Password);
+                HttpContext.Session.SetString("Mail", newUser.Email);
+                HttpContext.Session.SetString("UserName", newUser.UserName);
 
                 return RedirectToAction("UDOverview");
             }
@@ -159,7 +170,7 @@ namespace Kartverket.Controllers
 
             imagePath = $"/wwwroot/images/{ImageUpload.FileName}";
         }
-
+            
             var newChange = new AreaChange
             {
                 IssueId = Guid.NewGuid().ToString(),
@@ -286,11 +297,23 @@ namespace Kartverket.Controllers
 
         private UserData? GetUserData()
         {
-            string? userId = HttpContext.Session.GetString("UserId");
-            if (string.IsNullOrEmpty(userId))
+            int userId = (int)HttpContext.Session.GetInt32("UserId");
+            string? username = HttpContext.Session.GetString("UserName");
+            string? password = HttpContext.Session.GetString("Password");
+            string? mail = HttpContext.Session.GetString("Mail");
+
+
+            var newUser = new User
             {
-                return null;
-            }
+                UserID = userId,
+                UserName = username,
+                Mail = mail,
+                Password = password
+
+            };
+            // Save to the database
+            _context.Users.Add(newUser);
+            _context.SaveChanges();
             return UserDataChanges.FirstOrDefault(u => u.UserId == userId);
         }
 

@@ -90,7 +90,7 @@
 
         // Passes the serialized AreaChanges model data to the mapChanges function
         var drawnChanges = @Html.Raw(Json.Serialize(Model));
-                initializeDrawnChanges(drawnChanges);
+        initializeDrawnChanges(drawnChanges);
 
         // Accordion functionality
         document.querySelectorAll('.accordion-header').forEach(button => {
@@ -108,10 +108,5 @@
                 map.invalidateSize();
             });
         });
-
-        // Passes the serialized AreaChanges model data to the mapChanges function 
-            //var cases = List<Case>
-        var drawnChanges = @Html.Raw(Json.Serialize(Model));
-        initializeDrawnChanges(drawnChanges);
     </script>
 }
