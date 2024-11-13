@@ -119,6 +119,22 @@ namespace Kartverket.Migrations
                     b.ToTable("CaseWorkerOverviews");
                 });
 
+            modelBuilder.Entity("Kartverket.Data.FylkesInfo", b =>
+                {
+                    b.Property<int>("FylkesNameID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("FylkesNameID"));
+
+                    b.Property<string>("FylkesName")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("FylkesNameID");
+
+                    b.ToTable("FylkesInfo");
+                });
+
             modelBuilder.Entity("Kartverket.Data.Issue", b =>
                 {
                     b.Property<int>("issueNo")
@@ -133,6 +149,22 @@ namespace Kartverket.Migrations
                     b.HasKey("issueNo");
 
                     b.ToTable("Issues");
+                });
+
+            modelBuilder.Entity("Kartverket.Data.KommuneInfo", b =>
+                {
+                    b.Property<int>("KommuneInfoID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("KommuneInfoID"));
+
+                    b.Property<string>("KommuneName")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("KommuneInfoID");
+
+                    b.ToTable("KommuneInfo");
                 });
 
             modelBuilder.Entity("Kartverket.Data.User", b =>
