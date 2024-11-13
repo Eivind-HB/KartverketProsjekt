@@ -82,6 +82,11 @@
     <script src="~/js/mapChanges.js"></script>
 
     <script>
+
+        // Passes the serialized AreaChanges model data to the mapChanges function
+        var drawnChanges = @Html.Raw(Json.Serialize(Model.AreaChanges));
+                initializeDrawnChanges(drawnChanges);
+
         // Accordion functionality
         document.querySelectorAll('.accordion-header').forEach(button => {
             button.addEventListener('click', () => {
@@ -99,8 +104,6 @@
             });
         });
 
-        // Passes the serialized AreaChanges model data to the mapChanges function
-        var drawnChanges = @Html.Raw(Json.Serialize(Model.AreaChanges));
-        initializeDrawnChanges(drawnChanges);
+        
     </script>
 }
