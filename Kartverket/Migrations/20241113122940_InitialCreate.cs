@@ -86,6 +86,21 @@ namespace Kartverket.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "FylkesInfo",
+                columns: table => new
+                {
+                    FylkesNameID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    FylkesName = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FylkesInfo", x => x.FylkesNameID);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Issues",
                 columns: table => new
                 {
@@ -97,6 +112,21 @@ namespace Kartverket.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Issues", x => x.issueNo);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "KommuneInfo",
+                columns: table => new
+                {
+                    KommuneInfoID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    KommuneName = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_KommuneInfo", x => x.KommuneInfoID);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -136,7 +166,13 @@ namespace Kartverket.Migrations
                 name: "CaseWorkers");
 
             migrationBuilder.DropTable(
+                name: "FylkesInfo");
+
+            migrationBuilder.DropTable(
                 name: "Issues");
+
+            migrationBuilder.DropTable(
+                name: "KommuneInfo");
 
             migrationBuilder.DropTable(
                 name: "Users");

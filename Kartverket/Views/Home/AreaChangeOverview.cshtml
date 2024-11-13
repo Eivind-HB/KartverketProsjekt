@@ -89,7 +89,7 @@
     <script>
 
         // Passes the serialized AreaChanges model data to the mapChanges function
-        var drawnChanges = @Html.Raw(Json.Serialize(Model.AreaChanges));
+        var drawnChanges = @Html.Raw(Json.Serialize(Model));
                 initializeDrawnChanges(drawnChanges);
 
         // Accordion functionality
