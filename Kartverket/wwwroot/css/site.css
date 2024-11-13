@@ -228,7 +228,7 @@ footer {
 }
 
 #map {
-    height: 30rem;
+    height: 34rem;
     width: 100%;
     border: 2px dotted var(--primary-green);
     border-radius: var(--border-radius-sm);

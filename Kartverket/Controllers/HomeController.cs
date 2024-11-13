@@ -9,6 +9,8 @@ using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using Newtonsoft.Json;
 
+using Microsoft.AspNetCore.Identity;
+
 using static System.Net.WebRequestMethods;
 
 
@@ -19,6 +21,7 @@ namespace Kartverket.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IKommuneInfoApiService _KommuneInfoApiService;
         private readonly ApplicationDbContext _context;
+        private readonly PasswordHasher<UserData> _passwordHasher;
 
         private static List<AreaChange> areaChanges = new List<AreaChange>();
         private static List<UserData> UserDataChanges = new List<UserData>();
@@ -30,6 +33,7 @@ namespace Kartverket.Controllers
         {
             _logger = logger;
             _context = context;
+            _passwordHasher = new PasswordHasher<UserData>();
         }
 
         public IActionResult Index()
@@ -71,25 +75,31 @@ namespace Kartverket.Controllers
         [HttpPost]
         public IActionResult LogInForm(LogInData model)
         {
-            if (ModelState.IsValid)
-            {
-                // Find the user by username and password
-                var user = UserDataChanges.FirstOrDefault(u =>
-                    u.UserName == model.Brukernavn && u.Password == model.Passord);
+        if (ModelState.IsValid)
+        {
+            // Find the user by username
+            var user = UserDataChanges.FirstOrDefault(u => u.UserName == model.Brukernavn);
 
-                if (user != null)
+            if (user != null)
+            {
+                // Verify the password
+                var result = _passwordHasher.VerifyHashedPassword(user, user.Password, model.Passord);
+
+                if (result == PasswordVerificationResult.Success)
                 {
-                    // User found, set the UserId in the session
+                    // Password is correct
                     HttpContext.Session.SetString("UserId", user.UserId);
                     return RedirectToAction("Index");
                 }
-
-                ModelState.AddModelError(string.Empty, "Invalid username or password.");
             }
 
-            // If we got this far, something failed; redisplay form
-            return View(model);
+            // If we got this far, something failed
+            ModelState.AddModelError(string.Empty, "Invalid username or password.");
         }
+
+        // If we got this far, something failed; redisplay form
+        return View(model);
+    }
 
 
         [HttpGet]
@@ -113,8 +123,7 @@ namespace Kartverket.Controllers
                     UserId = Guid.NewGuid().ToString(),
                     UserName = userData.UserName,
                     Email = userData.Email,
-                    HomeMunicipality = userData.HomeMunicipality,
-                    Password = userData.Password
+                    Password = _passwordHasher.HashPassword(null, userData.Password)
                 };
 
                 UserDataChanges.Add(newUser);
