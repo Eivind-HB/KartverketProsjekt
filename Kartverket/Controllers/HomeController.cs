@@ -255,20 +255,13 @@ namespace Kartverket.Controllers
             _context.Case.Add(newGeoChange);
             _context.SaveChanges();
 
-            return RedirectToAction("AreaChangeOverview");
+            return RedirectToAction("AreaChangeOverview", "Case");
         }
 
         [HttpGet]
         public IActionResult CorrectionOverview()
         {
             return View(positions);
-        }
-
-        [HttpGet]
-        public IActionResult AreaChangeOverview()
-        {
-            var changes_db = _context.Case.ToList();
-            return View(changes_db);
         }
 
 

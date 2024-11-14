@@ -12,13 +12,13 @@
         try {
             geoJsonData = JSON.parse(change.locationInfo);
         } catch (e) {
-            console.error(`Invalid JSON in change.locationinfo for changeNo ${change.CaseNo}: ${e.message}`);
+            console.error(`Invalid JSON in change.locationinfo for changeNo ${change.caseNo}: ${e.message}`);
             return; // Hopp over denne iterasjonen hvis JSON-parsingen feiler
         }
 
 
         // Create a layer and add a popup with the AreaChange description
-        var drawnLayer = L.geoJSON(geoJsonData).bindPopup(change.Description);
+        var drawnLayer = L.geoJSON(geoJsonData).bindPopup(change.description);
         allLayers.addLayer(drawnLayer);
 
         // Extract coordinates from GeoJSON and reverse geocode
@@ -26,23 +26,23 @@
         if (geocoordinates && geocoordinates.length >= 2) {
             var latitude = geocoordinates[1];
             var longitude = geocoordinates[0];
-            console.log(`Processing change ID ${change.CaseNo} with coordinates: ${latitude}, ${longitude}`);
+            console.log(`Processing change ID ${change.caseNo} with coordinates: ${latitude}, ${longitude}`);
 
             var url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
             fetch(url)
                 .then(response => response.ok ? response.json() : Promise.reject(response))
                 .then(data => {
                     var address = data.display_name || "Address not found";
-                    var popupContent = `${change.Description}<br>Address: ${address}`;
+                    var popupContent = `${change.description}<br>Address: ${address}`;
                     drawnLayer.setPopupContent(popupContent).openPopup();
                 })
                 .catch(error => {
-                    var popupContent = `${change.Description}<br>Address not available`;
+                    var popupContent = `${change.description}<br>Address not available`;
                     drawnLayer.setPopupContent(popupContent).openPopup();
-                    console.error(`Error updating popup for change ID ${change.CaseNo}: ${error}`);
+                    console.error(`Error updating popup for change ID ${change.caseNo}: ${error}`);
                 });
         } else {
-            console.error(`Invalid coordinates for change ID ${change.issueId}`);
+            console.error(`Invalid coordinates for issueID ${change.caseNo}`);
         }
     });
 
