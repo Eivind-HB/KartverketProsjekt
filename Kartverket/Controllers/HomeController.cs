@@ -87,23 +87,27 @@ namespace Kartverket.Controllers
         [HttpGet]
         public IActionResult LogInForm()
         {
-            return View(new LogInData());
+            return View(new User());
         }
 
         [HttpPost]
-        public async Task<IActionResult> LogInForm(LogInData model)
+        public async Task<IActionResult> LogInForm(User model)
         {
             if (ModelState.IsValid)
             {
-                // Find the user by username and password
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == model.Brukernavn);
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == model.UserName);
                 if (user != null)
                 {
-                    var result = _passwordHasher.VerifyHashedPassword(user,
-                        user.Password, model.Passord);
+                    var result = _passwordHasher.VerifyHashedPassword(user, user.Password, model.Password);
                     if (result == PasswordVerificationResult.Success)
                     {
-                        HttpContext.Session.SetInt32("UserId", user.UserID);
+                        var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
+                    new Claim(ClaimTypes.Name, user.UserName)
+                };
+                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
                         return RedirectToAction("Index");
                     }
                 }
@@ -111,72 +115,70 @@ namespace Kartverket.Controllers
             }
             return View(model);
         }
-                
+
 
 
         [HttpGet]
         public async Task<IActionResult> UDOverview()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(userId))
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
             {
                 return RedirectToAction("RegistrationForm");
             }
-            var userData = await _context.Users.FindAsync(userId);
-            return View(userData);
+
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return RedirectToAction("RegistrationForm");
+            }
+
+            return View(user);
         }
 
+
+
         [HttpPost]
-        public async Task<IActionResult> UDOverview(User Usersinfo)
+        public async Task<IActionResult> UDOverview(User model)
         {
             if (ModelState.IsValid)
             {
-                Random rnd = new Random();
-                //random id nummer -- gamle string id : UserId = Guid.NewGuid().ToString(),
-                var userID = rnd.Next(100000, 999999);
-
                 var newUser = new User
                 {
-                    UserID = Usersinfo.UserID,
-                    UserName = Usersinfo.UserName,
-                    Mail = Usersinfo.Mail,
-                    Password = _passwordHasher.HashPassword(null, Usersinfo.Password)
+                    UserName = model.UserName,
+                    Mail = model.Mail,
+                    Password = _passwordHasher.HashPassword(null, model.Password)
                 };
-
                 _context.Users.Add(newUser);
                 await _context.SaveChangesAsync();
 
-                // sign in the user
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier, newUser.UserID.ToString()),
                     new Claim(ClaimTypes.Name, newUser.UserName)
                 };
-
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                await
-                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity));
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
                 return RedirectToAction("UDOverview");
             }
-            return View("RegistrationForm", Usersinfo);
+            return View("RegistrationForm", model);
         }
 
         private async Task<User?> GetUserData()
         {
-            var UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(UserID))
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
             {
                 return null;
             }
-            return await _context.Users.FindAsync(UserID);
+            return await _context.Users.FindAsync(userId);
         }
 
         [HttpGet]
-        public ViewResult RegistrationForm()
+        public IActionResult RegistrationForm()
         {
-            return View();
+            return View(new User());
         }
 
         public IActionResult RegisterAreaChange()
@@ -326,28 +328,6 @@ namespace Kartverket.Controllers
             };
 
             return View(model);
-        }
-
-        private User? GetUser()
-        {
-            int userId = (int)HttpContext.Session.GetInt32("UserId");
-            string? username = HttpContext.Session.GetString("UserName");
-            string? password = HttpContext.Session.GetString("Password");
-            string? mail = HttpContext.Session.GetString("Mail");
-
-
-            var newUser = new User
-            {
-                UserID = userId,
-                UserName = username,
-                Mail = mail,
-                Password = password
-
-            };
-            // Save to the database
-            _context.Users.Add(newUser);
-            _context.SaveChanges();
-            return _context.Users.FirstOrDefault(u => u.UserID == userId);
         }
 
     }
