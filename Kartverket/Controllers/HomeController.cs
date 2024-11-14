@@ -22,12 +22,14 @@ using static System.Net.WebRequestMethods;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.EntityFrameworkCore;
-using Microsoft.AspNetCore.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace Kartverket.Controllers
 {
@@ -36,7 +38,7 @@ namespace Kartverket.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IKommuneInfoApiService _KommuneInfoApiService;
         private readonly ApplicationDbContext _context;
-        private readonly PasswordHasher<UserData> _passwordHasher;
+        private readonly PasswordHasher<User> _passwordHasher;
 
         private static List<AreaChange> areaChanges = new List<AreaChange>();
         private static List<UserData> UserDataChanges = new List<UserData>();
@@ -49,7 +51,7 @@ namespace Kartverket.Controllers
         {
             _logger = logger;
             _context = context;
-            _passwordHasher = new PasswordHasher<UserData>();
+            _passwordHasher = new PasswordHasher<User>();
         }
 
         public IActionResult Index()
@@ -94,15 +96,14 @@ namespace Kartverket.Controllers
             if (ModelState.IsValid)
             {
                 // Find the user by username and password
-                var user = await _context.UserData.FirstOrDefaultAsync(u =>
-                u.UserName == model.Brukernavn);
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == model.Brukernavn);
                 if (user != null)
                 {
                     var result = _passwordHasher.VerifyHashedPassword(user,
                         user.Password, model.Passord);
                     if (result == PasswordVerificationResult.Success)
                     {
-                        HttpContext.Session.SetString("UserId", user.UserId);
+                        HttpContext.Session.SetInt32("UserId", user.UserID);
                         return RedirectToAction("Index");
                     }
                 }
@@ -126,7 +127,7 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UDOverview(UserData userData)
+        public async Task<IActionResult> UDOverview(User Usersinfo)
         {
             if (ModelState.IsValid)
             {
@@ -134,12 +135,12 @@ namespace Kartverket.Controllers
                 //random id nummer -- gamle string id : UserId = Guid.NewGuid().ToString(),
                 var userID = rnd.Next(100000, 999999);
 
-                var newUser = new UserData
+                var newUser = new User
                 {
-                    UserId = userID,
-                    UserName = userData.UserName,
-                    Email = userData.Email,
-                    Password = _passwordHasher.HashPassword(null, userData.Password)
+                    UserID = Usersinfo.UserID,
+                    UserName = Usersinfo.UserName,
+                    Mail = Usersinfo.Mail,
+                    Password = _passwordHasher.HashPassword(null, Usersinfo.Password)
                 };
 
                 _context.Users.Add(newUser);
@@ -148,7 +149,7 @@ namespace Kartverket.Controllers
                 // sign in the user
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.NameIdentifier, newUser.UserId),
+                    new Claim(ClaimTypes.NameIdentifier, newUser.UserID.ToString()),
                     new Claim(ClaimTypes.Name, newUser.UserName)
                 };
 
@@ -159,17 +160,17 @@ namespace Kartverket.Controllers
 
                 return RedirectToAction("UDOverview");
             }
-            return View("RegistrationForm", userData);
+            return View("RegistrationForm", Usersinfo);
         }
 
-        private async Task<UserData?> GetUserData()
+        private async Task<User?> GetUserData()
         {
-            var uderId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(userId))
+            var UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(UserID))
             {
                 return null;
             }
-            return await _context.Users.FindAsync(userId);
+            return await _context.Users.FindAsync(UserID);
         }
 
         [HttpGet]
@@ -327,7 +328,7 @@ namespace Kartverket.Controllers
             return View(model);
         }
 
-        private UserData? GetUserData()
+        private User? GetUser()
         {
             int userId = (int)HttpContext.Session.GetInt32("UserId");
             string? username = HttpContext.Session.GetString("UserName");
@@ -346,7 +347,7 @@ namespace Kartverket.Controllers
             // Save to the database
             _context.Users.Add(newUser);
             _context.SaveChanges();
-            return UserDataChanges.FirstOrDefault(u => u.UserId == userId);
+            return _context.Users.FirstOrDefault(u => u.UserID == userId);
         }
 
     }
