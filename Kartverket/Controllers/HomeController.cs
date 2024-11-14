@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using static System.Net.WebRequestMethods;
 using Kartverket.API_Models;
 using System.Data;
+using System;
 
 
 namespace Kartverket.Controllers
@@ -72,28 +73,29 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
-        public IActionResult LogInForm(User model1, LogInData model2)
+        public IActionResult LogInForm(LogInData model)
         {
             if (ModelState.IsValid)
             {
                 // Find the user by username and password
                 var user = Usersinfo.FirstOrDefault(u =>
-                    u.UserName == model1.UserName && u.Password == model1.Password);
-                Console.Write(user);
-                Console.Write(user.UserName, model1.UserName);
+                    u.UserName == model.Brukernavn && u.Password == model.Brukernavn);
+                System.Console.WriteLine(user);
+                System.Console.WriteLine(model.Brukernavn);
 
                 if (user != null)
                 {
                     // User found, set the UserId in the session
-                    HttpContext.Session.SetInt32("UserId", model1.UserID);
+                    HttpContext.Session.SetString("UserId", model.Brukernavn);
                     return RedirectToAction("Index");
                 }
-
+                System.Console.WriteLine("HEIEIEIEIEIEI", model.Brukernavn);
                 ModelState.AddModelError(string.Empty, "Invalid username or password.");
             }
+            System.Console.WriteLine("HEIEIEIEIEIEI", model.Brukernavn);
 
             // If we got this far, something failed; redisplay form
-            return View(model2);
+            return View(model);
         }
 
 
@@ -116,21 +118,29 @@ namespace Kartverket.Controllers
                 Random rnd = new Random();
                 //random id nummer -- gamle string id : UserId = Guid.NewGuid().ToString(),
                 var userID = rnd.Next(100000, 999999);
-                var newUser = new UserData
+                //var newUser = new UserData
+                //{
+                //    UserId = userID,
+                //    UserName = userData.UserName,
+                //    Email = userData.Email,
+                //    HomeMunicipality = userData.HomeMunicipality,
+                //    Password = userData.Password
+                //};
+
+                var newUser = new User
                 {
-                    UserId = userID,
+                    UserID = userID,
                     UserName = userData.UserName,
-                    Email = userData.Email,
-                    HomeMunicipality = userData.HomeMunicipality,
+                    Mail = userData.Email,
                     Password = userData.Password
                 };
 
-                UserDataChanges.Add(newUser);
+                Usersinfo.Add(newUser);
 
                 // Set the UserId in the session
-                HttpContext.Session.SetInt32("UserId", newUser.UserId);
+                HttpContext.Session.SetInt32("UserId", newUser.UserID);
                 HttpContext.Session.SetString("Password", newUser.Password);
-                HttpContext.Session.SetString("Mail", newUser.Email);
+                HttpContext.Session.SetString("Mail", newUser.Mail);
                 HttpContext.Session.SetString("UserName", newUser.UserName);
 
                 return RedirectToAction("UDOverview");
