@@ -1,15 +1,17 @@
-@model List<Kartverket.Data.Case>
+@model AreaChangeOverviewModel
 
 @{
     ViewData["Title"] = "Overview";
 }
 
+
 <div class="page-container">
     <h1>Oversikt av registrerte endringer</h1>
 
     <div class="accordion-container">
-        @foreach (var change in Model)
+        @foreach (var change in Model.Cases)
         {
+            var issueType = @change.Issue_IssueNr.ToString();
             <!-- Individual Case Section -->
             <div class="accordion-item">
                 <button class="accordion-header">
@@ -20,7 +22,14 @@
                 <div class="accordion-content">
                     <!-- Case and location tables in 1 accordion per case -->
                     <div class="issue-location-details">
-
+                        @foreach (var differentIssues in Model.Issues)
+                        {
+                            var CaseIssue = @change.Issue_IssueNr;
+                            if(CaseIssue == @differentIssues.issueNo)
+                            {
+                                issueType = @differentIssues.IssueType;
+                            }
+                        }
                         <!-- Case detail table -->
                         <table class="table table-compact">
                             <thead>
@@ -36,7 +45,7 @@
                             <tbody>
                                 <tr>
                                     <td>@change.CaseNo</td>
-                                    <td>@change.Issue_IssueNr</td>
+                                    <td>@issueType</td>
                                     <td>@change.Date</td>
                                     <td>@change.LocationInfo</td>
                                     <td>@change.Description</td>
@@ -91,8 +100,8 @@
     <script>
 
         // Passes the serialized AreaChanges model data to the mapChanges function
-        var drawnChanges = @Html.Raw(Json.Serialize(Model));
-        initializeDrawnChanges(drawnChanges);
+        //var drawnChanges = @Html.Raw(Json.Serialize(Model));
+        //initializeDrawnChanges(drawnChanges);
 
         // Accordion functionality
         document.querySelectorAll('.accordion-header').forEach(button => {
