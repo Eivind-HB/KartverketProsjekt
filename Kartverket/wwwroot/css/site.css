@@ -198,10 +198,47 @@ footer {
     transition: background-color 0.3s ease;
 }
 
-
 .btn-primary:hover {
     background-color: var(--hover-green);
 }
+
+
+/* Button styles */
+.btn-danger {
+    background-color: darkred;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-group {
+    display: flex;
+    gap: 1rem;
+   margin-top: 1rem;
+}
+
+/* Styles for edit form buttons (Save and Cancel) */
+.edit-form-btn {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* AreaChangeOverview */
+
+.form-control {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+}
+
+
 
 /* Map Components */
 .NavHeader {
