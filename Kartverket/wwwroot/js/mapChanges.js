@@ -1,6 +1,5 @@
 ﻿function initializeDrawnChanges(drawnChanges) {
-    console.log("Inspecting drawnChanges:", drawnChanges);
-
+    
     // Initialize a feature group to hold all layers
     var allLayers = new L.FeatureGroup();
     map.addLayer(allLayers);
