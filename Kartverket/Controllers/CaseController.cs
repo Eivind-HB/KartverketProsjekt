@@ -66,6 +66,5 @@ namespace Kartverket.Controllers
             return RedirectToAction("AreaChangeOverview");
         }
 
-
     }
 }

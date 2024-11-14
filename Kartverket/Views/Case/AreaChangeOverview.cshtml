@@ -91,7 +91,6 @@
                             <button form="edit-form-@change.CaseNo" type="submit" class="btn btn-success">Lagre</button>
                             <button type="button" onclick="toggleEditForm(@change.CaseNo)" class="btn btn-secondary">Avbryt</button>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -102,7 +101,7 @@
         <div id="map" class="map-section"></div>
     </div>
 </div>
-
+  
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
     <script src="~/js/mapChanges.js"></script>
@@ -118,7 +117,7 @@
             editButtons.style.display = isHidden ? "flex" : "none";
         }
 
-        // Initialize map with drawn changes
+        // Passes the serialized AreaChanges model data to the mapChanges function
         var drawnChanges = @Html.Raw(Json.Serialize(Model));
         initializeDrawnChanges(drawnChanges);
 
