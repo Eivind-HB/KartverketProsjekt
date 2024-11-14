@@ -18,7 +18,7 @@
 
 
         // Create a layer and add a popup with the AreaChange description
-        var drawnLayer = L.geoJSON(geoJsonData).bindPopup(change.description);
+        var drawnLayer = L.geoJSON(geoJsonData).bindPopup(change.Description);
         allLayers.addLayer(drawnLayer);
 
         // Extract coordinates from GeoJSON and reverse geocode
@@ -33,11 +33,11 @@
                 .then(response => response.ok ? response.json() : Promise.reject(response))
                 .then(data => {
                     var address = data.display_name || "Address not found";
-                    var popupContent = `${change.description}<br>Address: ${address}`;
+                    var popupContent = `${change.Description}<br>Address: ${address}`;
                     drawnLayer.setPopupContent(popupContent).openPopup();
                 })
                 .catch(error => {
-                    var popupContent = `${change.description}<br>Address not available`;
+                    var popupContent = `${change.Description}<br>Address not available`;
                     drawnLayer.setPopupContent(popupContent).openPopup();
                     console.error(`Error updating popup for change ID ${change.caseNo}: ${error}`);
                 });
