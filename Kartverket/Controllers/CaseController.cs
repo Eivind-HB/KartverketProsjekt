@@ -23,7 +23,9 @@ namespace Kartverket.Controllers
             var viewModel = new Kartverket.Models.AreaChangeOverviewModel
             {
                 Cases = _context.Case.ToList(),
-                Issues = _context.Issues.ToList()
+                Issues = _context.Issues.ToList(),
+                KommuneInfos = _context.KommuneInfo.ToList(),
+                FylkesInfos = _context.FylkesInfo.ToList()
             };
             return View(viewModel);
         }

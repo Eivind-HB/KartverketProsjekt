@@ -15,8 +15,8 @@ namespace Kartverket.Data
         public DbSet<CaseWorkerOverview> CaseWorkerOverviews { get; set; }
         public DbSet<Issue> Issues { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<KommuneInfo> KommuneInfo { get; }
-        public DbSet<FylkesInfo> FylkesInfo { get; }
+        public DbSet<KommuneInfo> KommuneInfo { get; set; }
+        public DbSet<FylkesInfo> FylkesInfo { get; set; }
 
 
     }

@@ -198,6 +198,7 @@ namespace Kartverket.Controllers
             var description = areaModel.Description;
             var fylkesNo = Int32.Parse(areaModel.Fylkesnummer);
             var kommuneNo = Int32.Parse(areaModel.Kommunenummer);
+            var issueNo = Int32.Parse(areaModel.IssueType);
 
 
             //Niri EF faenskap
@@ -245,7 +246,7 @@ namespace Kartverket.Controllers
                 Date = dateNow,
                 //CaseWorker_CaseWorkerID = 1,
                 User_UserID = userID, 
-                Issue_IssueNr = 1,
+                Issue_IssueNr = issueNo,
                 KommuneNo = kommuneNo,
                 FylkesNo = fylkesNo
 
