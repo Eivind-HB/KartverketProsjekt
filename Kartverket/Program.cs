@@ -3,6 +3,7 @@ using Kartverket;
 using Kartverket.API_Models;
 using Kartverket.Services;
 using Kartverket.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         maxRetryDelay: TimeSpan.FromSeconds(10),
         errorNumbersToAdd: null)
       ));
+
+services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Home/LogInForm";
+        //options.LogoutPath = "/Home/Logout";
+    });
 
 
 // Binds API settings from appsettings.json

@@ -1,18 +1,32 @@
 using Kartverket.Models;
 using Kartverket.Services;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-
+using Kartverket.API_Models;
 using Kartverket.Data;
+
 using MySqlConnector;
-using NetTopologySuite.Geometries;
+
 using NetTopologySuite.IO;
+using NetTopologySuite.Geometries;
+
 using Newtonsoft.Json;
 
-using static System.Net.WebRequestMethods;
-using Kartverket.API_Models;
-using System.Data;
 using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Data;
+using System.Diagnostics;
+using System.Security.Claims;
+using static System.Net.WebRequestMethods;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.EntityFrameworkCore;
+using Microsoft.AspNetCore.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 
 namespace Kartverket.Controllers
@@ -22,18 +36,20 @@ namespace Kartverket.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IKommuneInfoApiService _KommuneInfoApiService;
         private readonly ApplicationDbContext _context;
+        private readonly PasswordHasher<UserData> _passwordHasher;
 
         private static List<AreaChange> areaChanges = new List<AreaChange>();
         private static List<UserData> UserDataChanges = new List<UserData>();
         private static List<LogInData> LogInInfo = new List<LogInData>();
         private static List<PositionModel> positions = new List<PositionModel>();
-        private static List<User> Usersinfo = new List<User>();
+        private static readonly List<User> Usersinfo = new List<User>();
 
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;
+            _passwordHasher = new PasswordHasher<UserData>();
         }
 
         public IActionResult Index()
@@ -73,81 +89,87 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
-        public IActionResult LogInForm(LogInData model)
+        public async Task<IActionResult> LogInForm(LogInData model)
         {
             if (ModelState.IsValid)
             {
                 // Find the user by username and password
-                var user = Usersinfo.FirstOrDefault(u =>
-                    u.UserName == model.Brukernavn && u.Password == model.Brukernavn);
-                System.Console.WriteLine(user);
-                System.Console.WriteLine(model.Brukernavn);
-
+                var user = await _context.UserData.FirstOrDefaultAsync(u =>
+                u.UserName == model.Brukernavn);
                 if (user != null)
                 {
-                    // User found, set the UserId in the session
-                    HttpContext.Session.SetString("UserId", model.Brukernavn);
-                    return RedirectToAction("Index");
+                    var result = _passwordHasher.VerifyHashedPassword(user,
+                        user.Password, model.Passord);
+                    if (result == PasswordVerificationResult.Success)
+                    {
+                        HttpContext.Session.SetString("UserId", user.UserId);
+                        return RedirectToAction("Index");
+                    }
                 }
-                System.Console.WriteLine("HEIEIEIEIEIEI", model.Brukernavn);
                 ModelState.AddModelError(string.Empty, "Invalid username or password.");
             }
-            System.Console.WriteLine("HEIEIEIEIEIEI", model.Brukernavn);
-
-            // If we got this far, something failed; redisplay form
             return View(model);
         }
+                
 
 
         [HttpGet]
-        public IActionResult UDOverview()
+        public async Task<IActionResult> UDOverview()
         {
-            var userData = GetUserData();
-            if (userData == null)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
             {
                 return RedirectToAction("RegistrationForm");
             }
+            var userData = await _context.Users.FindAsync(userId);
             return View(userData);
         }
 
         [HttpPost]
-        public IActionResult UDOverview(UserData userData)
+        public async Task<IActionResult> UDOverview(UserData userData)
         {
             if (ModelState.IsValid)
             {
                 Random rnd = new Random();
                 //random id nummer -- gamle string id : UserId = Guid.NewGuid().ToString(),
                 var userID = rnd.Next(100000, 999999);
-                //var newUser = new UserData
-                //{
-                //    UserId = userID,
-                //    UserName = userData.UserName,
-                //    Email = userData.Email,
-                //    HomeMunicipality = userData.HomeMunicipality,
-                //    Password = userData.Password
-                //};
 
-                var newUser = new User
+                var newUser = new UserData
                 {
-                    UserID = userID,
+                    UserId = userID,
                     UserName = userData.UserName,
-                    Mail = userData.Email,
-                    Password = userData.Password
+                    Email = userData.Email,
+                    Password = _passwordHasher.HashPassword(null, userData.Password)
                 };
 
-                Usersinfo.Add(newUser);
+                _context.Users.Add(newUser);
+                await _context.SaveChangesAsync();
 
-                // Set the UserId in the session
-                HttpContext.Session.SetInt32("UserId", newUser.UserID);
-                HttpContext.Session.SetString("Password", newUser.Password);
-                HttpContext.Session.SetString("Mail", newUser.Mail);
-                HttpContext.Session.SetString("UserName", newUser.UserName);
+                // sign in the user
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, newUser.UserId),
+                    new Claim(ClaimTypes.Name, newUser.UserName)
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                await
+                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity));
 
                 return RedirectToAction("UDOverview");
             }
-
-            // If ModelState is not valid, return to the form
             return View("RegistrationForm", userData);
+        }
+
+        private async Task<UserData?> GetUserData()
+        {
+            var uderId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return null;
+            }
+            return await _context.Users.FindAsync(userId);
         }
 
         [HttpGet]
