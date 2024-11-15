@@ -1,15 +1,19 @@
-@model List<Kartverket.Data.Case>
+@model AreaChangeOverviewModel
 
 @{
     ViewData["Title"] = "Overview";
 }
 
+
 <div class="page-container">
     <h1>Oversikt av registrerte endringer</h1>
 
     <div class="accordion-container">
-        @foreach (var change in Model)
+        @foreach (var change in Model.Cases)
         {
+            var issueType = @change.Issue_IssueNr.ToString();
+            var kommuneName = change.KommuneNo.ToString();
+            var fylkeName = change.FylkesNo.ToString();
             <!-- Individual Case Section -->
             <div class="accordion-item">
                 <button class="accordion-header">
@@ -20,7 +24,30 @@
                 <div class="accordion-content">
                     <!-- Case and location tables in 1 accordion per case -->
                     <div class="issue-location-details">
-
+                        @foreach (var differentIssues in Model.Issues)
+                        {
+                            var CaseIssue = @change.Issue_IssueNr;
+                            if(CaseIssue == @differentIssues.issueNo)
+                            {
+                                issueType = @differentIssues.IssueType;
+                            }
+                        }
+                        @foreach (var differentKommuneNos in Model.KommuneInfos)
+                        {
+                            var CaseKommuneNo = @change.KommuneNo;
+                            if (CaseKommuneNo == @differentKommuneNos.KommuneInfoID)
+                            {
+                                kommuneName = @differentKommuneNos.KommuneName;
+                            }
+                        }
+                        @foreach (var differentFylkeNos in Model.FylkesInfos)
+                        {
+                            var CaseFylkeNo = @change.FylkesNo;
+                            if (CaseFylkeNo == @differentFylkeNos.FylkesNameID)
+                            {
+                                fylkeName = @differentFylkeNos.FylkesName;
+                            }
+                        }
                         <!-- Case detail table -->
                         <table class="table table-compact">
                             <thead>
@@ -36,7 +63,7 @@
                             <tbody>
                                 <tr>
                                     <td>@change.CaseNo</td>
-                                    <td>@change.Issue_IssueNr</td>
+                                    <td>@issueType</td>
                                     <td>@change.Date</td>
                                     <td>@change.LocationInfo</td>
                                     <!--Here what can be changed by editing will be put. For now it is only description, but it will contain IssueType and Image-->
@@ -66,9 +93,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Kommunenavn</td>
+                                    <td>@kommuneName</td>
                                     <td>@change.KommuneNo</td>
-                                    <td>fylkesnavn</td>
+                                    <td>@fylkeName</td>
                                     <td>@change.FylkesNo</td>
                                 </tr>
                             </tbody>
@@ -118,7 +145,7 @@
         }
 
         // Passes the serialized AreaChanges model data to the mapChanges function
-        var drawnChanges = @Html.Raw(Json.Serialize(Model));
+        var drawnChanges = @Html.Raw(Json.Serialize(Model.Cases));
         initializeDrawnChanges(drawnChanges);
 
         // Accordion functionality

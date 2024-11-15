@@ -1,4 +1,5 @@
 ﻿using Kartverket.Data;
+using Kartverket.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,10 +20,15 @@ namespace Kartverket.Controllers
         [HttpGet]
         public IActionResult AreaChangeOverview()
         {
-            var changes_db = _context.Case.ToList();
-            return View(changes_db);
+            var viewModel = new Kartverket.Models.AreaChangeOverviewModel
+            {
+                Cases = _context.Case.ToList(),
+                Issues = _context.Issues.ToList(),
+                KommuneInfos = _context.KommuneInfo.ToList(),
+                FylkesInfos = _context.FylkesInfo.ToList()
+            };
+            return View(viewModel);
         }
-
 
         [HttpPost]
         public IActionResult DeleteCase(int caseId)

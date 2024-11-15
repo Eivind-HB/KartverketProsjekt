@@ -12,6 +12,11 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Identity;
 
 using static System.Net.WebRequestMethods;
+using Microsoft.EntityFrameworkCore;
+using System.Formats.Asn1;
+using System.Globalization;
+
+using CsvHelper;
 
 
 namespace Kartverket.Controllers
@@ -198,6 +203,7 @@ namespace Kartverket.Controllers
             var description = areaModel.Description;
             var fylkesNo = Int32.Parse(areaModel.Fylkesnummer);
             var kommuneNo = Int32.Parse(areaModel.Kommunenummer);
+            var issueNo = Int32.Parse(areaModel.IssueType);
 
 
             //Niri EF faenskap
@@ -245,7 +251,7 @@ namespace Kartverket.Controllers
                 Date = dateNow,
                 //CaseWorker_CaseWorkerID = 1,
                 User_UserID = userID, 
-                Issue_IssueNr = 1,
+                Issue_IssueNr = issueNo,
                 KommuneNo = kommuneNo,
                 FylkesNo = fylkesNo
 
@@ -296,5 +302,6 @@ namespace Kartverket.Controllers
             return UserDataChanges.FirstOrDefault(u => u.UserId == userId);
         }
 
+        
     }
 }
