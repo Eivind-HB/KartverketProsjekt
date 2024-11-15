@@ -12,6 +12,11 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Identity;
 
 using static System.Net.WebRequestMethods;
+using Microsoft.EntityFrameworkCore;
+using System.Formats.Asn1;
+using System.Globalization;
+
+using CsvHelper;
 
 
 namespace Kartverket.Controllers
@@ -297,5 +302,6 @@ namespace Kartverket.Controllers
             return UserDataChanges.FirstOrDefault(u => u.UserId == userId);
         }
 
+        
     }
 }
