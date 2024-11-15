@@ -28,6 +28,9 @@ namespace Kartverket.Data
             modelBuilder.Entity<FylkesInfo>()
                 .HasKey(f => f.FylkesNameID);
 
+            modelBuilder.Entity<Issue>()
+                .HasKey(f => f.issueNo);
+
             DataSeeder.SeedData(modelBuilder);
         }
 

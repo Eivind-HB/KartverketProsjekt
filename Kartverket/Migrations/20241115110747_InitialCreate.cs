@@ -174,6 +174,17 @@ namespace Kartverket.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Issues",
+                columns: new[] { "issueNo", "IssueType" },
+                values: new object[,]
+                {
+                    { 1, "Adresse/Tomt" },
+                    { 2, "Vei/Sti" },
+                    { 3, "Sjø" },
+                    { 4, "Annet" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "KommuneInfo",
                 columns: new[] { "KommuneInfoID", "KommuneName" },
                 values: new object[,]

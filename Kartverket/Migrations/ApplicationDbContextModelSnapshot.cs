@@ -226,6 +226,28 @@ namespace Kartverket.Migrations
                     b.HasKey("issueNo");
 
                     b.ToTable("Issues");
+
+                    b.HasData(
+                        new
+                        {
+                            issueNo = 1,
+                            IssueType = "Adresse/Tomt"
+                        },
+                        new
+                        {
+                            issueNo = 2,
+                            IssueType = "Vei/Sti"
+                        },
+                        new
+                        {
+                            issueNo = 3,
+                            IssueType = "Sjø"
+                        },
+                        new
+                        {
+                            issueNo = 4,
+                            IssueType = "Annet"
+                        });
                 });
 
             modelBuilder.Entity("Kartverket.Data.KommuneInfo", b =>
