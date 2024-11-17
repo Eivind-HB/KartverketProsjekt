@@ -1,4 +1,4 @@
-﻿@model Kartverket.Models.UserData
+﻿@model Kartverket.Data.User
 
 @{
     ViewData["Title"] = "Bruker Registrering";
@@ -10,15 +10,18 @@
     <form asp-action="UDOverview" method="post">
         <div class="form-group">
             <label asp-for="UserName">Brukernavn:</label>
-            <input asp-for="@Model.UserName" class="form-control" />
+            <input asp-for="UserName" class="form-control" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="Email">Emailen din:</label>
-            <input asp-for="@Model.Email" class="form-control" type="email" />
+            <label asp-for="Mail">Emailen din:</label>
+            <input asp-for="Mail" class="form-control" type="email" />
+            <span asp-validation-for="Mail" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="Password">Passord:</label>
-            <input asp-for="@Model.Password" class="form-control" type="password" />
+            <input asp-for="Password" class="form-control" type="password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary">Send Informasjon</button>
     </form>

@@ -1,23 +1,38 @@
 using Kartverket.Models;
 using Kartverket.Services;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-
+using Kartverket.API_Models;
 using Kartverket.Data;
+
 using MySqlConnector;
-using NetTopologySuite.Geometries;
+
 using NetTopologySuite.IO;
+using NetTopologySuite.Geometries;
+
 using Newtonsoft.Json;
 
-using Microsoft.AspNetCore.Identity;
-
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Data;
+using System.Diagnostics;
+using System.Security.Claims;
 using static System.Net.WebRequestMethods;
 using Microsoft.EntityFrameworkCore;
 using System.Formats.Asn1;
 using System.Globalization;
 
-using CsvHelper;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace Kartverket.Controllers
 {
@@ -26,19 +41,20 @@ namespace Kartverket.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IKommuneInfoApiService _KommuneInfoApiService;
         private readonly ApplicationDbContext _context;
-        private readonly PasswordHasher<UserData> _passwordHasher;
+        private readonly PasswordHasher<User> _passwordHasher;
 
         private static List<AreaChange> areaChanges = new List<AreaChange>();
         private static List<UserData> UserDataChanges = new List<UserData>();
         private static List<LogInData> LogInInfo = new List<LogInData>();
         private static List<PositionModel> positions = new List<PositionModel>();
+        private static readonly List<User> Usersinfo = new List<User>();
 
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;
-            _passwordHasher = new PasswordHasher<UserData>();
+            _passwordHasher = new PasswordHasher<User>();
         }
 
         public IActionResult Index()
@@ -74,79 +90,98 @@ namespace Kartverket.Controllers
         [HttpGet]
         public IActionResult LogInForm()
         {
-            return View(new LogInData());
+            return View(new User());
         }
 
         [HttpPost]
-        public IActionResult LogInForm(LogInData model)
-        {
-        if (ModelState.IsValid)
-        {
-            // Find the user by username
-            var user = UserDataChanges.FirstOrDefault(u => u.UserName == model.Brukernavn);
-
-            if (user != null)
-            {
-                // Verify the password
-                var result = _passwordHasher.VerifyHashedPassword(user, user.Password, model.Passord);
-
-                if (result == PasswordVerificationResult.Success)
-                {
-                    // Password is correct
-                    HttpContext.Session.SetString("UserId", user.UserId);
-                    return RedirectToAction("Index");
-                }
-            }
-
-            // If we got this far, something failed
-            ModelState.AddModelError(string.Empty, "Invalid username or password.");
-        }
-
-        // If we got this far, something failed; redisplay form
-        return View(model);
-    }
-
-
-        [HttpGet]
-        public IActionResult UDOverview()
-        {
-            var userData = GetUserData();
-            if (userData == null)
-            {
-                return RedirectToAction("RegistrationForm");
-            }
-            return View(userData);
-        }
-
-        [HttpPost]
-        public IActionResult UDOverview(UserData userData)
+        public async Task<IActionResult> LogInForm(User model)
         {
             if (ModelState.IsValid)
             {
-                var newUser = new UserData
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == model.UserName);
+                if (user != null)
                 {
-                    UserId = Guid.NewGuid().ToString(),
-                    UserName = userData.UserName,
-                    Email = userData.Email,
-                    Password = _passwordHasher.HashPassword(null, userData.Password)
+                    var result = _passwordHasher.VerifyHashedPassword(user, user.Password, model.Password);
+                    if (result == PasswordVerificationResult.Success)
+                    {
+                        var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
+                    new Claim(ClaimTypes.Name, user.UserName)
                 };
+                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                        return RedirectToAction("Index");
+                    }
+                }
+                ModelState.AddModelError(string.Empty, "Invalid username or password.");
+            }
+            return View(model);
+        }
 
-                UserDataChanges.Add(newUser);
 
-                // Set the UserId in the session
-                HttpContext.Session.SetString("UserId", newUser.UserId);
+
+        [HttpGet]
+        public async Task<IActionResult> UDOverview()
+        {
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
+            {
+                return RedirectToAction("RegistrationForm");
+            }
+
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return RedirectToAction("RegistrationForm");
+            }
+
+            return View(user);
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> UDOverview(User model)
+        {
+            if (ModelState.IsValid)
+            {
+                var newUser = new User
+                {
+                    UserName = model.UserName,
+                    Mail = model.Mail,
+                    Password = _passwordHasher.HashPassword(null, model.Password)
+                };
+                _context.Users.Add(newUser);
+                await _context.SaveChangesAsync();
+
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, newUser.UserID.ToString()),
+                    new Claim(ClaimTypes.Name, newUser.UserName)
+                };
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
                 return RedirectToAction("UDOverview");
             }
+            return View("RegistrationForm", model);
+        }
 
-            // If ModelState is not valid, return to the form
-            return View("RegistrationForm", userData);
+        private async Task<User?> GetUserData()
+        {
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
+            {
+                return null;
+            }
+            return await _context.Users.FindAsync(userId);
         }
 
         [HttpGet]
-        public ViewResult RegistrationForm()
+        public IActionResult RegistrationForm()
         {
-            return View();
+            return View(new User());
         }
 
         public IActionResult RegisterAreaChange()
@@ -173,7 +208,7 @@ namespace Kartverket.Controllers
 
             imagePath = $"/wwwroot/images/{ImageUpload.FileName}";
         }
-
+            
             var newChange = new AreaChange
             {
                 IssueId = Guid.NewGuid().ToString(),
@@ -292,16 +327,5 @@ namespace Kartverket.Controllers
             return View(model);
         }
 
-        private UserData? GetUserData()
-        {
-            string? userId = HttpContext.Session.GetString("UserId");
-            if (string.IsNullOrEmpty(userId))
-            {
-                return null;
-            }
-            return UserDataChanges.FirstOrDefault(u => u.UserId == userId);
-        }
-
-        
     }
 }

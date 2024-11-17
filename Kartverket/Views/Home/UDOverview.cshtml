@@ -1,4 +1,4 @@
-﻿@model Kartverket.Models.UserData
+﻿@model Kartverket.Data.User
 
 <div class="page-container ud-overview-container">
     <h1>Du har nå registrert deg</h1>
@@ -14,11 +14,11 @@
         </div>
         <div class="info-item">
             <strong>Email:</strong>
-            <span>@Model.Email</span>
+            <span>@Model.Mail</span>
         </div>
         <div class="info-item">
             <strong>Bruker ID:</strong>
-            <span>@Model.UserId</span>
+            <span>@Model.UserID</span>
         </div>
     </div>
     }

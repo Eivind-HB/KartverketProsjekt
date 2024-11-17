@@ -1,0 +1,112 @@
+@model List<Kartverket.Data.Case>
+﻿<!--model Kartverket.Models.ChangeOverviewModel-->
+
+@{
+    ViewData["Title"] = "Overview";
+}
+
+<div class="page-container">
+    <h1>Oversikt av registrerte endringer</h1>
+
+    <div class="accordion-container">
+        @foreach (var change in Model)
+        {
+                <!-- Individual Issue Section -->
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        Saks ID: @change.CaseNo
+                        <span class="accordion-icon">▼</span>
+                    </button>
+
+                    <div class="accordion-content">
+                        <!-- Saksdetaljer og lokasjonsdetaljer tabeller i én seksjon per sak -->
+                        <div class="issue-location-details">
+
+                            <!-- Lokasjon Detaljer Table -->
+                            <table class="table table-compact">
+                                <thead>
+                                    <tr>
+                                        <th>Kommunenavn</th>
+                                        <th>Kommunenummer</th>
+                                        <th>Fylkesnavn</th>
+                                        <th>Fylkesnummer</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Kommunenavn</td>
+                                        <td>@change.KommuneNo</td>
+                                        <td>fylkesnavn</td>
+                                        <td>@change.FylkesNo</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                            <!-- Saks Detaljer Table -->
+                            <table class="table table-compact">
+                                <thead>
+                                    <tr>
+                                        <th>Saks Nummer</th>
+                                        <th>Saks Type</th>
+                                        <th>Saks Dato</th>
+                                        <th>GeoJson</th>
+                                        <th>Beskrivelse</th>
+                                        <th>Bilde</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>@change.CaseNo</td>
+                                        <td>@change.Issue_IssueNr</td>
+                                        <td>@change.Date</td>
+                                        <td>@change.LocationInfo</td>
+                                        <td>@change.Description</td>
+                                        <td>@change.Images</td>
+                                        <!--<td><img src="ATSYMBOLchange.ImagePath" alt="Bilde" class="image-thumbnail" /></td>-->
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div>
+        }
+    </div>
+
+
+    <div class="map-change-container">
+        <div id="map" class="map-section"></div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/js/leafletMap.js"></script>
+    <script src="~/js/mapChanges.js"></script>
+
+    <script>
+
+        // Passes the serialized AreaChanges model data to the mapChanges function
+        var drawnChanges = @Html.Raw(Json.Serialize(Model));
+        initializeDrawnChanges(drawnChanges);
+
+        // Accordion functionality
+        document.querySelectorAll('.accordion-header').forEach(button => {
+            button.addEventListener('click', () => {
+                const accordionContent = button.nextElementSibling;
+                button.classList.toggle('active');
+
+                if (accordionContent.style.display === 'block') {
+                    accordionContent.style.display = 'none';
+                } else {
+                    accordionContent.style.display = 'block';
+                }
+
+                // Update map size when accordion changes
+                map.invalidateSize();
+            });
+        });
+    </script>
+}
