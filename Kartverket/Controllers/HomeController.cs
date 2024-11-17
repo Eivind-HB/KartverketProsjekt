@@ -18,6 +18,9 @@ using System.Data;
 using System.Diagnostics;
 using System.Security.Claims;
 using static System.Net.WebRequestMethods;
+using Microsoft.EntityFrameworkCore;
+using System.Formats.Asn1;
+using System.Globalization;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
@@ -235,6 +238,7 @@ namespace Kartverket.Controllers
             var description = areaModel.Description;
             var fylkesNo = Int32.Parse(areaModel.Fylkesnummer);
             var kommuneNo = Int32.Parse(areaModel.Kommunenummer);
+            var issueNo = Int32.Parse(areaModel.IssueType);
 
 
             //Niri EF faenskap
@@ -282,7 +286,7 @@ namespace Kartverket.Controllers
                 Date = dateNow,
                 //CaseWorker_CaseWorkerID = 1,
                 User_UserID = userID, 
-                Issue_IssueNr = 1,
+                Issue_IssueNr = issueNo,
                 KommuneNo = kommuneNo,
                 FylkesNo = fylkesNo
 
@@ -292,20 +296,13 @@ namespace Kartverket.Controllers
             _context.Case.Add(newGeoChange);
             _context.SaveChanges();
 
-            return RedirectToAction("AreaChangeOverview");
+            return RedirectToAction("AreaChangeOverview", "Case");
         }
 
         [HttpGet]
         public IActionResult CorrectionOverview()
         {
             return View(positions);
-        }
-
-        [HttpGet]
-        public IActionResult AreaChangeOverview()
-        {
-            var changes_db = _context.Case.ToList();
-            return View(changes_db);
         }
 
 
