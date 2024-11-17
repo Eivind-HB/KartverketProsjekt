@@ -40,9 +40,12 @@ namespace Kartverket.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IKommuneInfoApiService _KommuneInfoApiService;
+        //EF
         private readonly ApplicationDbContext _context;
+        //Hashing av passord
         private readonly PasswordHasher<User> _passwordHasher;
 
+        //In-memory lagring av lister
         private static List<AreaChange> areaChanges = new List<AreaChange>();
         private static List<UserData> UserDataChanges = new List<UserData>();
         private static List<LogInData> LogInInfo = new List<LogInData>();
@@ -139,7 +142,7 @@ namespace Kartverket.Controllers
             var issueNo = Int32.Parse(areaModel.IssueType);
 
 
-            //Niri EF faenskap
+            //Niri EF
             if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
             {
                 return BadRequest("Invalid data.");
@@ -164,7 +167,7 @@ namespace Kartverket.Controllers
             }
                 
             //Create MySqlGeometry from WKB
-            //MySqlGeometry mySqlGeometry = MySqlGeometry.FromWKB(wkb);   funker ikke :)
+            //MySqlGeometry mySqlGeometry = MySqlGeometry.FromWKB(wkb);   funker ikke
 
             //random id int nummer
             Random rnd = new Random();
@@ -204,6 +207,7 @@ namespace Kartverket.Controllers
         }
 
 
+        //Henting av KommuneInfo
         [HttpPost]
         public async Task<IActionResult> KommuneInfoApi(string kommuneNr)
         {

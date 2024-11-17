@@ -46,6 +46,7 @@ namespace Kartverket.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        //Henting av kommuneinfo
         [HttpGet("GetKommuneInfo")]
         public async Task<IActionResult> GetKommuneInfo(double latitude, double longitude)
         {

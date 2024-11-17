@@ -17,6 +17,7 @@ namespace Kartverket.Controllers
         }
 
 
+        //Display av registrerte forandringer av terrenget
         [HttpGet]
         public IActionResult AreaChangeOverview()
         {
@@ -30,6 +31,7 @@ namespace Kartverket.Controllers
             return View(viewModel);
         }
 
+        //Sletting av sak
         [HttpPost]
         public IActionResult DeleteCase(int caseId)
         {
@@ -59,16 +61,16 @@ namespace Kartverket.Controllers
         [HttpPost]
         public IActionResult EditDescription(int caseId, string newDescription)
         {
-            // Fetches the case baseed på CaseNo
+            // Henter saken basert på CaseNo
             var caseItem = _context.Case.FirstOrDefault(c => c.CaseNo == caseId);
             if (caseItem != null)
             {
-                // Updates the description
+                // Oppdaterer beskrivelse
                 caseItem.Description = newDescription;
                 _context.SaveChanges();
             }
 
-            // Retuns back to AreaChangeOverview. MIGHT NEED TO MAKE IT SO THAT THE ACCORDION STAYS OPEN??
+            // Går tilbake til AreaChangeOverview. MIGHT NEED TO MAKE IT SO THAT THE ACCORDION STAYS OPEN??
             return RedirectToAction("AreaChangeOverview");
         }
 

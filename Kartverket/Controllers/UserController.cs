@@ -22,6 +22,7 @@ namespace Kartverket.Controllers
         }
 
 
+        //Log-in form
         [HttpGet]
         public IActionResult LogInForm()
         {
@@ -56,6 +57,7 @@ namespace Kartverket.Controllers
 
 
 
+        //Display av UserData
         [HttpGet]
         public async Task<IActionResult> UDOverview()
         {
@@ -76,6 +78,7 @@ namespace Kartverket.Controllers
 
 
 
+        //Registrering av ny bruker
         [HttpPost]
         public async Task<IActionResult> UDOverview(User model)
         {
@@ -103,6 +106,7 @@ namespace Kartverket.Controllers
             return View("RegistrationForm", model);
         }
 
+        //Hent UserData fra databasen
         private async Task<User?> GetUserData()
         {
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
