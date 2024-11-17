@@ -5,6 +5,7 @@ using Kartverket.Services;
 using Kartverket.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using FluentAssertions.Common;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,22 +23,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         errorNumbersToAdd: null)
       ));
 
-// Configure Entity Framework with MariaDB
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
-    new MySqlServerVersion(new Version(10, 5, 9)),
-    mySqlOptions => mySqlOptions
-      .EnableRetryOnFailure(
-        maxRetryCount: 5,
-        maxRetryDelay: TimeSpan.FromSeconds(10),
-        errorNumbersToAdd: null)
-      ));
+// Register PasswordHasher<User>
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
+// Configure Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Home/LogInForm";
-        //options.LogoutPath = "/Home/Logout";
+        options.LoginPath = "/User/LogInForm";
+        //options.LogoutPath = "/User/Logout";
     });
 
 // Binds API settings from appsettings.json
