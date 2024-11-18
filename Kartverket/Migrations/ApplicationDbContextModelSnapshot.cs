@@ -30,9 +30,6 @@ namespace Kartverket.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CaseNo"));
 
-                    b.Property<int>("CaseWorker_CaseWorkerID")
-                        .HasColumnType("int");
-
                     b.Property<DateOnly?>("Date")
                         .IsRequired()
                         .HasColumnType("date");
@@ -42,6 +39,9 @@ namespace Kartverket.Migrations
 
                     b.Property<int>("FylkesNo")
                         .HasColumnType("int");
+
+                    b.Property<byte[]>("Images")
+                        .HasColumnType("longblob");
 
                     b.Property<int>("Issue_IssueNr")
                         .HasColumnType("int");
@@ -68,9 +68,6 @@ namespace Kartverket.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CaseWorkerID"));
-
-                    b.Property<int>("CaseWorkerList_Case_CaseNo")
-                        .HasColumnType("int");
 
                     b.Property<int>("KartverketEmployee_EmployeeID")
                         .HasColumnType("int");
@@ -248,6 +245,41 @@ namespace Kartverket.Migrations
                             issueNo = 4,
                             IssueType = "Annet"
                         });
+                });
+
+            modelBuilder.Entity("Kartverket.Data.KartverketEmployee", b =>
+                {
+                    b.Property<int>("EmployeeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("EmployeeID"));
+
+                    b.Property<string>("Firstname")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Lastname")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Mail")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("PhoneNo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Wage")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmployeeID");
+
+                    b.ToTable("KartverketEmployee");
                 });
 
             modelBuilder.Entity("Kartverket.Data.KommuneInfo", b =>

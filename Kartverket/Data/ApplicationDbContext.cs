@@ -18,6 +18,7 @@ namespace Kartverket.Data
         public DbSet<User> Users { get; set; }
         public DbSet<FylkesInfo> FylkesInfo { get; set; }
         public DbSet<KommuneInfo> KommuneInfo { get; set; }
+        public DbSet<KartverketEmployee> KartverketEmployee { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

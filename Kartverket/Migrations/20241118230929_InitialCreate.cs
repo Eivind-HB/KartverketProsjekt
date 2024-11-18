@@ -28,9 +28,9 @@ namespace Kartverket.Migrations
                     Description = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
-                    CaseWorker_CaseWorkerID = table.Column<int>(type: "int", nullable: false),
                     User_UserID = table.Column<int>(type: "int", nullable: false),
                     Issue_IssueNr = table.Column<int>(type: "int", nullable: false),
+                    Images = table.Column<byte[]>(type: "longblob", nullable: true),
                     KommuneNo = table.Column<int>(type: "int", nullable: false),
                     FylkesNo = table.Column<int>(type: "int", nullable: false)
                 },
@@ -78,8 +78,7 @@ namespace Kartverket.Migrations
                 {
                     CaseWorkerID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    KartverketEmployee_EmployeeID = table.Column<int>(type: "int", nullable: false),
-                    CaseWorkerList_Case_CaseNo = table.Column<int>(type: "int", nullable: false)
+                    KartverketEmployee_EmployeeID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,6 +113,29 @@ namespace Kartverket.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Issues", x => x.issueNo);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "KartverketEmployee",
+                columns: table => new
+                {
+                    EmployeeID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    PhoneNo = table.Column<int>(type: "int", nullable: false),
+                    Mail = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Title = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Wage = table.Column<int>(type: "int", nullable: false),
+                    Firstname = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Lastname = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_KartverketEmployee", x => x.EmployeeID);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -569,6 +591,9 @@ namespace Kartverket.Migrations
 
             migrationBuilder.DropTable(
                 name: "Issues");
+
+            migrationBuilder.DropTable(
+                name: "KartverketEmployee");
 
             migrationBuilder.DropTable(
                 name: "KommuneInfo");

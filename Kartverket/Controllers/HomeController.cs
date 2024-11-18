@@ -174,7 +174,7 @@ namespace Kartverket.Controllers
             int CaseNoNumber = rnd.Next(100000, 999999);
 
             //random id nummer, placeholder
-            var userID = rnd.Next(100000, 999999);
+            var userID = rnd.Next(1, 10);
 
             var dateNow = DateOnly.FromDateTime(DateTime.Now);
 

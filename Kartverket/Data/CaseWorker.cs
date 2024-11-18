@@ -9,6 +9,5 @@ namespace Kartverket.Data
         [Key]
         public int CaseWorkerID { get; set; }
         public int KartverketEmployee_EmployeeID { get; set; }
-        public int CaseWorkerList_Case_CaseNo { get; set; }
     }
 }

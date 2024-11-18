@@ -1,7 +1,7 @@
-@model ChangeOverviewModel
+@model OverviewCaseworkerModel
 
 @{
-    ViewData["Title"] = "Overview Caseworker";
+    ViewData["Title"] = "OverviewCaseworker";
 }
 
 
@@ -123,6 +123,127 @@
             </div>
         }
     </div>
+
+    <div class="accordion-container">
+        @foreach (var user in Model.Users)
+        {
+            List<Int128> SakSentUserList = new List<Int128>();
+            <!-- Individual Case Section -->
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    Bruker ID: @user.UserID, Brukernavn: @user.UserName
+                    <span class="accordion-icon">▼</span>
+                </button>
+
+                <div class="accordion-content">
+                    <!-- Case and location tables in 1 accordion per case -->
+                    <div class="issue-location-details">
+                        @foreach (var cases in Model.Cases)
+                        {
+                            var CaseUserID = cases.User_UserID;
+                            var CaseID = cases.CaseNo;
+                            var UsersUserID = user.UserID;
+                            if (CaseUserID == UsersUserID)
+                            {
+                                SakSentUserList.Add(CaseID);
+                            }
+                        }
+                        <!-- Case detail table -->
+                        <table class="table table-compact">
+                            <thead>
+                                <tr>
+                                    <th>Bruker ID</th>
+                                    <th>Brukernavn</th>
+                                    <th>Mail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@user.UserID</td>
+                                    <td>@user.UserName</td>
+                                    <td>@user.Mail</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Location details table -->
+                        <table class="table table-compact">
+                            <thead>
+                                <tr>
+                                    <th>Saker Registrert ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var saker in SakSentUserList)
+                                {
+                                    <tr>
+                                        <td>@saker</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="accordion-container">
+        @foreach (var caseworker in Model.CaseWorkers)
+        {
+            var mail = "default";
+            var firstname = "default";
+            var lastname = "default";
+            var PhoneNo = 0;
+            <!-- Individual Case Section -->
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    Caseworker ID: @caseworker.CaseWorkerID
+                    <span class="accordion-icon">▼</span>
+                </button>
+
+                <div class="accordion-content">
+                    <!-- Case and location tables in 1 accordion per case -->
+                    <div class="issue-location-details">
+                        @foreach (var workers in Model.Employees)
+                        {
+                            var CaseworkerID = caseworker.KartverketEmployee_EmployeeID;
+                            var workerID = workers.EmployeeID;
+                            if (CaseworkerID == workerID)
+                            {
+                                mail = workers.Mail;
+                                firstname = workers.Firstname;
+                                lastname = workers.Lastname;
+                                PhoneNo = workers.PhoneNo;
+                            }
+                        }
+                        <!-- Case detail table -->
+                        <table class="table table-compact">
+                            <thead>
+                                <tr>
+                                    <th>CaseworkerID</th>
+                                    <th>Fornavn</th>
+                                    <th>Etternavn</th>
+                                    <th>Mail</th>
+                                    <th>Mobil nr</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@mail</td>
+                                    <td>@firstname</td>
+                                    <td>@lastname</td>
+                                    <td>@mail</td>
+                                    <td>@PhoneNo</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
 
     <div class="map-change-container">
         <div id="map" class="map-section"></div>
