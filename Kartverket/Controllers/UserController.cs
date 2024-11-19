@@ -67,7 +67,9 @@ namespace Kartverket.Controllers
                         return RedirectToAction("Index", "Home");
                     }
                 }
+
                 ModelState.AddModelError(string.Empty, "Feil mail eller passord.");
+
             }
             return View(model);
         }
@@ -211,6 +213,7 @@ namespace Kartverket.Controllers
                     return View(model);
                 }
             }
+
 
             user.UserName = model.UserName;
             user.Mail = model.Mail;

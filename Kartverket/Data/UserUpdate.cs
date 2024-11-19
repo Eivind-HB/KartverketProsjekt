@@ -5,6 +5,7 @@ namespace Kartverket.Data
 public class UserUpdate
 {
     [Key]
+
     public int UserID { get; set; }
 
     [Required(ErrorMessage = "Brukernavn er påkrevet")]
