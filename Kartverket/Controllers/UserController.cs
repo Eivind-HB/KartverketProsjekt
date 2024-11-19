@@ -24,19 +24,24 @@ namespace Kartverket.Controllers
         }
 
 
+        private async Task<bool> EmailExists(string Mail)
+        {
+            return await _context.Users.AnyAsync(u => u.Mail == Mail);
+        }
+
         //Log-in form
         [HttpGet]
         public IActionResult LogInForm()
         {
-            return View(new User());
+            return View(new Login());
         }
 
         [HttpPost]
-        public async Task<IActionResult> LogInForm(User model)
+        public async Task<IActionResult> LogInForm(Login model)
         {
             if (ModelState.IsValid)
             {
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == model.UserName);
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Mail == model.Mail);
                 if (user != null)
                 {
                     var result = _passwordHasher.VerifyHashedPassword(user, user.Password, model.Password);
@@ -45,7 +50,7 @@ namespace Kartverket.Controllers
                         var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
-                    new Claim(ClaimTypes.Name, user.UserName)
+                    new Claim(ClaimTypes.Name, user.Mail)
                 };
                         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                         var authProperties = new AuthenticationProperties
@@ -62,7 +67,9 @@ namespace Kartverket.Controllers
                         return RedirectToAction("Index", "Home");
                     }
                 }
-                ModelState.AddModelError(string.Empty, "Feil brukernavn eller passord.");
+
+                ModelState.AddModelError(string.Empty, "Feil mail eller passord.");
+
             }
             return View(model);
         }
@@ -108,6 +115,13 @@ namespace Kartverket.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Check if email already exists
+                if (await _context.Users.AnyAsync(u => u.Mail == model.Mail))
+                {
+                    ModelState.AddModelError("Mail", "Denne e-postadressen er allerede i bruk.");
+                    return View("RegistrationForm", model);
+                }
+
                 var newUser = new User
                 {
                     UserName = model.UserName,
@@ -118,10 +132,10 @@ namespace Kartverket.Controllers
                 await _context.SaveChangesAsync();
 
                 var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.NameIdentifier, newUser.UserID.ToString()),
-                    new Claim(ClaimTypes.Name, newUser.UserName)
-                };
+        {
+            new Claim(ClaimTypes.NameIdentifier, newUser.UserID.ToString()),
+            new Claim(ClaimTypes.Name, newUser.UserName)
+        };
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
@@ -188,6 +202,18 @@ namespace Kartverket.Controllers
             {
                 return RedirectToAction("LogInForm", "Home");
             }
+
+            // Check if the new email already exists for another user
+            if (user.Mail != model.Mail)
+            {
+                var emailExists = await _context.Users.AnyAsync(u => u.Mail == model.Mail && u.UserID != model.UserID);
+                if (emailExists)
+                {
+                    ModelState.AddModelError("Mail", "Denne e-postadressen er allerede i bruk.");
+                    return View(model);
+                }
+            }
+
 
             user.UserName = model.UserName;
             user.Mail = model.Mail;
