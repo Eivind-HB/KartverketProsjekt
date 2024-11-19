@@ -1,0 +1,85 @@
+﻿@model Kartverket.Data.UserUpdate
+
+@{
+    ViewData["Title"] = "Bruker Profil";
+}
+
+<h2>Bruker profil</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+<form asp-action="Profile" method="post">
+    <input type="hidden" asp-for="UserID" />
+
+    <div class="form-group">
+        <label asp-for="UserName">Brukernavn:</label>
+        <input asp-for="UserName" class="form-control" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Mail">Mail:</label>
+        <input asp-for="Mail" class="form-control" type="email" />
+        <span asp-validation-for="Mail" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Oppdater profil</button>
+</form>
+
+<hr />
+
+<h3>Bytt passord</h3>
+<p>For å bytte passord, trykk på knappen under:</p>
+<a asp-action="ChangePassword" class="btn btn-secondary">Bytt passord</a>
+
+<hr />
+
+<h3>Slett bruker</h3>
+<p>Hvis du har lyst til å slette brukeren så trykker du på knappen under(NB! Brukeren vil bli tapt):</p>
+<div class="mt-4">
+    <button id="deleteAccountBtn" class="btn btn-danger float-right">Delete Account</button>
+</div>
+
+<div id="deleteWarningModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Er du sikker?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Er du sikker på at du vil slette brukeren? Dette kan ikke bli reversert.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Avbryt</button>
+                <form asp-action="DeleteAccount" method="post">
+                    <button type="submit" class="btn btn-danger">Slett bruker</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+    }
+    <script>
+        $(document).ready(function () {
+            $('#deleteAccountBtn').click(function () {
+                $('#deleteWarningModal').modal('show');
+            });
+
+            // Add this to handle modal dismissal
+            $('.modal').on('click', '[data-dismiss="modal"]', function () {
+                $(this).closest('.modal').modal('hide');
+            });
+        });
+    </script>
+}

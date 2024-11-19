@@ -62,6 +62,7 @@ namespace Kartverket.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.IsLoggedIn = User.Identity.IsAuthenticated;
             return View();
         }
 

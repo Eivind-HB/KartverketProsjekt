@@ -48,7 +48,15 @@
                     <input asp-action="Upload" method="post" type="file" name="ImageUpload" class="form-control-file" />
                 </div>
 
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="receiveUpdates" name="receiveUpdates">
+                        <label class="form-check-label" for="receiveUpdates">Vil du motta status-oppdateringer på din sak?</label>
+                    </div>
+                </div>
+
                 <button type="submit" class="btn btn-primary mt-3">Send inn</button>
+                
             </form>
         </div>
     </div>

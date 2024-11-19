@@ -8,8 +8,18 @@ namespace Kartverket.Data
     {
         [Key]
         public int UserID { get; set; }
-        public string? UserName { get; set; }
-        public string? Mail { get; set; }
+
+        [Required(ErrorMessage = "Brukernavn er påkrevd")]
+        [StringLength(50, ErrorMessage = "Brukernavnet må være mellom {2} og {1} tegn.", MinimumLength = 2)]
+        public string UserName { get; set; }
+
+        [Required(ErrorMessage = "E-post er påkrevd")]
+        [EmailAddress(ErrorMessage = "Ugyldig e-postadresse")]
+        [StringLength(100, ErrorMessage = "E-postadressen kan ikke være lengre enn {1} tegn.")]
+        public string Mail { get; set; }
+
+        [Required(ErrorMessage = "Passord er påkrevd")]
+        [StringLength(100, ErrorMessage = "Passordet må være mellom {2} og {1} tegn.", MinimumLength = 6)]
         public string Password { get; set; }
     }
 }

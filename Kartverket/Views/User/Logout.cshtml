@@ -1,0 +1,21 @@
+﻿@model Kartverket.Data.User
+
+@{
+    ViewData["Title"] = "Logget ut";
+}
+<div class="page-container index-container">
+    <h2>Logg ut bekreftelse</h2>
+    <p>Er du sikker på at du vil logge ut?</p>
+
+
+    <div class="registration-section">
+        <form asp-controller="User" asp-action="LogoutConfirm" method="post">
+            <button type="submit" class="btn btn-primary">Logg ut</button>
+        </form>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Avbryt</a>
+    </div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
