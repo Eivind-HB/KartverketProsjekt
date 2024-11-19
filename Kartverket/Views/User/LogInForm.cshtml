@@ -1,7 +1,7 @@
 ﻿@model Kartverket.Data.User
 
 @{
-    ViewData["Title"] = "Logg Inn";
+    ViewData["Title"] = "Du har logget ut";
 }
 
 <div class="page-container registration-form">
@@ -17,12 +17,12 @@
         }
 
         <div class="form-group">
-            <label asp-for="UserName"></label>
+            <label asp-for="UserName">Brukernavn</label>
             <input asp-for="UserName" class="form-control" />
             <span asp-validation-for="UserName" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="Password"></label>
+            <label asp-for="Password">Passord</label>
             <input asp-for="Password" class="form-control" type="password" />
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
