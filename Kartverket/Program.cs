@@ -31,7 +31,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         options.LoginPath = "/User/LogInForm";
-        //options.LogoutPath = "/User/Logout";
+        options.LogoutPath = "/User/Logout";
     });
 
 // Binds API settings from appsettings.json

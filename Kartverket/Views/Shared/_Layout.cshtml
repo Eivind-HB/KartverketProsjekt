@@ -46,8 +46,24 @@
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" asp-area="" asp-controller="User" asp-action="LogInForm">Log In</a></li>
-                        <li><a class="dropdown-item" asp-area="" asp-controller="User" asp-action="RegistrationForm">Registrering</a></li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="User" asp-action="Profile">Hello, @User.Identity.Name!</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="User" asp-action="Logout">Logg ut</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="User" asp-action="LogInForm">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="User" asp-action="RegistrationForm">Register</a>
+                            </li>
+                        }
                         <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="KontaktOss">Kontakt Oss</a></li>
                     </ul>
                 </div>
