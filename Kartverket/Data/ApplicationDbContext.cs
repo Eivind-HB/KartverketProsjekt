@@ -20,6 +20,7 @@ namespace Kartverket.Data
         public DbSet<FylkesInfo> FylkesInfo { get; set; }
         public DbSet<KommuneInfo> KommuneInfo { get; set; }
         public DbSet<KartverketEmployee> KartverketEmployee { get; set; }
+        public DbSet<CaseWorkerAssignment> CaseWorkerAssignment { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -39,6 +40,8 @@ namespace Kartverket.Data
             modelBuilder.Entity<KartverketEmployee>()
                 .HasKey(f => f.EmployeeID);
 
+            modelBuilder.Entity<CaseWorker>()
+                .HasKey(f => f.CaseWorkerID);
             DataSeeder.SeedData(modelBuilder);
         }
 
