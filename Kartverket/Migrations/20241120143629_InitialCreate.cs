@@ -32,7 +32,8 @@ namespace Kartverket.Migrations
                     Issue_IssueNr = table.Column<int>(type: "int", nullable: false),
                     Images = table.Column<byte[]>(type: "longblob", nullable: true),
                     KommuneNo = table.Column<int>(type: "int", nullable: false),
-                    FylkesNo = table.Column<int>(type: "int", nullable: false)
+                    FylkesNo = table.Column<int>(type: "int", nullable: false),
+                    StatusNo = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -155,16 +156,31 @@ namespace Kartverket.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Status",
+                columns: table => new
+                {
+                    StatusNo = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    StatusName = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Status", x => x.StatusNo);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
                     UserID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserName = table.Column<string>(type: "longtext", nullable: true)
+                    UserName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Mail = table.Column<string>(type: "longtext", nullable: true)
+                    Mail = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Password = table.Column<string>(type: "longtext", nullable: false)
+                    Password = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -204,6 +220,33 @@ namespace Kartverket.Migrations
                     { 2, "Vei/Sti" },
                     { 3, "Sjø" },
                     { 4, "Annet" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "KartverketEmployee",
+                columns: new[] { "EmployeeID", "Firstname", "Lastname", "Mail", "PhoneNo", "Title", "Wage" },
+                values: new object[,]
+                {
+                    { 101, "'Erik'", "'Hansen'", "'erik.hansen@kartverket.no'", 12345678, "'Senior Surveyor'", 650000 },
+                    { 102, "'Maria'", "'Olsen'", "'maria.olsen@kartverket.no'", 23456789, "'GIS Specialist'", 600000 },
+                    { 103, "'Anders'", "'Berg'", "'anders.berg@kartverket.no'", 34567890, "'Property Lawyer'", 700000 },
+                    { 104, "'Sofia'", "'Larsen'", "'sofia.larsen@kartverket.no'", 45678901, "'Cartographer'", 580000 },
+                    { 105, "'Nils'", "'Bakken'", "'nils.bakken@kartverket.no'", 56789012, "'Data Analyst'", 620000 },
+                    { 106, "'Line'", "'Pedersen'", "'line.pedersen@kartverket.no'", 67890123, "'GIS Manager'", 680000 },
+                    { 107, "'Jonas'", "'Andreassen'", "'jonas.andreassen@kartverket.no'", 78961234, "'Senior Surveyor'", 660000 },
+                    { 108, "'Emma'", "'Kristiansen'", "'emma.kristiansen@kartverket.no'", 89012345, "'Cartography Specialist'", 590000 },
+                    { 109, "'Martin'", "'Johansen'", "'martin.johansen@kartverket.no'", 90123456, "'Data Analyst'", 610000 },
+                    { 110, "'Ingrid'", "'Nelson'", "'ingrid.nelson@kartverket.no'", 1234567, "'Project Coordinator'", 630000 },
+                    { 111, "'Magnus'", "'Olsen'", "'magnus.olsen@kartverket.no'", 12345478, "'Remote Sensing Expert'", 670000 },
+                    { 112, "'Sara'", "'Hansen'", "'sara.hansen@kartverket.no'", 23459789, "'Legal Advisor'", 690000 },
+                    { 113, "'Daniel'", "'Berg'", "'daniel.berg@kartverket.no'", 34517890, "'Technical Specialist'", 640000 },
+                    { 114, "'Julia'", "'Larsen'", "'julia.larsen@kartverket.no'", 45671901, "'Research Coordinator'", 620000 },
+                    { 115, "'Thomas'", "'Jensen'", "'thomas.jensen@kartverket.no'", 56779012, "'Senior Analyst'", 650000 },
+                    { 116, "'Maria'", "'Andersen'", "'maria.andersen@kartverket.no'", 67820123, "'Geospatial Specialist'", 600000 },
+                    { 117, "'Alexander'", "'Pedersen'", "'alexander.pedersen@kartverket.no'", 78901234, "'Field Operations Manager'", 680000 },
+                    { 118, "'Sofia'", "'Olsen'", "'sofia.olsen@kartverket.no'", 83012345, "'Data Visualization Expert'", 610000 },
+                    { 119, "'Hans'", "'Hansen'", "'hans.hansen@kartverket.no'", 90323436, "'Senior Consultant'", 670000 },
+                    { 120, "'Linnea'", "'Berg'", "'linnea.berg@kartverket.no'", 1234267, "'Research Analyst'", 590000 }
                 });
 
             migrationBuilder.InsertData(
@@ -569,6 +612,18 @@ namespace Kartverket.Migrations
                     { 5634, "Vardø" },
                     { 5636, "Unjárga - Nesseby" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Status",
+                columns: new[] { "StatusNo", "StatusName" },
+                values: new object[,]
+                {
+                    { 1, "Sendt" },
+                    { 2, "Mottat" },
+                    { 3, "Behandles" },
+                    { 4, "Fullført" },
+                    { 5, "Avvist" }
+                });
         }
 
         /// <inheritdoc />
@@ -597,6 +652,9 @@ namespace Kartverket.Migrations
 
             migrationBuilder.DropTable(
                 name: "KommuneInfo");
+
+            migrationBuilder.DropTable(
+                name: "Status");
 
             migrationBuilder.DropTable(
                 name: "Users");

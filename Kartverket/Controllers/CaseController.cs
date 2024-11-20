@@ -28,7 +28,8 @@ namespace Kartverket.Controllers
                 Cases = _context.Case.ToList(),
                 Issues = _context.Issues.ToList(),
                 KommuneInfos = _context.KommuneInfo.ToList(),
-                FylkesInfos = _context.FylkesInfo.ToList()
+                FylkesInfos = _context.FylkesInfo.ToList(),
+                Status = _context.Status.ToList()
             };
             ViewBag.ErrorMessage = TempData["ErrorMessage"];
             TempData.Remove("ErrorMessage");
