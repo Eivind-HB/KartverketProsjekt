@@ -1,0 +1,30 @@
+﻿/* Map Components */
+.NavHeader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.map-change-container {
+    position: relative;
+    z-index: 1;
+}
+
+.map-section {
+    height: 30rem;
+    width: 60%;
+}
+
+.description-section {
+    width: 40%;
+    padding-left: 20px;
+}
+
+#map {
+    height: 35.5rem;
+    width: 100%;
+    border: 2px dotted var(--primary-green);
+    border-radius: var(--border-radius-sm);
+}

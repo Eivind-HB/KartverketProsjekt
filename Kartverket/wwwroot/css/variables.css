@@ -1,0 +1,15 @@
+﻿:root {
+    --primary-green: #1a833b;
+    --light-green: #e8f5eb;
+    --hover-green: #156630;
+    --gray-bg: #f5f2f2;
+    --border-gray: rgba(112,112,112,.18);
+    --text-color: #505050;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --main-font: Muli, Verdana, sans-serif;
+    --base-font-size: 14px;
+    --large-font-size: 16px;
+    --border-radius-sm: 8px;
+    --border-radius-lg: 30px;
+}

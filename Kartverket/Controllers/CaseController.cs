@@ -28,7 +28,8 @@ namespace Kartverket.Controllers
                 Cases = _context.Case.ToList(),
                 Issues = _context.Issues.ToList(),
                 KommuneInfos = _context.KommuneInfo.ToList(),
-                FylkesInfos = _context.FylkesInfo.ToList()
+                FylkesInfos = _context.FylkesInfo.ToList(),
+                Status = _context.Status.ToList()
             };
             ViewBag.ErrorMessage = TempData["ErrorMessage"];
             TempData.Remove("ErrorMessage");
@@ -55,6 +56,7 @@ namespace Kartverket.Controllers
 
         //Sletting av sak
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteCase(int caseId)
         {
             try
@@ -81,6 +83,7 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult EditDescription(int caseId, string newDescription)
         {
             // Henter saken basert på CaseNo
@@ -97,6 +100,7 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CaseSearch(int CaseNo)
         {
             var cases = await _context.Case.FirstOrDefaultAsync(c => c.CaseNo == CaseNo);

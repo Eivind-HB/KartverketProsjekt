@@ -1,0 +1,29 @@
+﻿/* Responsive Design */
+@media (max-width: 992px) {
+    .container-fluid {
+        padding: 0 1rem;
+    }
+    .navbar-nav {
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+    .map-change-container {
+        flex-direction: column;
+    }
+    .map-section, .description-section {
+        width: 100%;
+    }
+    .description-section {
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-item {
+        width: 100%;
+        text-align: center;
+    }
+    .pfp-element {
+        padding: 1rem;
+    }
+}
