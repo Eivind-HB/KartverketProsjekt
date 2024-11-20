@@ -13,6 +13,7 @@ public static class DataSeeder
         SeedIssue(modelBuilder);
         SeedStatus(modelBuilder);
         SeedEmployees(modelBuilder);
+        SeedCaseWorker(modelBuilder);
     }
 
     private static void SeedKommuneInfo(ModelBuilder modelBuilder)
@@ -43,6 +44,12 @@ public static class DataSeeder
     {
         string path = Path.Combine("Data", "KartverketEmployee.csv");
         SeedFromCsv<KartverketEmployee>(modelBuilder, path, new KartverketEmployeeMap());
+    }
+
+    private static void SeedCaseWorker(ModelBuilder modelBuilder)
+    {
+        string path = Path.Combine("Data", "CaseWorker.csv");
+        SeedFromCsv<CaseWorker>(modelBuilder, path, new CaseWorkerMap());
     }
 
     private static void SeedFromCsv<T>(ModelBuilder modelBuilder, string path, ClassMap<T> classMap) where T : class
@@ -112,5 +119,15 @@ public class KartverketEmployeeMap : ClassMap<KartverketEmployee>
         Map(m => m.Wage).Name("Wage");
         Map(m => m.Firstname).Name("Firstname");
         Map(m => m.Lastname).Name("Lastname");
+    }
+}
+
+public class CaseWorkerMap : ClassMap<CaseWorker>
+{
+    public CaseWorkerMap()
+    {
+        Map(m => m.CaseWorkerID).Name("CaseWorkerID");
+        Map(m => m.KartverketEmployee_EmployeeID).Name("KartverketEmployee_EmployeeID");
+        Map(m => m.Password).Name("Password");
     }
 }

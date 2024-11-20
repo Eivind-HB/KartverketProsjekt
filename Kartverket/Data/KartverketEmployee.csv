@@ -1,4 +1,5 @@
 EmployeeID,PhoneNo,Mail,Title,Wage,Firstname,Lastname
+1,00000000,'admin@kartverket.no','Admin',0,'Admin','Adminsen'
 101,12345678,'erik.hansen@kartverket.no','Senior Surveyor',650000,'Erik','Hansen'
 102,23456789,'maria.olsen@kartverket.no','GIS Specialist',600000,'Maria','Olsen'
 103,34567890,'anders.berg@kartverket.no','Property Lawyer',700000,'Anders','Berg'

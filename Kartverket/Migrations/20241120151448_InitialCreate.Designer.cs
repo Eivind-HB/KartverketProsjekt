@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kartverket.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241120143629_InitialCreate")]
+    [Migration("20241120151448_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -78,9 +78,40 @@ namespace Kartverket.Migrations
                     b.Property<int>("KartverketEmployee_EmployeeID")
                         .HasColumnType("int");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.HasKey("CaseWorkerID");
 
                     b.ToTable("CaseWorkers");
+
+                    b.HasData(
+                        new
+                        {
+                            CaseWorkerID = 1,
+                            KartverketEmployee_EmployeeID = 1,
+                            Password = "default"
+                        });
+                });
+
+            modelBuilder.Entity("Kartverket.Data.CaseWorkerAssignment", b =>
+                {
+                    b.Property<int>("CaseNo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CaseNo"));
+
+                    b.Property<int>("CaseWorkerID")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("PaidHours")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("CaseNo");
+
+                    b.ToTable("CaseWorkerAssignment");
                 });
 
             modelBuilder.Entity("Kartverket.Data.CaseWorkerList", b =>
@@ -288,6 +319,16 @@ namespace Kartverket.Migrations
                     b.ToTable("KartverketEmployee");
 
                     b.HasData(
+                        new
+                        {
+                            EmployeeID = 1,
+                            Firstname = "'Admin'",
+                            Lastname = "'Adminsen'",
+                            Mail = "'admin@kartverket.no'",
+                            PhoneNo = 0,
+                            Title = "'Admin'",
+                            Wage = 0
+                        },
                         new
                         {
                             EmployeeID = 101,

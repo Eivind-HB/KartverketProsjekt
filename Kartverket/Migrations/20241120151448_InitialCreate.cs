@@ -42,6 +42,21 @@ namespace Kartverket.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "CaseWorkerAssignment",
+                columns: table => new
+                {
+                    CaseNo = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CaseWorkerID = table.Column<int>(type: "int", nullable: false),
+                    PaidHours = table.Column<decimal>(type: "decimal(65,30)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CaseWorkerAssignment", x => x.CaseNo);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "CaseWorkerLists",
                 columns: table => new
                 {
@@ -79,7 +94,9 @@ namespace Kartverket.Migrations
                 {
                     CaseWorkerID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    KartverketEmployee_EmployeeID = table.Column<int>(type: "int", nullable: false)
+                    KartverketEmployee_EmployeeID = table.Column<int>(type: "int", nullable: false),
+                    Password = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -190,6 +207,11 @@ namespace Kartverket.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.InsertData(
+                table: "CaseWorkers",
+                columns: new[] { "CaseWorkerID", "KartverketEmployee_EmployeeID", "Password" },
+                values: new object[] { 1, 1, "default" });
+
+            migrationBuilder.InsertData(
                 table: "FylkesInfo",
                 columns: new[] { "FylkesNameID", "FylkesName" },
                 values: new object[,]
@@ -227,6 +249,7 @@ namespace Kartverket.Migrations
                 columns: new[] { "EmployeeID", "Firstname", "Lastname", "Mail", "PhoneNo", "Title", "Wage" },
                 values: new object[,]
                 {
+                    { 1, "'Admin'", "'Adminsen'", "'admin@kartverket.no'", 0, "'Admin'", 0 },
                     { 101, "'Erik'", "'Hansen'", "'erik.hansen@kartverket.no'", 12345678, "'Senior Surveyor'", 650000 },
                     { 102, "'Maria'", "'Olsen'", "'maria.olsen@kartverket.no'", 23456789, "'GIS Specialist'", 600000 },
                     { 103, "'Anders'", "'Berg'", "'anders.berg@kartverket.no'", 34567890, "'Property Lawyer'", 700000 },
@@ -631,6 +654,9 @@ namespace Kartverket.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Case");
+
+            migrationBuilder.DropTable(
+                name: "CaseWorkerAssignment");
 
             migrationBuilder.DropTable(
                 name: "CaseWorkerLists");
