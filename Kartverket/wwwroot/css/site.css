@@ -515,3 +515,49 @@ textarea {
     padding: 0.5rem;
     border-radius: 0.5rem;
     box-shadow: 0px 0px 0.5rem rgba(0, 0, 0, 0.1);
+}
+/*Homepage styling */
+    
+.link-container {
+    display: flex; /* Make the link-boxes appear side by side */
+    justify-content: center; /* Center align link-boxes horizontally */
+    gap: 2em; /* Space between each link-box */
+    padding: 2em;
+    max-width: 50rem; /* Increase width to fit two boxes side by side */
+    margin: 2em auto;
+    border-radius: 8px;    
+    text-align: center;
+}
+
+/* Individual link box styling */
+.link-box {
+    display: flex;
+    flex-direction: column; /* Stack image above text */
+    align-items: center; /* Center align items within each box */
+    gap: 1em; /* Space between image and text */
+    background-color: var(--light-green);
+    padding: 1em;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 20rem; /* Adjust width for a compact look */
+}
+
+/* Image styling */
+.img-link-box {
+    max-width: 100%;
+    height: 15rem;
+}
+
+/* Link styling */
+.link-box a {
+    text-decoration: none;
+    color: #006400;
+}
+
+    .link-box a h3 {
+        margin: 0;
+    }
+
+    .link-box a:hover h3 {
+        text-decoration: underline;
+    }
