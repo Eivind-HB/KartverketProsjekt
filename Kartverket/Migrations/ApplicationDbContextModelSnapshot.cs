@@ -283,6 +283,208 @@ namespace Kartverket.Migrations
                     b.HasKey("EmployeeID");
 
                     b.ToTable("KartverketEmployee");
+
+                    b.HasData(
+                        new
+                        {
+                            EmployeeID = 101,
+                            Firstname = "'Erik'",
+                            Lastname = "'Hansen'",
+                            Mail = "'erik.hansen@kartverket.no'",
+                            PhoneNo = 12345678,
+                            Title = "'Senior Surveyor'",
+                            Wage = 650000
+                        },
+                        new
+                        {
+                            EmployeeID = 102,
+                            Firstname = "'Maria'",
+                            Lastname = "'Olsen'",
+                            Mail = "'maria.olsen@kartverket.no'",
+                            PhoneNo = 23456789,
+                            Title = "'GIS Specialist'",
+                            Wage = 600000
+                        },
+                        new
+                        {
+                            EmployeeID = 103,
+                            Firstname = "'Anders'",
+                            Lastname = "'Berg'",
+                            Mail = "'anders.berg@kartverket.no'",
+                            PhoneNo = 34567890,
+                            Title = "'Property Lawyer'",
+                            Wage = 700000
+                        },
+                        new
+                        {
+                            EmployeeID = 104,
+                            Firstname = "'Sofia'",
+                            Lastname = "'Larsen'",
+                            Mail = "'sofia.larsen@kartverket.no'",
+                            PhoneNo = 45678901,
+                            Title = "'Cartographer'",
+                            Wage = 580000
+                        },
+                        new
+                        {
+                            EmployeeID = 105,
+                            Firstname = "'Nils'",
+                            Lastname = "'Bakken'",
+                            Mail = "'nils.bakken@kartverket.no'",
+                            PhoneNo = 56789012,
+                            Title = "'Data Analyst'",
+                            Wage = 620000
+                        },
+                        new
+                        {
+                            EmployeeID = 106,
+                            Firstname = "'Line'",
+                            Lastname = "'Pedersen'",
+                            Mail = "'line.pedersen@kartverket.no'",
+                            PhoneNo = 67890123,
+                            Title = "'GIS Manager'",
+                            Wage = 680000
+                        },
+                        new
+                        {
+                            EmployeeID = 107,
+                            Firstname = "'Jonas'",
+                            Lastname = "'Andreassen'",
+                            Mail = "'jonas.andreassen@kartverket.no'",
+                            PhoneNo = 78961234,
+                            Title = "'Senior Surveyor'",
+                            Wage = 660000
+                        },
+                        new
+                        {
+                            EmployeeID = 108,
+                            Firstname = "'Emma'",
+                            Lastname = "'Kristiansen'",
+                            Mail = "'emma.kristiansen@kartverket.no'",
+                            PhoneNo = 89012345,
+                            Title = "'Cartography Specialist'",
+                            Wage = 590000
+                        },
+                        new
+                        {
+                            EmployeeID = 109,
+                            Firstname = "'Martin'",
+                            Lastname = "'Johansen'",
+                            Mail = "'martin.johansen@kartverket.no'",
+                            PhoneNo = 90123456,
+                            Title = "'Data Analyst'",
+                            Wage = 610000
+                        },
+                        new
+                        {
+                            EmployeeID = 110,
+                            Firstname = "'Ingrid'",
+                            Lastname = "'Nelson'",
+                            Mail = "'ingrid.nelson@kartverket.no'",
+                            PhoneNo = 1234567,
+                            Title = "'Project Coordinator'",
+                            Wage = 630000
+                        },
+                        new
+                        {
+                            EmployeeID = 111,
+                            Firstname = "'Magnus'",
+                            Lastname = "'Olsen'",
+                            Mail = "'magnus.olsen@kartverket.no'",
+                            PhoneNo = 12345478,
+                            Title = "'Remote Sensing Expert'",
+                            Wage = 670000
+                        },
+                        new
+                        {
+                            EmployeeID = 112,
+                            Firstname = "'Sara'",
+                            Lastname = "'Hansen'",
+                            Mail = "'sara.hansen@kartverket.no'",
+                            PhoneNo = 23459789,
+                            Title = "'Legal Advisor'",
+                            Wage = 690000
+                        },
+                        new
+                        {
+                            EmployeeID = 113,
+                            Firstname = "'Daniel'",
+                            Lastname = "'Berg'",
+                            Mail = "'daniel.berg@kartverket.no'",
+                            PhoneNo = 34517890,
+                            Title = "'Technical Specialist'",
+                            Wage = 640000
+                        },
+                        new
+                        {
+                            EmployeeID = 114,
+                            Firstname = "'Julia'",
+                            Lastname = "'Larsen'",
+                            Mail = "'julia.larsen@kartverket.no'",
+                            PhoneNo = 45671901,
+                            Title = "'Research Coordinator'",
+                            Wage = 620000
+                        },
+                        new
+                        {
+                            EmployeeID = 115,
+                            Firstname = "'Thomas'",
+                            Lastname = "'Jensen'",
+                            Mail = "'thomas.jensen@kartverket.no'",
+                            PhoneNo = 56779012,
+                            Title = "'Senior Analyst'",
+                            Wage = 650000
+                        },
+                        new
+                        {
+                            EmployeeID = 116,
+                            Firstname = "'Maria'",
+                            Lastname = "'Andersen'",
+                            Mail = "'maria.andersen@kartverket.no'",
+                            PhoneNo = 67820123,
+                            Title = "'Geospatial Specialist'",
+                            Wage = 600000
+                        },
+                        new
+                        {
+                            EmployeeID = 117,
+                            Firstname = "'Alexander'",
+                            Lastname = "'Pedersen'",
+                            Mail = "'alexander.pedersen@kartverket.no'",
+                            PhoneNo = 78901234,
+                            Title = "'Field Operations Manager'",
+                            Wage = 680000
+                        },
+                        new
+                        {
+                            EmployeeID = 118,
+                            Firstname = "'Sofia'",
+                            Lastname = "'Olsen'",
+                            Mail = "'sofia.olsen@kartverket.no'",
+                            PhoneNo = 83012345,
+                            Title = "'Data Visualization Expert'",
+                            Wage = 610000
+                        },
+                        new
+                        {
+                            EmployeeID = 119,
+                            Firstname = "'Hans'",
+                            Lastname = "'Hansen'",
+                            Mail = "'hans.hansen@kartverket.no'",
+                            PhoneNo = 90323436,
+                            Title = "'Senior Consultant'",
+                            Wage = 670000
+                        },
+                        new
+                        {
+                            EmployeeID = 120,
+                            Firstname = "'Linnea'",
+                            Lastname = "'Berg'",
+                            Mail = "'linnea.berg@kartverket.no'",
+                            PhoneNo = 1234267,
+                            Title = "'Research Analyst'",
+                            Wage = 590000
+                        });
                 });
 
             modelBuilder.Entity("Kartverket.Data.KommuneInfo", b =>

@@ -36,6 +36,9 @@ namespace Kartverket.Data
             modelBuilder.Entity<Status>()
                 .HasKey(f => f.StatusNo);
 
+            modelBuilder.Entity<KartverketEmployee>()
+                .HasKey(f => f.EmployeeID);
+
             DataSeeder.SeedData(modelBuilder);
         }
 
