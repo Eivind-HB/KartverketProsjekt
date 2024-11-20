@@ -11,6 +11,8 @@ namespace Kartverket.Controllers
 
         private readonly ApplicationDbContext _context;
 
+        private static List<Case> Cases = new List<Case>();
+
         public CaseController(ApplicationDbContext context)
         {
             _context = context;
@@ -27,6 +29,22 @@ namespace Kartverket.Controllers
                 Issues = _context.Issues.ToList(),
                 KommuneInfos = _context.KommuneInfo.ToList(),
                 FylkesInfos = _context.FylkesInfo.ToList()
+            };
+            return View(viewModel);
+        }
+
+        public IActionResult OverviewCaseworker()
+        {
+            var viewModel = new Kartverket.Models.OverviewCaseworkerModel
+            {
+                Cases = _context.Case.ToList(),
+                Issues = _context.Issues.ToList(),
+                KommuneInfos = _context.KommuneInfo.ToList(),
+                FylkesInfos = _context.FylkesInfo.ToList(),
+                Users = _context.Users.ToList(),
+                CaseWorkers = _context.CaseWorkers.ToList(),
+                Employees = _context.KartverketEmployee.ToList()
+
             };
             return View(viewModel);
         }
@@ -73,6 +91,27 @@ namespace Kartverket.Controllers
             // Går tilbake til AreaChangeOverview. MIGHT NEED TO MAKE IT SO THAT THE ACCORDION STAYS OPEN??
             return RedirectToAction("AreaChangeOverview");
         }
+
+        [HttpPost]
+        public IActionResult CaseSearch(int CaseNo)
+        {
+            if (CaseNo == null)
+            {
+                return View("AreaChangeOverview");  
+            }
+            else
+            {
+                foreach (var OneCase in Cases)
+                {
+                    if (OneCase.CaseNo == CaseNo)
+                    {
+                        return View(OneCase.CaseNo == CaseNo);
+                    }
+                }
+            }
+            return View("AreaChangeOverview");
+        }
+
 
     }
 }

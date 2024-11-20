@@ -217,6 +217,7 @@ namespace Kartverket.Controllers
 
             user.UserName = model.UserName;
             user.Mail = model.Mail;
+            //user.UserID = model.UserID;
 
             await _context.SaveChangesAsync();
 

@@ -17,13 +17,10 @@ namespace Kartverket.Data
         [Required]
         public DateOnly? Date { get; set; }
         //[Required]
-        public int CaseWorker_CaseWorkerID { get; set; }
-        //[Required]
         public int User_UserID { get; set; }
         //[Required]
         public int Issue_IssueNr { get; set; }
-        [NotMapped]
-        public Blob Images { get; }
+        public byte[]? Images { get; set; }
         [Required]
         public int KommuneNo { get; set; }
         [Required]
