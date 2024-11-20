@@ -12,6 +12,7 @@
 }
 
 <form asp-action="Profile" method="post">
+    @Html.AntiForgeryToken()
     <input type="hidden" asp-for="UserID" />
 
     <div class="form-group">

@@ -55,6 +55,7 @@ namespace Kartverket.Controllers
 
         //Sletting av sak
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteCase(int caseId)
         {
             try
@@ -81,6 +82,7 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult EditDescription(int caseId, string newDescription)
         {
             // Henter saken basert på CaseNo
@@ -97,6 +99,7 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CaseSearch(int CaseNo)
         {
             var cases = await _context.Case.FirstOrDefaultAsync(c => c.CaseNo == CaseNo);
