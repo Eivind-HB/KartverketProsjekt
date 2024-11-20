@@ -202,7 +202,8 @@ namespace Kartverket.Controllers
                 User_UserID = userId, 
                 Issue_IssueNr = issueNo,
                 KommuneNo = kommuneNo,
-                FylkesNo = fylkesNo
+                FylkesNo = fylkesNo,
+                StatusNo = 1
 
             };
 

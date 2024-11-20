@@ -32,7 +32,8 @@ namespace Kartverket.Migrations
                     Issue_IssueNr = table.Column<int>(type: "int", nullable: false),
                     Images = table.Column<byte[]>(type: "longblob", nullable: true),
                     KommuneNo = table.Column<int>(type: "int", nullable: false),
-                    FylkesNo = table.Column<int>(type: "int", nullable: false)
+                    FylkesNo = table.Column<int>(type: "int", nullable: false),
+                    StatusNo = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -155,16 +156,31 @@ namespace Kartverket.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Status",
+                columns: table => new
+                {
+                    StatusNo = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    StatusName = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Status", x => x.StatusNo);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
                     UserID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserName = table.Column<string>(type: "longtext", nullable: true)
+                    UserName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Mail = table.Column<string>(type: "longtext", nullable: true)
+                    Mail = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Password = table.Column<string>(type: "longtext", nullable: false)
+                    Password = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -569,6 +585,18 @@ namespace Kartverket.Migrations
                     { 5634, "Vardø" },
                     { 5636, "Unjárga - Nesseby" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Status",
+                columns: new[] { "StatusNo", "StatusName" },
+                values: new object[,]
+                {
+                    { 1, "Sendt" },
+                    { 2, "Mottat" },
+                    { 3, "Behandles" },
+                    { 4, "Fullført" },
+                    { 5, "Avvist" }
+                });
         }
 
         /// <inheritdoc />
@@ -597,6 +625,9 @@ namespace Kartverket.Migrations
 
             migrationBuilder.DropTable(
                 name: "KommuneInfo");
+
+            migrationBuilder.DropTable(
+                name: "Status");
 
             migrationBuilder.DropTable(
                 name: "Users");

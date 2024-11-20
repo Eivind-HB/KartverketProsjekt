@@ -26,6 +26,7 @@
                     var issueType = @change.Issue_IssueNr.ToString();
                     var kommuneName = change.KommuneNo.ToString();
                     var fylkeName = change.FylkesNo.ToString();
+                    var statusType = change.StatusNo.ToString();
                     <!-- Individual Case Section -->
                     <div class="accordion-item">
                         <button class="accordion-header">
@@ -63,12 +64,24 @@
                                         fylkeName = @differentFylkeNos.FylkesName;
                                     }
                                 }
+
+                                <!--Checks and finds the correct fylkesname in DB based on the fylkesnumber-->
+                                @foreach (var differentStatusNos in Model.Status)
+                                {
+                                    var CaseStatusNo = @change.StatusNo;
+                                    if (CaseStatusNo == @differentStatusNos.StatusNo)
+                                    {
+                                        statusType = @differentStatusNos.StatusName;
+                                    }
+                                }
+                                
                                 <!-- Case detail table -->
                                 <table class="table table-compact">
                                     <thead>
                                         <tr>
                                             <th>Saks Nummer</th>
                                             <th>Saks Type</th>
+                                            <th>Saks Status</th>
                                             <th>Saks Dato</th>
                                             <th>GeoJson</th>
                                             <th>Beskrivelse</th>
@@ -80,6 +93,7 @@
                                         <tr>
                                             <td>@change.CaseNo</td>
                                             <td>@issueType</td>
+                                            <td>@statusType</td>
                                             <td>@change.Date</td>
                                             <td>@change.LocationInfo</td>
                                             <!--Here what can be changed by editing will be put. For now it is only description, but it will contain IssueType and Image-->
