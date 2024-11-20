@@ -30,6 +30,8 @@ namespace Kartverket.Controllers
                 KommuneInfos = _context.KommuneInfo.ToList(),
                 FylkesInfos = _context.FylkesInfo.ToList()
             };
+            ViewBag.ErrorMessage = TempData["ErrorMessage"];
+            TempData.Remove("ErrorMessage");
             return View(viewModel);
         }
 
@@ -93,25 +95,17 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
-        public IActionResult CaseSearch(int CaseNo)
+        public async Task<IActionResult> CaseSearch(int CaseNo)
         {
-            if (CaseNo == null)
+            var cases = await _context.Case.FirstOrDefaultAsync(c => c.CaseNo == CaseNo);
+            if (cases != null)
             {
-                return View("AreaChangeOverview");  
+                return View("CaseDetails", cases);
             }
-            else
-            {
-                foreach (var OneCase in Cases)
-                {
-                    if (OneCase.CaseNo == CaseNo)
-                    {
-                        return View(OneCase.CaseNo == CaseNo);
-                    }
-                }
+            TempData["ErrorMessage"] = "Saken ble ikke funnet.";
+            return RedirectToAction("AreaChangeOverview");
             }
-            return View("AreaChangeOverview");
+
+
         }
-
-
-    }
 }
