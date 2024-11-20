@@ -91,6 +91,11 @@ namespace Kartverket.Controllers
             return View();
         }
 
+        public IActionResult RegistrertCaseOverblikk()
+        {
+            return View();
+        }
+
         [HttpPost]
         //public IActionResult RegisterAreaChange(string geoJson, string description, int UserID, AreaChange areaModel, UserData userModel, IFormFile ImageUpload)
         
@@ -176,6 +181,10 @@ namespace Kartverket.Controllers
 
 
             TempData["OpprettetSaksnr"] = CaseNoNumber;
+            ViewBag.ViewModel = TempData["OpprettetSaksnr"];
+            TempData.Keep("OpprettetSaksnr");
+
+            //var newlycreated = true;
 
             //random id nummer, placeholder
             var userId = rnd.Next(1, 10);
@@ -210,8 +219,11 @@ namespace Kartverket.Controllers
             // Save to the database
             _context.Case.Add(newGeoChange);
             _context.SaveChanges();
-
-            return RedirectToAction("AreaChangeOverview", "Case");
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("AreaChangeOverview", "Case");
+            }
+            return View("RegistrertCaseOverblikk", newGeoChange);
         }
 
         [HttpGet]
