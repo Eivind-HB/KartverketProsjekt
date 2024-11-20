@@ -37,6 +37,7 @@ namespace Kartverket.Controllers
             return View(viewModel);
         }
 
+        [HttpGet]
         public IActionResult OverviewCaseworker()
         {
             var viewModel = new Kartverket.Models.OverviewCaseworkerModel
@@ -52,6 +53,7 @@ namespace Kartverket.Controllers
             };
             return View(viewModel);
         }
+
 
 
         //Sletting av sak

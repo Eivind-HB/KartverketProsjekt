@@ -1,6 +1,7 @@
 @model AreaChangeOverviewModel
 @using System.Security.Claims
 
+
 @{
     ViewData["Title"] = "Overview";
 }
@@ -12,6 +13,7 @@
     <div class="accordion-container">
         @if (User.Identity.IsAuthenticated)
         {
+            //TempData["OpprettetSaksnr"]
             <a class="nav-link text-dark" asp-controller="User" asp-action="Profile">Hallo, @User.Identity.Name!</a>
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
             int userId = 0;
