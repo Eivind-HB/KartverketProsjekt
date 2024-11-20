@@ -1,20 +1,24 @@
-﻿@model Kartverket.Models.KommuneInfoViewModel
-
-@{
+﻿@{
     ViewData["Title"] = "Feilmelding til kart";
 }
-
 <div class="page-container index-container">
+   
     <h1>Melding om feil i kart</h1>
-    <p class="lead">Kartverkets data er sentrale i Norges offisielle datagrunnlag og brukes i en lang rekke kart på papir og nett. Her kan du hjelpe oss med å holde kartene oppdatert.</p>
+  <p class="lead">Kartverkets data er sentrale i Norges offisielle datagrunnlag og brukes i en lang rekke kart på papir og nett. Her kan du hjelpe oss med å holde kartene oppdatert.</p>
 
-    <div class="registration-section">
-        <h2>Registrering</h2>
-        <h4>Noen av funskjonene til denne siden vil kreve at du registrer deg! Gjør det her:</h4>
-        <a asp-controller="User" asp-action="RegistrationForm" method="post">
-            <button type="submit" class="btn btn-primary">Registrer deg</button>
-        </a>
+<div class="link-container">
+    <div class="link-box">
+        <img src="~/Content/Kartverket-barelogo-favicon.png" class="img-link-box" />
+        <a asp-action="RoadCorrection"><h3>Rett opp i kartet</h3></a>
     </div>
+    <div class="link-box">
+        <img src="~/Content/Default-pfp.svg" class="img-link-box" />
+        <a asp-controller="User" asp-action="RegistrationForm"><h3>Registrer deg</h3></a>
+     </div>
+            
+</div>
+
+    <h4>For å lettere holde deg oppdatert på dine innmeldte saker kan du registrere deg her!</h4>
 
 @section Scripts {
     <script>
