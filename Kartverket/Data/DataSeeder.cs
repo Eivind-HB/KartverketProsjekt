@@ -12,6 +12,7 @@ public static class DataSeeder
         SeedFylkesInfo(modelBuilder);
         SeedIssue(modelBuilder);
         SeedStatus(modelBuilder);
+        SeedEmployees(modelBuilder);
     }
 
     private static void SeedKommuneInfo(ModelBuilder modelBuilder)
@@ -36,6 +37,12 @@ public static class DataSeeder
     {
         string path = Path.Combine("Data", "Status.csv");
         SeedFromCsv<Status>(modelBuilder, path, new StatusMap());
+    }
+
+    private static void SeedEmployees(ModelBuilder modelBuilder)
+    {
+        string path = Path.Combine("Data", "KartverketEmployee.csv");
+        SeedFromCsv<KartverketEmployee>(modelBuilder, path, new KartverketEmployeeMap());
     }
 
     private static void SeedFromCsv<T>(ModelBuilder modelBuilder, string path, ClassMap<T> classMap) where T : class
@@ -91,5 +98,19 @@ public class StatusMap : ClassMap<Status>
     {
         Map(m => m.StatusName).Name("StatusName");
         Map(m => m.StatusNo).Name("StatusNo");
+    }
+}
+
+public class KartverketEmployeeMap : ClassMap<KartverketEmployee>
+{
+    public KartverketEmployeeMap()
+    {
+        Map(m => m.EmployeeID).Name("EmployeeID");
+        Map(m => m.PhoneNo).Name("PhoneNo");
+        Map(m => m.Mail).Name("Mail");
+        Map(m => m.Title).Name("Title");
+        Map(m => m.Wage).Name("Wage");
+        Map(m => m.Firstname).Name("Firstname");
+        Map(m => m.Lastname).Name("Lastname");
     }
 }
