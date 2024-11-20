@@ -28,11 +28,11 @@
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary">Logg Inn</button>
-        <div class="form-group" style="margin-top: 1rem;">
-            <a href="#">Glemt passord?</a>
+        <div class="link-box">
+            <a asp-controller="home" asp-action="Index">"Glemt passord?"</a>
         </div>
-        <div class="form-group" style="margin-bottom: 1rem;">
-            <a href="RegistrationForm">Registrer deg!</a>
+        <div class="link-box">
+            <a asp-controller="User" asp-action="RegistrationForm">"Registrer deg"</a>
         </div>
     </form>
 </div>
