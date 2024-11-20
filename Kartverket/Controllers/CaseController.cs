@@ -11,6 +11,8 @@ namespace Kartverket.Controllers
 
         private readonly ApplicationDbContext _context;
 
+        private static List<Case> Cases = new List<Case>();
+
         public CaseController(ApplicationDbContext context)
         {
             _context = context;
@@ -88,6 +90,26 @@ namespace Kartverket.Controllers
 
             // Går tilbake til AreaChangeOverview. MIGHT NEED TO MAKE IT SO THAT THE ACCORDION STAYS OPEN??
             return RedirectToAction("AreaChangeOverview");
+        }
+
+        [HttpPost]
+        public IActionResult CaseSearch(int CaseNo)
+        {
+            if (CaseNo == null)
+            {
+                return View("AreaChangeOverview");  
+            }
+            else
+            {
+                foreach (var OneCase in Cases)
+                {
+                    if (OneCase.CaseNo == CaseNo)
+                    {
+                        return View(OneCase.CaseNo == CaseNo);
+                    }
+                }
+            }
+            return View("AreaChangeOverview");
         }
 
 

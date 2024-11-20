@@ -1,4 +1,5 @@
 @model AreaChangeOverviewModel
+@using System.Security.Claims
 
 @{
     ViewData["Title"] = "Overview";
@@ -9,118 +10,144 @@
     <h1>Oversikt av registrerte endringer</h1>
 
     <div class="accordion-container">
-        @foreach (var change in Model.Cases)
+        @if (User.Identity.IsAuthenticated)
         {
-            var issueType = @change.Issue_IssueNr.ToString();
-            var kommuneName = change.KommuneNo.ToString();
-            var fylkeName = change.FylkesNo.ToString();
-            <!-- Individual Case Section -->
-            <div class="accordion-item">
-                <button class="accordion-header">
-                    Saks ID: @change.CaseNo
-                    <span class="accordion-icon">▼</span>
-                </button>
+            <a class="nav-link text-dark" asp-controller="User" asp-action="Profile">Hallo, @User.Identity.Name!</a>
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            int userId = 0;
+            if (userIdClaim != null)
+            {
+                userId = int.Parse(userIdClaim.Value);
+            }
+            @foreach (var change in Model.Cases)
+            {
+                @if (userId == change.User_UserID)
+                {
+                    var issueType = @change.Issue_IssueNr.ToString();
+                    var kommuneName = change.KommuneNo.ToString();
+                    var fylkeName = change.FylkesNo.ToString();
+                    <!-- Individual Case Section -->
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            Saks ID: @change.CaseNo
+                            <span class="accordion-icon">▼</span>
+                        </button>
 
-                <div class="accordion-content">
-                    <!-- Case and location tables in 1 accordion per case -->
-                    <div class="issue-location-details">
-                        @foreach (var differentIssues in Model.Issues)
-                        {
-                            var CaseIssue = @change.Issue_IssueNr;
-                            if(CaseIssue == @differentIssues.issueNo)
-                            {
-                                issueType = @differentIssues.IssueType;
-                            }
-                        }
-                        @foreach (var differentKommuneNos in Model.KommuneInfos)
-                        {
-                            var CaseKommuneNo = @change.KommuneNo;
-                            if (CaseKommuneNo == @differentKommuneNos.KommuneInfoID)
-                            {
-                                kommuneName = @differentKommuneNos.KommuneName;
-                            }
-                        }
-                        @foreach (var differentFylkeNos in Model.FylkesInfos)
-                        {
-                            var CaseFylkeNo = @change.FylkesNo;
-                            if (CaseFylkeNo == @differentFylkeNos.FylkesNameID)
-                            {
-                                fylkeName = @differentFylkeNos.FylkesName;
-                            }
-                        }
-                        <!-- Case detail table -->
-                        <table class="table table-compact">
-                            <thead>
-                                <tr>
-                                    <th>Saks Nummer</th>
-                                    <th>Saks Type</th>
-                                    <th>Saks Dato</th>
-                                    <th>GeoJson</th>
-                                    <th>Beskrivelse</th>
-                                    <th>Bilde</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>@change.CaseNo</td>
-                                    <td>@issueType</td>
-                                    <td>@change.Date</td>
-                                    <td>@change.LocationInfo</td>
-                                    <!--Here what can be changed by editing will be put. For now it is only description, but it will contain IssueType and Image-->
-                                    <td>
-                                        <span id="description-@change.CaseNo">@change.Description</span>
+                        <div class="accordion-content">
+                            <!-- Case and location tables in 1 accordion per case -->
+                            <div class="issue-location-details">
+                                <!-- Checks and finds the correct issuetype in DB based on the issuenumber-->
+                                @foreach (var differentIssues in Model.Issues)
+                                {
+                                    var CaseIssue = @change.Issue_IssueNr;
+                                    if(CaseIssue == @differentIssues.issueNo)
+                                    {
+                                        issueType = @differentIssues.IssueType;
+                                    }
+                                }
+                                <!--Checks and finds the correct kommunename in DB based on the kommunenumber-->
+                                @foreach (var differentKommuneNos in Model.KommuneInfos)
+                                {
+                                    var CaseKommuneNo = @change.KommuneNo;
+                                    if (CaseKommuneNo == @differentKommuneNos.KommuneInfoID)
+                                    {
+                                        kommuneName = @differentKommuneNos.KommuneName;
+                                    }
+                                }
+                                <!--Checks and finds the correct fylkesname in DB based on the fylkesnumber-->
+                                @foreach (var differentFylkeNos in Model.FylkesInfos)
+                                {
+                                    var CaseFylkeNo = @change.FylkesNo;
+                                    if (CaseFylkeNo == @differentFylkeNos.FylkesNameID)
+                                    {
+                                        fylkeName = @differentFylkeNos.FylkesName;
+                                    }
+                                }
+                                <!-- Case detail table -->
+                                <table class="table table-compact">
+                                    <thead>
+                                        <tr>
+                                            <th>Saks Nummer</th>
+                                            <th>Saks Type</th>
+                                            <th>Saks Dato</th>
+                                            <th>GeoJson</th>
+                                            <th>Beskrivelse</th>
+                                            <th>Bilde</th>
+                                            <th>BrukerID</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>@change.CaseNo</td>
+                                            <td>@issueType</td>
+                                            <td>@change.Date</td>
+                                            <td>@change.LocationInfo</td>
+                                            <!--Here what can be changed by editing will be put. For now it is only description, but it will contain IssueType and Image-->
+                                            <td>
+                                                <span id="description-@change.CaseNo">@change.Description</span>
                                         
-                                        <!-- Edit Form -->
-                                        <form id="edit-form-@change.CaseNo" asp-action="EditDescription" asp-controller="Case" method="post" style="display:none;">
-                                            <input type="hidden" name="caseId" value="@change.CaseNo" />
-                                            <textarea name="newDescription" class="form-control">@change.Description</textarea>
-                                        </form>
-                                    </td>
-                                    <td>@change.Images</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                                <!-- Edit Form -->
+                                                <form id="edit-form-@change.CaseNo" asp-action="EditDescription" asp-controller="Case" method="post" style="display:none;">
+                                                    <input type="hidden" name="caseId" value="@change.CaseNo" />
+                                                    <textarea name="newDescription" class="form-control">@change.Description</textarea>
+                                                </form>
+                                            </td>
+                                            <td>@change.Images</td>
+                                            <td>@change.User_UserID</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
-                        <!-- Location details table -->
-                        <table class="table table-compact">
-                            <thead>
-                                <tr>
-                                    <th>Kommunenavn</th>
-                                    <th>Kommunenummer</th>
-                                    <th>Fylkesnavn</th>
-                                    <th>Fylkesnummer</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>@kommuneName</td>
-                                    <td>@change.KommuneNo</td>
-                                    <td>@fylkeName</td>
-                                    <td>@change.FylkesNo</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                <!-- Location details table -->
+                                <table class="table table-compact">
+                                    <thead>
+                                        <tr>
+                                            <th>Kommunenavn</th>
+                                            <th>Kommunenummer</th>
+                                            <th>Fylkesnavn</th>
+                                            <th>Fylkesnummer</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>@kommuneName</td>
+                                            <td>@change.KommuneNo</td>
+                                            <td>@fylkeName</td>
+                                            <td>@change.FylkesNo</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
-                        <!-- Buttons for Edit and Delete -->
-                        <div class="btn-group">
-                            <!-- Deletion button -->                       
-                            <form asp-action="DeleteCase" asp-controller="Case" method="post" style="display: inline;">
-                                <input type ="hidden" name="caseId" value="@change.CaseNo"/>
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Er du sikker du vil slette denne saken? Dette kan ikke tas tilbake')">Slett sak</button>
-                            </form>
+                                <!-- Buttons for Edit and Delete -->
+                                <div class="btn-group">
+                                    <!-- Deletion button -->                       
+                                    <form asp-action="DeleteCase" asp-controller="Case" method="post" style="display: inline;">
+                                        <input type ="hidden" name="caseId" value="@change.CaseNo"/>
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Er du sikker du vil slette denne saken? Dette kan ikke tas tilbake')">Slett sak</button>
+                                    </form>
 
-                            <!-- Edit button to toggle edit form -->
-                            <button onclick="toggleEditForm(@change.CaseNo)" class="btn btn-primary" style="display: inline;">Rediger</button>
-                        </div>
+                                    <!-- Edit button to toggle edit form -->
+                                    <button onclick="toggleEditForm(@change.CaseNo)" class="btn btn-primary" style="display: inline;">Rediger</button>
+                                </div>
 
-                        <!-- Save and Cancel buttons for Edit Form, only visible when editing -->
-                        <div id="edit-buttons-@change.CaseNo" class="edit-form-btn" style="display: none;">
-                            <button form="edit-form-@change.CaseNo" type="submit" class="btn btn-success">Lagre</button>
-                            <button type="button" onclick="toggleEditForm(@change.CaseNo)" class="btn btn-secondary">Avbryt</button>
+                                <!-- Save and Cancel buttons for Edit Form, only visible when editing -->
+                                <div id="edit-buttons-@change.CaseNo" class="edit-form-btn" style="display: none;">
+                                    <button form="edit-form-@change.CaseNo" type="submit" class="btn btn-success">Lagre</button>
+                                    <button type="button" onclick="toggleEditForm(@change.CaseNo)" class="btn btn-secondary">Avbryt</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                }
+            }
+        }
+        else
+        {
+            <form asp-action="CaseSearch" asp-controller="Case" method="post">
+                <td>Søk på sat etter saksnummer</td>
+                <input type="text" name="CaseNo"></input>
+                <button type="submit">Søk</button>
+            </form>
         }
     </div>
 
