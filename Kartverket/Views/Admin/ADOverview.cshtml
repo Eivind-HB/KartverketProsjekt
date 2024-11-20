@@ -1,0 +1,38 @@
+﻿@model Kartverket.Data.Admin
+
+<div class="page-container ud-overview-container">
+    <h1>Du har nå registrert deg</h1>
+    <p class="lead">Her er en oversikt over din registrerte informasjon:</p>
+
+    @if (Model != null)
+    {
+        <div class="user-info-card">
+            <h2>Din informasjon</h2>
+        <div class="info-item">
+            <strong>Passord:</strong>
+            <span>@Model.Password</span>
+        </div>
+        <div class="info-item">
+            <strong>Email:</strong>
+            <span>@Model.Mail</span>
+        </div>
+        <div class="info-item">
+            <strong>Bruker ID:</strong>
+            <span>@Model.CaseWorkerID</span>
+        </div>
+    </div>
+    }
+    else 
+    {
+        <p>Det ser ut som at noe har gått galt her. Prøv å registrere deg igjen <a href="/Home/RegistrationForm">her</a></p>
+    }
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const udOverviewNavItem = document.querySelector('.nav-item a[href*="UDOverview"]');
+            if (udOverviewNavItem) {
+                udOverviewNavItem.parentElement.style.backgroundColor = 'var(--light-green)';
+            }
+        });
+    </script>
+}
