@@ -21,25 +21,3 @@
     topographyLayer.addTo(map);
     //Makes a controller for the different map types
     L.control.layers(mapLayers).addTo(map);
-
-
-    /*Geolocation, function with eventlistener. If button is clicked user is prompted to give their location.
-      If location is given, takes map to that location and sets a marker there.
-    */
-    function findCurrentLocation() {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var lat = position.coords.latitude;
-            var lng = position.coords.longitude;
-
-            //Sets the map view to the users current coodinates.
-            map.setView([lat, lng], 17);
-
-            L.marker([lat, lng]).addTo(map)
-                .bindPopup('Du er her!').openPopup();
-            //Error if geolocation fails
-        }, function (error) {
-            console.error('Geolokasjon feilet: ', error);
-        });
-    }
-
-    document.getElementById("curLocationButton").addEventListener("click", findCurrentLocation);
