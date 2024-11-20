@@ -61,7 +61,7 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="User" asp-action="Profile">Hello, @User.Identity.Name!</a>
+                                <a class="nav-link text-dark" asp-controller="User" asp-action="Profile">Hallo, @User.Identity.Name!</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="User" asp-action="Logout">Logg ut</a>
@@ -78,6 +78,8 @@
                             </li>
                             <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="KontaktOss">Kontakt Oss</a></li>
                         }
+                        <li><a class="dropdown-item" asp-area="" asp-controller="Case" asp-action="OverviewCaseworker">OverviewCaseworker</a></li>
+
                     </ul>
                 </div>
             </div>

@@ -1,0 +1,6 @@
+StatusNo,StatusName
+1,Sendt
+2,Mottat
+3,Behandles
+4,Fullført
+5,Avvist

@@ -11,7 +11,9 @@
     <div class="alert alert-success" role="alert">@TempData["Message"]</div>
 }
 
-<form asp-action="Profile" method="post" novalidate>
+<form asp-action="Profile" method="post">
+    @Html.AntiForgeryToken()
+
     <input type="hidden" asp-for="UserID" />
 
     <div class="form-group">

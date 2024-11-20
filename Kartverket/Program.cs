@@ -52,6 +52,16 @@ builder.Services.AddSession(options =>
 // Add Services to container
 builder.Services.AddControllersWithViews();
 
+// Add Antiforgery token
+builder.Services.AddAntiforgery(options =>
+{
+    options.Cookie.Name = "X-CSRF-TOKEN";
+    options.Cookie.HttpOnly = true;
+    options.FormFieldName = "_RequestVerificationToken";
+    options.HeaderName = "X-CSRF-TOKEN";
+    options.SuppressXFrameOptionsHeader = false;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

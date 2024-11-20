@@ -9,6 +9,7 @@
 
     <div class="registration-section">
         <form asp-controller="User" asp-action="LogoutConfirm" method="post">
+            @Html.AntiForgeryToken()
             <button type="submit" class="btn btn-primary form-btn">Logg ut</button>
         </form>
         <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Avbryt</a>

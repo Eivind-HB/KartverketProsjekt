@@ -11,6 +11,8 @@ namespace Kartverket.Controllers
 
         private readonly ApplicationDbContext _context;
 
+        private static List<Case> Cases = new List<Case>();
+
         public CaseController(ApplicationDbContext context)
         {
             _context = context;
@@ -26,13 +28,35 @@ namespace Kartverket.Controllers
                 Cases = _context.Case.ToList(),
                 Issues = _context.Issues.ToList(),
                 KommuneInfos = _context.KommuneInfo.ToList(),
-                FylkesInfos = _context.FylkesInfo.ToList()
+                FylkesInfos = _context.FylkesInfo.ToList(),
+                Status = _context.Status.ToList()
+            };
+            ViewBag.ErrorMessage = TempData["ErrorMessage"];
+            TempData.Remove("ErrorMessage");
+            ViewBag.ViewModel = TempData["OpprettetSaksnr"];
+            return View(viewModel);
+        }
+
+        public IActionResult OverviewCaseworker()
+        {
+            var viewModel = new Kartverket.Models.OverviewCaseworkerModel
+            {
+                Cases = _context.Case.ToList(),
+                Issues = _context.Issues.ToList(),
+                KommuneInfos = _context.KommuneInfo.ToList(),
+                FylkesInfos = _context.FylkesInfo.ToList(),
+                Users = _context.Users.ToList(),
+                CaseWorkers = _context.CaseWorkers.ToList(),
+                Employees = _context.KartverketEmployee.ToList()
+
             };
             return View(viewModel);
         }
 
+
         //Sletting av sak
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteCase(int caseId)
         {
             try
@@ -59,6 +83,7 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult EditDescription(int caseId, string newDescription)
         {
             // Henter saken basert på CaseNo
@@ -74,5 +99,19 @@ namespace Kartverket.Controllers
             return RedirectToAction("AreaChangeOverview");
         }
 
-    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CaseSearch(int CaseNo)
+        {
+            var cases = await _context.Case.FirstOrDefaultAsync(c => c.CaseNo == CaseNo);
+            if (cases != null)
+            {
+                return View("CaseDetails", cases);
+            }
+            TempData["ErrorMessage"] = "Saken ble ikke funnet.";
+            return RedirectToAction("AreaChangeOverview");
+            }
+
+
+        }
 }

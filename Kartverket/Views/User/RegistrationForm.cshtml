@@ -8,6 +8,7 @@
     <h1>Bruker Registrering</h1>
 
     <form asp-action="UDOverview" method="post">
+        @Html.AntiForgeryToken()
         <div class="form-group">
             <label asp-for="UserName">Brukernavn:</label>
             <input asp-for="UserName" class="form-control" />

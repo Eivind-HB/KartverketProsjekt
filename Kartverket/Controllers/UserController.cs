@@ -37,6 +37,7 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogInForm(Login model)
         {
             if (ModelState.IsValid)
@@ -82,6 +83,7 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogoutConfirm()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -111,6 +113,7 @@ namespace Kartverket.Controllers
 
         //Registrering av ny bruker
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UDOverview(User model)
         {
             if (ModelState.IsValid)
@@ -190,6 +193,7 @@ namespace Kartverket.Controllers
 
         [Authorize]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Profile(UserUpdate model)
         {
             if (!ModelState.IsValid)
@@ -217,6 +221,7 @@ namespace Kartverket.Controllers
 
             user.UserName = model.UserName;
             user.Mail = model.Mail;
+            //user.UserID = model.UserID;
 
             await _context.SaveChangesAsync();
 
@@ -234,6 +239,7 @@ namespace Kartverket.Controllers
 
         [Authorize]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(PasswordUpdate model)
         {
             if (!ModelState.IsValid)
@@ -269,6 +275,7 @@ namespace Kartverket.Controllers
 
         //Delete user
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Authorize]
         public async Task<IActionResult> DeleteAccount()
         {

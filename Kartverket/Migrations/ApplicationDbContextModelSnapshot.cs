@@ -30,9 +30,6 @@ namespace Kartverket.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CaseNo"));
 
-                    b.Property<int>("CaseWorker_CaseWorkerID")
-                        .HasColumnType("int");
-
                     b.Property<DateOnly?>("Date")
                         .IsRequired()
                         .HasColumnType("date");
@@ -43,6 +40,9 @@ namespace Kartverket.Migrations
                     b.Property<int>("FylkesNo")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("Images")
+                        .HasColumnType("longblob");
+
                     b.Property<int>("Issue_IssueNr")
                         .HasColumnType("int");
 
@@ -52,6 +52,9 @@ namespace Kartverket.Migrations
                     b.Property<string>("LocationInfo")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("StatusNo")
+                        .HasColumnType("int");
 
                     b.Property<int>("User_UserID")
                         .HasColumnType("int");
@@ -69,15 +72,43 @@ namespace Kartverket.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CaseWorkerID"));
 
-                    b.Property<int>("CaseWorkerList_Case_CaseNo")
-                        .HasColumnType("int");
-
                     b.Property<int>("KartverketEmployee_EmployeeID")
                         .HasColumnType("int");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("CaseWorkerID");
 
                     b.ToTable("CaseWorkers");
+
+                    b.HasData(
+                        new
+                        {
+                            CaseWorkerID = 1,
+                            KartverketEmployee_EmployeeID = 1,
+                            Password = "default"
+                        });
+                });
+
+            modelBuilder.Entity("Kartverket.Data.CaseWorkerAssignment", b =>
+                {
+                    b.Property<int>("CaseNo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CaseNo"));
+
+                    b.Property<int>("CaseWorkerID")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("PaidHours")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("CaseNo");
+
+                    b.ToTable("CaseWorkerAssignment");
                 });
 
             modelBuilder.Entity("Kartverket.Data.CaseWorkerList", b =>
@@ -247,6 +278,53 @@ namespace Kartverket.Migrations
                         {
                             issueNo = 4,
                             IssueType = "Annet"
+                        });
+                });
+
+            modelBuilder.Entity("Kartverket.Data.KartverketEmployee", b =>
+                {
+                    b.Property<int>("EmployeeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("EmployeeID"));
+
+                    b.Property<string>("Firstname")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Lastname")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Mail")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("PhoneNo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Wage")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmployeeID");
+
+                    b.ToTable("KartverketEmployee");
+
+                    b.HasData(
+                        new
+                        {
+                            EmployeeID = 1,
+                            Firstname = "'Admin'",
+                            Lastname = "'Adminsen'",
+                            Mail = "'admin@kartverket.no'",
+                            PhoneNo = 0,
+                            Title = "'Admin'",
+                            Wage = 0
                         });
                 });
 
@@ -2054,6 +2132,49 @@ namespace Kartverket.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Kartverket.Data.Status", b =>
+                {
+                    b.Property<int>("StatusNo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("StatusNo"));
+
+                    b.Property<string>("StatusName")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("StatusNo");
+
+                    b.ToTable("Status");
+
+                    b.HasData(
+                        new
+                        {
+                            StatusNo = 1,
+                            StatusName = "Sendt"
+                        },
+                        new
+                        {
+                            StatusNo = 2,
+                            StatusName = "Mottat"
+                        },
+                        new
+                        {
+                            StatusNo = 3,
+                            StatusName = "Behandles"
+                        },
+                        new
+                        {
+                            StatusNo = 4,
+                            StatusName = "Fullført"
+                        },
+                        new
+                        {
+                            StatusNo = 5,
+                            StatusName = "Avvist"
+                        });
+                });
+
             modelBuilder.Entity("Kartverket.Data.User", b =>
                 {
                     b.Property<int>("UserID")
@@ -2063,14 +2184,19 @@ namespace Kartverket.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("UserID"));
 
                     b.Property<string>("Mail")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("UserID");
 

@@ -30,12 +30,13 @@
 
                 <div class="form-group">
                     <label for="username">Brukernavn:</label>
-                    <input type="text" name="Username" required class="form-control" />
+                    <input type="text" name="Username" required class="form-control" value="@User.Identity.Name"/>
                 </div>
 
                 <div class="form-group">
                     <label for="issueType">Velg type problem:</label>
-                    <select class="form-control" name="issueType">
+                    <select class="form-control" name="IssueType" required>
+                        <option value="" disabled selected>-- Velg type problem --</option>
                         <option value="2">Veg/sti</option>
                         <option value="1">Adresse/tomt</option>
                         <option value="3">Sjø</option>
@@ -48,7 +49,15 @@
                     <input asp-action="Upload" method="post" type="file" name="ImageUpload" class="form-control-file" />
                 </div>
 
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="receiveUpdates" name="receiveUpdates">
+                        <label class="form-check-label" for="receiveUpdates">Vil du motta status-oppdateringer på din sak?</label>
+                    </div>
+                </div>
+
                 <button type="submit" class="btn btn-primary mt-3">Send inn</button>
+                
             </form>
         </div>
     </div>
