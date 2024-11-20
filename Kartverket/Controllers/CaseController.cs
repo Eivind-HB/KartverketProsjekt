@@ -32,6 +32,7 @@ namespace Kartverket.Controllers
             };
             ViewBag.ErrorMessage = TempData["ErrorMessage"];
             TempData.Remove("ErrorMessage");
+            ViewBag.ViewModel = TempData["OpprettetSaksnr"];
             return View(viewModel);
         }
 
@@ -51,21 +52,6 @@ namespace Kartverket.Controllers
             return View(viewModel);
         }
 
-        public IActionResult OverviewCaseworker()
-        {
-            var viewModel = new Kartverket.Models.OverviewCaseworkerModel
-            {
-                Cases = _context.Case.ToList(),
-                Issues = _context.Issues.ToList(),
-                KommuneInfos = _context.KommuneInfo.ToList(),
-                FylkesInfos = _context.FylkesInfo.ToList(),
-                Users = _context.Users.ToList(),
-                CaseWorkers = _context.CaseWorkers.ToList(),
-                Employees = _context.KartverketEmployee.ToList()
-
-            };
-            return View(viewModel);
-        }
 
         //Sletting av sak
         [HttpPost]

@@ -174,8 +174,20 @@ namespace Kartverket.Controllers
             Random rnd = new Random();
             int CaseNoNumber = rnd.Next(100000, 999999);
 
+
+            TempData["OpprettetSaksnr"] = CaseNoNumber;
+
             //random id nummer, placeholder
-            var userID = rnd.Next(1, 10);
+            var userId = rnd.Next(1, 10);
+            if (User.Identity.IsAuthenticated)
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+                userId = 0;
+                if (userIdClaim != null)
+                {
+                    userId = int.Parse(userIdClaim.Value);
+                }
+            }
 
             var dateNow = DateOnly.FromDateTime(DateTime.Now);
 
@@ -187,7 +199,7 @@ namespace Kartverket.Controllers
                 Description = description,
                 Date = dateNow,
                 //CaseWorker_CaseWorkerID = 1,
-                User_UserID = userID, 
+                User_UserID = userId, 
                 Issue_IssueNr = issueNo,
                 KommuneNo = kommuneNo,
                 FylkesNo = fylkesNo
