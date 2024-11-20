@@ -51,7 +51,7 @@ public static class DataSeeder
         string path = Path.Combine("Data", "CaseWorker.csv");
         SeedFromCsv<CaseWorker>(modelBuilder, path, new CaseWorkerMap());
     }
-
+  
     private static void SeedFromCsv<T>(ModelBuilder modelBuilder, string path, ClassMap<T> classMap) where T : class
     {
         var config = new CsvConfiguration(CultureInfo.InvariantCulture)
@@ -120,6 +120,7 @@ public class KartverketEmployeeMap : ClassMap<KartverketEmployee>
         Map(m => m.Firstname).Name("Firstname");
         Map(m => m.Lastname).Name("Lastname");
     }
+
 }
 
 public class CaseWorkerMap : ClassMap<CaseWorker>
