@@ -1,14 +1,13 @@
-﻿@model Kartverket.Data.Login
+﻿@model Kartverket.Data.LoginAdmin
 
 @{
-    ViewData["Title"] = "LogIn";
+    ViewData["Title"] = "AdminLogIn";
 }
 
 <div class="page-container registration-form">
-    <h1>Logg Inn</h1>
+    <h1>Logg Inn Admin</h1>
 
-    <form asp-action="LogInForm" method="post">
-        @Html.AntiForgeryToken()
+    <form asp-action="LogInFormAdmin" method="post">
         @if (!ViewData.ModelState.IsValid)
         {
             <div class="alert alert-danger">
@@ -28,20 +27,5 @@
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary">Logg Inn</button>
-        <div class="form-group" style="margin-top: 1rem;">
-            <a href="#">Glemt passord?</a>
-        </div>
-        <div class="form-group">
-            <a href="RegistrationForm">Registrer deg!</a>
-        </div>
-        <div class="form-group" style="margin-bottom: 1rem;">
-            <a asp-controller="Admin" asp-action="LogInFormAdmin">Admin</a>
-        </div>
     </form>
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
