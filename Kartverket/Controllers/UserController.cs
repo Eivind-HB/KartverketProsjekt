@@ -293,5 +293,21 @@ namespace Kartverket.Controllers
             TempData["Message"] = "Brukeren din har nå blitt slettet.";
             return RedirectToAction("Index", "Home");
         }
+
+        //LogIn for Admin
+        [HttpGet]
+        public IActionResult LogInFormAdmin()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult LogInFormAdmin(Login model)
+        {
+            if (ModelState.IsValid)
+            {
+            }
+            return RedirectToAction("OverviewCaseworker", "Case");
+        }
     }
 }
