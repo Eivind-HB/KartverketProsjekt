@@ -1,0 +1,29 @@
+﻿/* Common heading styles */
+.page-container h1 {
+    color: var(--primary-green);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.page-container h2 {
+    color: var(--hover-green);
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Common paragraph styles */
+.page-container p {
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+    border: 1px solid;
+    border-color: #156630;
+}

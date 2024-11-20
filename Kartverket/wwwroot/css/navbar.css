@@ -1,0 +1,45 @@
+﻿.navbar-profile-pic {
+    width: 40px; /* Adjust size */
+    height: 40px;
+    border-radius: 50%; /* Make it circular */
+    object-fit: cover; /* Ensure it scales properly */
+}
+
+.navbar-dropdown {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    background: white; /* Ensure dropdown background */
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add slight shadow */
+}
+
+    .navbar-dropdown button {
+        border: 1px solid #ccc; /* Apply a uniform border */
+        border-radius: 4px; /* Rounded corners for consistency */
+        padding: 0.5rem 1rem; /* Ensure consistent padding */
+        background-color: white; /* Set consistent background */
+        color: #333; /* Set text color */
+        width: 100%; /* Ensure buttons stretch the same width */
+        text-align: left; /* Align text for a clean look */
+        cursor: pointer; /* Ensure it looks clickable */
+    }
+
+        .navbar-dropdown button:hover {
+            background-color: #f8f9fa; /* Slight hover effect */
+            border-color: #999; /* Darken border on hover */
+        }
+
+.navbar-profile-pic {
+    width: 40px; /* Adjust size */
+    height: 40px;
+    border-radius: 50%; /* Make it circular */
+    object-fit: cover; /* Ensure it scales properly */
+}
+
+.navbar-dropdown {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    background: white; /* Ensure dropdown background */
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add slight shadow */
+}

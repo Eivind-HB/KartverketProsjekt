@@ -1,0 +1,109 @@
+﻿.accordion-container {
+    width: 100%;
+    margin-bottom: 2rem;
+    font-family: var(--main-font);
+}
+
+.accordion-item {
+    border: 1px solid var(--border-gray);
+    margin-bottom: 0.5rem;
+    border-radius: var(--border-radius-sm);
+    background: #ffffff;
+    box-shadow: var(--shadow-sm);
+}
+
+.accordion-header {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background-color: var(--light-green);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    text-align: left;
+    font-weight: 600;
+    color: var(--primary-green);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.accordion-header:hover {
+    background-color: #d9ede0;
+}
+
+.accordion-header.active {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.accordion-content {
+    display: none;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-bottom-left-radius: var(--border-radius-sm);
+    border-bottom-right-radius: var(--border-radius-sm);
+}
+
+.accordion-icon {
+    transition: transform 0.3s ease;
+    color: var(--primary-green);
+    font-size: 0.875rem;
+}
+
+.accordion-header.active .accordion-icon {
+    transform: rotate(180deg);
+}
+
+/* Enhanced table styles for accordion */
+.accordion-content .table {
+    margin: 0;
+    border: 1px solid var(--border-gray);
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+}
+
+.accordion-content .table thead th {
+    background-color: var(--light-green);
+    color: var(--primary-green);
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    border-bottom: 2px solid var(--primary-green);
+}
+
+.accordion-content .table td, .accordion.content th {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-gray);
+    color: var(--text-color);
+}
+
+.accordion-content .table tbody tr:hover {
+    background-color: rgba(232, 245, 235, 0.3);
+}
+
+.accordion-content .table td:last-child,
+.accordion-content .table th:last-child {
+    max-width: 150px; /* Adjust the width as needed */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+/* Responsive adjustments for accordion */
+@media (max-width: 768px) {
+    .accordion-header {
+        padding: 0.875rem 1rem;
+    }
+    .accordion-content {
+        padding: 1rem;
+    }
+    .accordion-content .table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .accordion-content .table td, .accordion-content .table th {
+        white-space: nowrap;
+    }
+}
