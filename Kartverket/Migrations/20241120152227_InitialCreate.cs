@@ -247,30 +247,7 @@ namespace Kartverket.Migrations
             migrationBuilder.InsertData(
                 table: "KartverketEmployee",
                 columns: new[] { "EmployeeID", "Firstname", "Lastname", "Mail", "PhoneNo", "Title", "Wage" },
-                values: new object[,]
-                {
-                    { 1, "'Admin'", "'Adminsen'", "'admin@kartverket.no'", 0, "'Admin'", 0 },
-                    { 101, "'Erik'", "'Hansen'", "'erik.hansen@kartverket.no'", 12345678, "'Senior Surveyor'", 650000 },
-                    { 102, "'Maria'", "'Olsen'", "'maria.olsen@kartverket.no'", 23456789, "'GIS Specialist'", 600000 },
-                    { 103, "'Anders'", "'Berg'", "'anders.berg@kartverket.no'", 34567890, "'Property Lawyer'", 700000 },
-                    { 104, "'Sofia'", "'Larsen'", "'sofia.larsen@kartverket.no'", 45678901, "'Cartographer'", 580000 },
-                    { 105, "'Nils'", "'Bakken'", "'nils.bakken@kartverket.no'", 56789012, "'Data Analyst'", 620000 },
-                    { 106, "'Line'", "'Pedersen'", "'line.pedersen@kartverket.no'", 67890123, "'GIS Manager'", 680000 },
-                    { 107, "'Jonas'", "'Andreassen'", "'jonas.andreassen@kartverket.no'", 78961234, "'Senior Surveyor'", 660000 },
-                    { 108, "'Emma'", "'Kristiansen'", "'emma.kristiansen@kartverket.no'", 89012345, "'Cartography Specialist'", 590000 },
-                    { 109, "'Martin'", "'Johansen'", "'martin.johansen@kartverket.no'", 90123456, "'Data Analyst'", 610000 },
-                    { 110, "'Ingrid'", "'Nelson'", "'ingrid.nelson@kartverket.no'", 1234567, "'Project Coordinator'", 630000 },
-                    { 111, "'Magnus'", "'Olsen'", "'magnus.olsen@kartverket.no'", 12345478, "'Remote Sensing Expert'", 670000 },
-                    { 112, "'Sara'", "'Hansen'", "'sara.hansen@kartverket.no'", 23459789, "'Legal Advisor'", 690000 },
-                    { 113, "'Daniel'", "'Berg'", "'daniel.berg@kartverket.no'", 34517890, "'Technical Specialist'", 640000 },
-                    { 114, "'Julia'", "'Larsen'", "'julia.larsen@kartverket.no'", 45671901, "'Research Coordinator'", 620000 },
-                    { 115, "'Thomas'", "'Jensen'", "'thomas.jensen@kartverket.no'", 56779012, "'Senior Analyst'", 650000 },
-                    { 116, "'Maria'", "'Andersen'", "'maria.andersen@kartverket.no'", 67820123, "'Geospatial Specialist'", 600000 },
-                    { 117, "'Alexander'", "'Pedersen'", "'alexander.pedersen@kartverket.no'", 78901234, "'Field Operations Manager'", 680000 },
-                    { 118, "'Sofia'", "'Olsen'", "'sofia.olsen@kartverket.no'", 83012345, "'Data Visualization Expert'", 610000 },
-                    { 119, "'Hans'", "'Hansen'", "'hans.hansen@kartverket.no'", 90323436, "'Senior Consultant'", 670000 },
-                    { 120, "'Linnea'", "'Berg'", "'linnea.berg@kartverket.no'", 1234267, "'Research Analyst'", 590000 }
-                });
+                values: new object[] { 1, "'Admin'", "'Adminsen'", "'admin@kartverket.no'", 0, "'Admin'", 0 });
 
             migrationBuilder.InsertData(
                 table: "KommuneInfo",
