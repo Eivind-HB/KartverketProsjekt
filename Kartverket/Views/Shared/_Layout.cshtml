@@ -6,12 +6,24 @@
     <title>@ViewData["Title"] - Kartverket</title>
     <link rel="icon" type="image/x-icon" href="~/Content/favicon-32x32.png">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Kartverket.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/variables.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/base.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/header.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/buttons.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/containers.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/forms.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/map.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/responsive.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/typography.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/accordian.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
-    <link rel="stylesheet" href="~/css/DropDown.css"/>
+    <link rel="stylesheet" href="~/css/DropDown.css" />
+    <link rel="stylesheet" href="~/css/LogInSite.css" />
+    <link rel="stylesheet" href="~/Kartverket.styles.css" asp-append-version="true" />
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 </head>
 <body>
@@ -54,6 +66,7 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="User" asp-action="Logout">Logg ut</a>
                             </li>
+                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="KontaktOss">Kontakt Oss</a></li>
                         }
                         else
                         {
@@ -63,9 +76,10 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="User" asp-action="RegistrationForm">Register</a>
                             </li>
+                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="KontaktOss">Kontakt Oss</a></li>
                         }
-                        <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="KontaktOss">Kontakt Oss</a></li>
                         <li><a class="dropdown-item" asp-area="" asp-controller="Case" asp-action="OverviewCaseworker">OverviewCaseworker</a></li>
+
                     </ul>
                 </div>
             </div>

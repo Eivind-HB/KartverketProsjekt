@@ -7,14 +7,14 @@
     <h2>Logg ut bekreftelse</h2>
     <p>Er du sikker på at du vil logge ut?</p>
 
-
     <div class="registration-section">
         <form asp-controller="User" asp-action="LogoutConfirm" method="post">
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-primary">Logg ut</button>
+            <button type="submit" class="btn btn-primary form-btn">Logg ut</button>
         </form>
         <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Avbryt</a>
     </div>
+</div>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

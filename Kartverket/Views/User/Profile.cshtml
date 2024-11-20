@@ -8,22 +8,23 @@
 
 @if (TempData["Message"] != null)
 {
-    <div class="alert alert-success">@TempData["Message"]</div>
+    <div class="alert alert-success" role="alert">@TempData["Message"]</div>
 }
 
 <form asp-action="Profile" method="post">
     @Html.AntiForgeryToken()
+
     <input type="hidden" asp-for="UserID" />
 
     <div class="form-group">
         <label asp-for="UserName">Brukernavn:</label>
-        <input asp-for="UserName" class="form-control" />
+        <input asp-for="UserName" class="form-control" aria-describedby="usernameHelp" />
         <span asp-validation-for="UserName" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="Mail">Mail:</label>
-        <input asp-for="Mail" class="form-control" type="email" />
+        <input asp-for="Mail" class="form-control" type="email" aria-describedby="emailHelp" />
         <span asp-validation-for="Mail" class="text-danger"></span>
     </div>
 
@@ -41,15 +42,15 @@
 <h3>Slett bruker</h3>
 <p>Hvis du har lyst til å slette brukeren så trykker du på knappen under(NB! Brukeren vil bli tapt):</p>
 <div class="mt-4">
-    <button id="deleteAccountBtn" class="btn btn-danger float-right">Delete Account</button>
+    <button id="deleteAccountBtn" class="btn btn-danger">Slett bruker</button>
 </div>
 
-<div id="deleteWarningModal" class="modal fade" tabindex="-1" role="dialog">
+<div id="deleteWarningModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Er du sikker?</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="deleteModalLabel">Er du sikker?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Lukk">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -67,20 +68,15 @@
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-
-    }
     <script>
         $(document).ready(function () {
             $('#deleteAccountBtn').click(function () {
                 $('#deleteWarningModal').modal('show');
             });
 
-            // Add this to handle modal dismissal
             $('.modal').on('click', '[data-dismiss="modal"]', function () {
                 $(this).closest('.modal').modal('hide');
-            });
-        });
+                    });
+                });
     </script>
 }

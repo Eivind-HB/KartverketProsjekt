@@ -1,0 +1,83 @@
+﻿/* General form styles */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Form control styles */
+.form-control {
+    width: 100%;
+    max-width: 400px; /* Prevent form controls from stretching too wide */
+    padding: 0.75rem;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    font-family: Muli, Verdana, sans-serif;
+    transition: border-color 0.3s ease;
+}
+
+    .form-control:focus {
+        border-color: var(--primary-green);
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(26, 131, 59, 0.1); /* Light focus shadow */
+    }
+
+/* Form label styles */
+.form-group label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* Restore border for navbar profile picture */
+.standard-pfp {
+    border: 2px solid var(--primary-green);
+    border-radius: var(--border-radius-lg);
+    width: 40px; /* Ensure consistent sizing */
+    height: 40px;
+    object-fit: cover; /* Maintain aspect ratio */
+    margin-right: 10px;
+    transition: transform 0.2s ease;
+}
+
+    .standard-pfp:hover {
+        transform: scale(1.1);
+    }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .btn-group {
+        flex-direction: column; /* Stack buttons vertically on smaller screens */
+    }
+
+    .form-control {
+        max-width: 100%; /* Allow full width on small screens */
+    }
+
+    .form-group {
+        margin-bottom: 1rem; /* Reduce bottom margin for smaller screens */
+    }
+}
+
+/* Modal adjustments */
+.modal-content {
+    padding: 1rem;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+    /* Buttons in modal */
+    .modal-footer button {
+        min-width: 120px; /* Prevent small buttons */
+        max-width: 200px;
+    }
+
+.form-container {
+    border: none; /* Remove any border */
+    padding: 0; /* Adjust padding as needed */
+    margin: 0 auto; /* Center align */
+    width: fit-content; /* Adjust width dynamically */
+}

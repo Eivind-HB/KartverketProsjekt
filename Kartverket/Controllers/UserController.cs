@@ -51,7 +51,7 @@ namespace Kartverket.Controllers
                         var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
-                    new Claim(ClaimTypes.Name, user.Mail)
+                    new Claim(ClaimTypes.Name, user.UserName)
                 };
                         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                         var authProperties = new AuthenticationProperties
