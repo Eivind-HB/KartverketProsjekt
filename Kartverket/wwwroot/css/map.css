@@ -23,7 +23,7 @@
 }
 
 #map {
-    height: 35.5rem;
+    height: 38rem;
     width: 100%;
     border: 2px dotted var(--primary-green);
     border-radius: var(--border-radius-sm);
