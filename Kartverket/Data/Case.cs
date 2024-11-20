@@ -16,14 +16,16 @@ namespace Kartverket.Data
         public string? Description { get; set; }
         [Required]
         public DateOnly? Date { get; set; }
-        //[Required]
+        [Required]
         public int User_UserID { get; set; }
-        //[Required]
+        [Required]
         public int Issue_IssueNr { get; set; }
         public byte[]? Images { get; set; }
         [Required]
         public int KommuneNo { get; set; }
         [Required]
         public int FylkesNo { get; set; }
+        [Required]
+        public int StatusNo { get; set; }
     }
 }

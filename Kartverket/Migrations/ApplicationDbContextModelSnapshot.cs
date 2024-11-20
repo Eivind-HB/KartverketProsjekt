@@ -53,6 +53,9 @@ namespace Kartverket.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("StatusNo")
+                        .HasColumnType("int");
+
                     b.Property<int>("User_UserID")
                         .HasColumnType("int");
 
@@ -2086,6 +2089,49 @@ namespace Kartverket.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Kartverket.Data.Status", b =>
+                {
+                    b.Property<int>("StatusNo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("StatusNo"));
+
+                    b.Property<string>("StatusName")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("StatusNo");
+
+                    b.ToTable("Status");
+
+                    b.HasData(
+                        new
+                        {
+                            StatusNo = 1,
+                            StatusName = "Sendt"
+                        },
+                        new
+                        {
+                            StatusNo = 2,
+                            StatusName = "Mottat"
+                        },
+                        new
+                        {
+                            StatusNo = 3,
+                            StatusName = "Behandles"
+                        },
+                        new
+                        {
+                            StatusNo = 4,
+                            StatusName = "Fullført"
+                        },
+                        new
+                        {
+                            StatusNo = 5,
+                            StatusName = "Avvist"
+                        });
+                });
+
             modelBuilder.Entity("Kartverket.Data.User", b =>
                 {
                     b.Property<int>("UserID")
@@ -2095,14 +2141,19 @@ namespace Kartverket.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("UserID"));
 
                     b.Property<string>("Mail")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("UserID");
 

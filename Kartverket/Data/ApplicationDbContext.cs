@@ -15,6 +15,7 @@ namespace Kartverket.Data
         public DbSet<CaseWorkerList> CaseWorkerLists { get; set; }
         public DbSet<CaseWorkerOverview> CaseWorkerOverviews { get; set; }
         public DbSet<Issue> Issues { get; set; }
+        public DbSet<Status> Status { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<FylkesInfo> FylkesInfo { get; set; }
         public DbSet<KommuneInfo> KommuneInfo { get; set; }
@@ -31,6 +32,9 @@ namespace Kartverket.Data
 
             modelBuilder.Entity<Issue>()
                 .HasKey(f => f.issueNo);
+
+            modelBuilder.Entity<Status>()
+                .HasKey(f => f.StatusNo);
 
             DataSeeder.SeedData(modelBuilder);
         }
