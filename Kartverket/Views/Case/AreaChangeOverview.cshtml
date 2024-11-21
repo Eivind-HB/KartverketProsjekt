@@ -109,7 +109,18 @@
                                                     <textarea name="newDescription" class="form-control">@change.Description</textarea>
                                                 </form>
                                             </td>
-                                            <td>@change.Images</td>
+                                            <td>
+                                                @if (change.Images != null)
+                                                {
+                                                    var base64 = Convert.ToBase64String(change.Images);
+                                                    var imgSrc = String.Format("data:image/png;base64,{0}", base64);
+                                                    <img src="@imgSrc" alt="Case Image" style="max-width: 100px; max-height: 100px;" />
+                                                }
+                                                else
+                                                {
+                                                    <span>No image available</span>
+                                                }
+                                            </td>
                                             <td>@change.User_UserID</td>
                                         </tr>
                                     </tbody>
