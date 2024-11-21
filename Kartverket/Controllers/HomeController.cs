@@ -97,23 +97,17 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegisterAreaChange(AreaChange areaModel, UserData userModel, IFormFile ImageUpload)
+        public async Task<IActionResult> RegisterAreaChange(AreaChange areaModel, UserData userModel, IFormFile ImageUpload)
         {
-            string imagePath = null;
-
-        if (ImageUpload != null && ImageUpload.Length > 0)
-        {
-            var uploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
-            var filePath = Path.Combine(uploads, ImageUpload.FileName);
-
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            if (ImageUpload != null && ImageUpload.Length > 0)
             {
-                ImageUpload.CopyTo(fileStream);
+                using (var memoryStream = new MemoryStream())
+                {
+                    await ImageUpload.CopyToAsync(memoryStream);
+                    areaModel.ImageData = memoryStream.ToArray();
+                }
             }
 
-            imagePath = $"/wwwroot/images/{ImageUpload.FileName}";
-        }
-            
             var newChange = new AreaChange
             {
                 IssueId = Guid.NewGuid().ToString(),
@@ -121,7 +115,7 @@ namespace Kartverket.Controllers
                 Description = areaModel.Description,
                 IssueType = areaModel.IssueType,
                 IssueDate = DateTime.Now,
-                ImagePath = imagePath,
+                ImageData = areaModel.ImageData,
 
                 Kommunenavn = areaModel.Kommunenavn,
                 Kommunenummer = areaModel.Kommunenummer,
@@ -208,6 +202,7 @@ namespace Kartverket.Controllers
                 //CaseWorker_CaseWorkerID = 1,
                 User_UserID = userId, 
                 Issue_IssueNr = issueNo,
+                Images = areaModel.ImageData,
                 KommuneNo = kommuneNo,
                 FylkesNo = fylkesNo,
                 StatusNo = 1
