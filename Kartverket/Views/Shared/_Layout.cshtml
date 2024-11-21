@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="~/Kartverket.styles.css" asp-append-version="true" />
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 </head>
-<body>
+<body class="custom-background">
     <header class="NavHeader">
         <nav class="navbar navbar-expand-lg navbar-light bg-white mb-0">
             <div class="container-fluid">
@@ -67,6 +67,7 @@
                                 <a class="nav-link text-dark" asp-controller="User" asp-action="Logout">Logg ut</a>
                             </li>
                             <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="KontaktOss">Kontakt Oss</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Case" asp-action="OverviewCaseworker">OverviewCaseworker</a></li>
                         }
                         else
                         {
@@ -77,8 +78,9 @@
                                 <a class="nav-link text-dark" asp-controller="User" asp-action="RegistrationForm">Register</a>
                             </li>
                             <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="KontaktOss">Kontakt Oss</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Case" asp-action="OverviewCaseworker">OverviewCaseworker</a></li>
                         }
-                        <li><a class="dropdown-item" asp-area="" asp-controller="Case" asp-action="OverviewCaseworker">OverviewCaseworker</a></li>
+
 
                     </ul>
                 </div>

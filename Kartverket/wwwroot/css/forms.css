@@ -6,7 +6,7 @@
 /* Form control styles */
 .form-control {
     width: 100%;
-    max-width: 400px; /* Prevent form controls from stretching too wide */
+    max-width: 400px; 
     padding: 0.75rem;
     margin-bottom: 10px;
     font-size: 1rem;
@@ -17,7 +17,7 @@
     .form-control:focus {
         border-color: var(--primary-green);
         outline: none;
-        box-shadow: 0 0 0 2px rgba(26, 131, 59, 0.1); /* Light focus shadow */
+        box-shadow: 0 0 0 2px rgba(26, 131, 59, 0.1); 
     }
 
 /* Form label styles */
@@ -32,9 +32,9 @@
 .standard-pfp {
     border: 2px solid var(--primary-green);
     border-radius: var(--border-radius-lg);
-    width: 40px; /* Ensure consistent sizing */
+    width: 40px; 
     height: 40px;
-    object-fit: cover; /* Maintain aspect ratio */
+    object-fit: cover;
     margin-right: 10px;
     transition: transform 0.2s ease;
 }
@@ -46,15 +46,15 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .btn-group {
-        flex-direction: column; /* Stack buttons vertically on smaller screens */
+        flex-direction: column; 
     }
 
     .form-control {
-        max-width: 100%; /* Allow full width on small screens */
+        max-width: 100%; 
     }
 
     .form-group {
-        margin-bottom: 1rem; /* Reduce bottom margin for smaller screens */
+        margin-bottom: 1rem; 
     }
 }
 
@@ -71,13 +71,13 @@
 
     /* Buttons in modal */
     .modal-footer button {
-        min-width: 120px; /* Prevent small buttons */
+        min-width: 120px;
         max-width: 200px;
     }
 
 .form-container {
-    border: none; /* Remove any border */
-    padding: 0; /* Adjust padding as needed */
-    margin: 0 auto; /* Center align */
-    width: fit-content; /* Adjust width dynamically */
+    border: none; 
+    padding: 0; 
+    margin: 0 auto; 
+    width: fit-content; 
 }
