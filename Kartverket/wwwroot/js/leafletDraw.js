@@ -13,21 +13,23 @@ if (typeof map === 'undefined') {
     var drawControl = new L.Control.Draw({
         draw: {
             polygon: true,
-            polyline: true,
             marker: true,
+            rectangle: true,
             circle: false,
-            rectangle: true
+            circlemarker: false,
+            polyline: false,
         },
         edit: {
-            featureGroup: drawnItems
+            featureGroup: drawnItems,
+            edit: false,
         }
     });
     map.addControl(drawControl);
 
     // Handle the draw event
     map.on(L.Draw.Event.CREATED, function (e) {
-        var type = e.layerType,
-            layer = e.layer;
+        var type = e.layerType;
+        var layer = e.layer;
 
         drawnItems.addLayer(layer);
 
