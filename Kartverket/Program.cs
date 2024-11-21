@@ -6,11 +6,18 @@ using Kartverket.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using FluentAssertions.Common;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.AddConfiguration(builder.Configuration.GetSection("Logging"));
+    loggingBuilder.AddConsole();
+});
 
 // Configure Entity Framework with MariaDB
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -21,10 +28,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         maxRetryCount: 5,
         maxRetryDelay: TimeSpan.FromSeconds(10),
         errorNumbersToAdd: null)
-      ));
+      )
+    .EnableSensitiveDataLogging()
+    );
+
 
 // Register PasswordHasher<User>
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
+// Register PasswordHasher<Admin>
+builder.Services.AddScoped<IPasswordHasher<CaseWorker>, PasswordHasher<CaseWorker>>();
 
 // Configure Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

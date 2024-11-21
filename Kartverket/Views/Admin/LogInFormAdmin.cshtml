@@ -30,3 +30,9 @@
         <button type="submit" class="btn btn-primary">Logg Inn</button>
     </form>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
