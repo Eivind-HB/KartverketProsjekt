@@ -12,7 +12,7 @@
         <table class="table table-compact">
             <thead>
                 <tr>
-                    <th>Saks Nummer</th>
+                    <th>Saksnummer</th>
                     <th>Saks Type</th>
                     <th>Saks Dato</th>
                     <th>GeoJson</th>
@@ -53,23 +53,24 @@
     <script>
         // Fetches the single GeoJSON-data from the model
         var geoJsonData = @Html.Raw(Model.LocationInfo);
+        var caseNumber = @Model.CaseNo;
 
         console.log("GeoJSON Data:", geoJsonData);
-
+        console.log("CaseNo", caseNumber);
         // Makes sure om GeoJSON-data is valid
         if (geoJsonData) {
             // Adds the GeoJson data to the map
             L.geoJSON(geoJsonData, {
                 style: function (feature) {
-                    return { className: 'geojson-feature' }; // Makes the drawn event the SafetyOrange
-                },
+                    return { className: 'geojson-feature' }; // Uses the leafletdraw.css drawn colors
+                }, //Adds casenumber as popup on click
                 onEachFeature: function (feature, layer) {
-                    // Legg til popup hvis det finnes egenskaper
-                    if (feature.properties && feature.properties.name) {
-                        layer.bindPopup(feature.properties.name);
-                    }
+
+                    var popupContent = `Saksnummer: ${caseNumber}`;
+
+                    layer.bindPopup(popupContent);
                 }
-            }).addTo(map); // Bruker det eksisterende 'map' objektet fra leafletMap.js
+            }).addTo(map); 
         } else {
             console.error("GeoJSON-data er tom eller ugyldig.");
         }
