@@ -4,7 +4,6 @@
     ViewData["Title"] = "RegisteredCaseOverview";
 }
 
-
 <h2>Sak Registrert!</h2>
 
 <div class="page-container">
@@ -13,7 +12,7 @@
         <table class="table table-compact">
             <thead>
                 <tr>
-                    <th>Saks Nummer</th>
+                    <th>Saksnummer</th>
                     <th>Saks Type</th>
                     <th>Saks Dato</th>
                     <th>GeoJson</th>
@@ -28,6 +27,7 @@
                     <td>@Model.Issue_IssueNr</td>
                     <td>@Model.Date</td>
                     <td>@Model.LocationInfo</td>
+                    <td>@Model.Description</td>
                     <td>@Model.Images</td>
                     <td>@Model.User_UserID</td>
                 </tr>
@@ -44,53 +44,36 @@
     <div class="map-change-container">
         <div id="map" class="map-section"></div>
     </div>
+
+    <a asp-action="Index" class="btn btn-secondary">Tilbake til hjem</a>
 </div>
 
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
-    <script src="~/js/mapChanges.js"></script>
-
     <script>
-        // Toggle the edit form visibility
-        function toggleEditForm(caseNo) {
-            const form = document.getElementById(`edit-form-${caseNo}`);
-            const editButtons = document.getElementById(`edit-buttons-${caseNo}`);
-            const isHidden = form.style.display === "none";
+        // Fetches the single GeoJSON-data from the model
+        var geoJsonData = @Html.Raw(Model.LocationInfo);
+        var caseNumber = @Model.CaseNo;
 
-            form.style.display = isHidden ? "block" : "none";
-            editButtons.style.display = isHidden ? "flex" : "none";
-        }
+        console.log("GeoJSON Data:", geoJsonData);
+        console.log("CaseNo", caseNumber);
+        // Makes sure om GeoJSON-data is valid
+        if (geoJsonData) {
+            // Adds the GeoJson data to the map
+            L.geoJSON(geoJsonData, {
+                style: function (feature) {
+                    return { className: 'geojson-feature' }; // Uses the leafletdraw.css drawn colors
+                }, //Adds casenumber as popup on click
+                onEachFeature: function (feature, layer) {
 
-        // Passes the serialized AreaChanges model data to the mapChanges function
-        //var drawnChanges = Html.Raw(Json.Serialize(Model));
-        //initializeDrawnChanges(drawnChanges);
-                // Assuming you have a map object and a single change object
-        var singleChange = {
-            caseNo: Model.CaseNo,
-            locationInfo: Model.LocationInfo,
-            Description: Model.Description
-        };
+                    var popupContent = `Saksnummer: ${caseNumber}`;
 
-        drawSingleGeoJson(singleChange, map);
-
-
-        // Accordion functionality
-        document.querySelectorAll('.accordion-header').forEach(button => {
-            button.addEventListener('click', () => {
-                const accordionContent = button.nextElementSibling;
-                button.classList.toggle('active');
-
-                if (accordionContent.style.display === 'block') {
-                    accordionContent.style.display = 'none';
-                } else {
-                    accordionContent.style.display = 'block';
+                    layer.bindPopup(popupContent);
                 }
-
-                // Update map size when accordion changes
-                map.invalidateSize();
-            });
-        });
+            }).addTo(map); 
+        } else {
+            console.error("GeoJSON-data er tom eller ugyldig.");
+        }
     </script>
-}
 
-<a asp-action="Index" class="btn btn-secondary">Tilbake til oversikt</a>
+}

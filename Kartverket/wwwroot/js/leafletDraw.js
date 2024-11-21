@@ -12,12 +12,12 @@ if (typeof map === 'undefined') {
 
     var drawControl = new L.Control.Draw({
         draw: {
-            polygon: true,
+            polyline: true,
             marker: true,
             rectangle: true,
             circle: false,
-            circlemarker: false,
-            polyline: false,
+            circlemarker: false,          
+            polygon: false,
         },
         edit: {
             featureGroup: drawnItems,
