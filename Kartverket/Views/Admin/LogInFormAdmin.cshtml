@@ -8,6 +8,7 @@
     <h1>Logg Inn Admin</h1>
 
     <form asp-action="LogInFormAdmin" method="post">
+        @Html.AntiForgeryToken()
         @if (!ViewData.ModelState.IsValid)
         {
             <div class="alert alert-danger">

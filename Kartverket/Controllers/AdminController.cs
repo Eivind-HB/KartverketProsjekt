@@ -20,6 +20,7 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult LogInFormAdmin(Login model)
         {
             if (ModelState.IsValid)
