@@ -45,33 +45,17 @@
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
 
-    @*THIS SCRIPT IS DUPLICATED FROM RegistredCaseOverview.cshtml SO SHOULD BE MADE INTO ITS OWN FILE TO AVOID DUPLICATION, BUT IDK HOW*@
-    @* This script fetches the geoJsonData and casenumber from the case model and turns it into a leafletdraw feature with Casenumber popup.*@
+    
+    @* This script fetches GeoJSON and CaseNumber from the case model
+       The variables are used in singleDrawnCase.js
+       Needs to be in this order to work
+    *@
     <script>
         // Fetches the single GeoJSON-data from the model
         var geoJsonData = @Html.Raw(Model.LocationInfo);
         var caseNumber = @Model.CaseNo;
 
-        console.log("GeoJSON Data:", geoJsonData);
-        console.log("CaseNo", caseNumber);
-        // Makes sure om GeoJSON-data is valid
-        if (geoJsonData) {
-            // Adds the GeoJson data to the map
-            L.geoJSON(geoJsonData, {
-                style: function (feature) {
-                    return { className: 'geojson-feature' }; // Uses the leafletdraw.css drawn colors
-                }, //Adds casenumber as popup on click
-                onEachFeature: function (feature, layer) {
-
-                    var popupContent = `Saksnummer: ${caseNumber}`;
-
-                    layer.bindPopup(popupContent);
-                }
-            }).addTo(map);
-        } else {
-            console.error("GeoJSON-data er tom eller ugyldig.");
-        }
     </script>
+    <script src="~/js/singleDrawnCase.js"></script>
 
-}
 }
