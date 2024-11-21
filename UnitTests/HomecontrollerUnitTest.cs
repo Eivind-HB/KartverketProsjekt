@@ -1,5 +1,6 @@
 using Kartverket.Controllers;
 using Kartverket.Data;
+using Kartverket.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -9,6 +10,9 @@ using NSubstitute;
 using System.Security.Claims;
 using System.Security.Principal;
 using Xunit;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Kartverket.Tests
 {

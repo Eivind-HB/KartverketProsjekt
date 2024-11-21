@@ -97,8 +97,6 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
-        //public IActionResult RegisterAreaChange(string geoJson, string description, int UserID, AreaChange areaModel, UserData userModel, IFormFile ImageUpload)
-        
         public IActionResult RegisterAreaChange(AreaChange areaModel, UserData userModel, IFormFile ImageUpload)
         {
             string imagePath = null;
