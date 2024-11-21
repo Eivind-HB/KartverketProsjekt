@@ -61,7 +61,7 @@
             // Adds the GeoJson data to the map
             L.geoJSON(geoJsonData, {
                 style: function (feature) {
-                    return { color: '#FF5F15' }; // Makes the drawn event the SafetyOrange
+                    return { className: 'geojson-feature' }; // Makes the drawn event the SafetyOrange
                 },
                 onEachFeature: function (feature, layer) {
                     // Legg til popup hvis det finnes egenskaper
