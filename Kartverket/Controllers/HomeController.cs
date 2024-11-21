@@ -91,7 +91,7 @@ namespace Kartverket.Controllers
             return View();
         }
 
-        public IActionResult RegistrertCaseOverblikk()
+        public IActionResult RegisteredCaseOverview()
         {
             return View();
         }
@@ -223,7 +223,7 @@ namespace Kartverket.Controllers
             {
                 return RedirectToAction("AreaChangeOverview", "Case");
             }
-            return View("RegistrertCaseOverblikk", newGeoChange);
+            return View("RegisteredCaseOverview", newGeoChange);
         }
 
         [HttpGet]
