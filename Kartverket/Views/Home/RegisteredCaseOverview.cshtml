@@ -45,11 +45,15 @@
         <div id="map" class="map-section"></div>
     </div>
 
-    <a asp-action="Index" class="btn btn-secondary">Tilbake til hjem</a>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Tilbake til hjem</a>
 </div>
 
 @section Scripts {
+
     <script src="~/js/leafletMap.js"></script>
+    
+    @*THIS SCRIPT IS DUPLICATED FROM RegistredCaseOverview.cshtml SO SHOULD BE MADE INTO ITS OWN FILE TO AVOID DUPLICATION, BUT IDK HOW*@
+    @* This script fetches the geoJsonData and casenumber from the case model and turns it into a leafletdraw feature with Casenumber popup.*@
     <script>
         // Fetches the single GeoJSON-data from the model
         var geoJsonData = @Html.Raw(Model.LocationInfo);
