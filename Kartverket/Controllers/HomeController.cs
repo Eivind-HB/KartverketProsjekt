@@ -202,9 +202,10 @@ namespace Kartverket.Controllers
             //var newlycreated = true;
 
             //random id nummer, placeholder
-            var userId = rnd.Next(1, 10);
+            var userId = rnd.Next(100000, 999999);
             if (User.Identity.IsAuthenticated)
             {
+
                 var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
                 userId = 0;
                 if (userIdClaim != null)
