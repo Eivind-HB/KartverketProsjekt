@@ -8,6 +8,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Kartverket.Models;
 using Ganss.Xss;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Kartverket.Controllers
 {
@@ -130,8 +131,12 @@ namespace Kartverket.Controllers
                     return View("RegistrationForm", model);
                 }
 
+                Random rnd = new Random();
+                int AutoUserID = rnd.Next(100000, 999999);
+
                 var newUser = new User
                 {
+                    UserID = AutoUserID,
                     UserName = model.UserName,
                     Mail = model.Mail,
                     Password = _passwordHasher.HashPassword(null, model.Password)
