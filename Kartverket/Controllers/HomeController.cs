@@ -119,8 +119,8 @@ namespace Kartverket.Controllers
                 //Checks if the file is of the correct type, if not it returns an error message
                 if (!allowedExtension.Contains(fileExtension))
                 {
-                    ViewData["ErrorMessage"]="Bare filtyper JPG, JPEG, PNG under 5MB er tillatt";
-                    return View("RoadCorrection",areaModel);
+                    ViewData["ErrorMessage"] = "Bare filtyper JPG, JPEG, PNG under 5MB er tillatt";
+                    return View("RoadCorrection", areaModel);
                 }
 
                 //Checks if the file is of the correct size, if not it returns an error message
@@ -209,7 +209,7 @@ namespace Kartverket.Controllers
                 Console.WriteLine($"GeoJson parsing error: {ex.Message}");
                 return BadRequest("Invalid GeoJson format.");
             }
-                
+
             //Create MySqlGeometry from WKB
             //MySqlGeometry mySqlGeometry = MySqlGeometry.FromWKB(wkb);   funker ikke
 
@@ -228,12 +228,22 @@ namespace Kartverket.Controllers
             var userId = rnd.Next(100000, 999999);
             if (User.Identity.IsAuthenticated)
             {
-
-                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-                userId = 0;
-                if (userIdClaim != null)
+                if (User.IsInRole("Admin"))
                 {
-                    userId = int.Parse(userIdClaim.Value);
+                    var caseWorkerIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+                    if (caseWorkerIdClaim != null)
+                    {
+                        userId = int.Parse(caseWorkerIdClaim.Value);
+                    }
+                }
+                else
+                {
+                    var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+                    userId = 0;
+                    if (userIdClaim != null)
+                    {
+                        userId = int.Parse(userIdClaim.Value);
+                    }
                 }
             }
 
@@ -271,9 +281,5 @@ namespace Kartverket.Controllers
         {
             return View(positions);
         }
-
-
-        
-
     }
 }
