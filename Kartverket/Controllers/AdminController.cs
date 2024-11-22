@@ -100,15 +100,16 @@ namespace Kartverket.Controllers
                     // Check if the user must change their password
                     if (caseWorker.MustChangePassword)
                     {
-                        TempData["NotificationMessage"] = "Your password has to be changed.";
-
                         // Redirect to password change page
                         return RedirectToAction("ChangePasswordAdmin", new { id = caseWorker.CaseWorkerID });
                     }
 
                     // Set MustChangePassword to true after the first successful login
-                    caseWorker.MustChangePassword = true;
-                    await _context.SaveChangesAsync();
+                    if (caseWorker.Password == "default") 
+                    {
+                        caseWorker.MustChangePassword = true;
+                        await _context.SaveChangesAsync();
+                    }
 
                     // Create claims and sign in the user
                     var claims = new List<Claim>
