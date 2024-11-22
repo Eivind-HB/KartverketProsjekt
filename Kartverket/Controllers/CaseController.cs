@@ -118,6 +118,18 @@ namespace Kartverket.Controllers
             return RedirectToAction("AreaChangeOverview");
             }
 
-
+        [HttpGet]
+        public IActionResult GetCaseImage(int caseId)
+        {
+            var caseItem = _context.Case.FirstOrDefault(c => c.CaseNo == caseId);
+            if (caseItem != null && caseItem.Images != null)
+            {
+                var base64 = Convert.ToBase64String(caseItem.Images);
+                var imgSrc = String.Format("data:image/png;base64,{0}", base64);
+                return Json(new { imgSrc });
+            }
+            return NotFound();
         }
+    }
+
 }

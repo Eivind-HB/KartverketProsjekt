@@ -34,13 +34,12 @@
         </table>
     </div>
     <div class="btn-group">
-        <!-- Display Image button that opens image modal-->
+        <!-- Button to display the image in a modal.
+        When clicked, it triggers the 'show.bs.modal' event,
+        passing the case ID to fetch the image source from the server. -->
         @if (@Model.Images != null)
         {
-            // Convert byte array to base64 string and adds it to the image source
-            var base64 = Convert.ToBase64String(@Model.Images);
-            var imgSrc = String.Format("data:image/png;base64,{0}", base64);
-            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="@imgSrc">Vis Bilde</button>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#imageModal" data-case-id="@Model.CaseNo">Vis Bilde</button>
         }
     </div>
     <div class="map-change-container">
