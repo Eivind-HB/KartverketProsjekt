@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kartverket.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241121120425_InitialCreate")]
+    [Migration("20241121174257_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,6 +24,29 @@ namespace Kartverket.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("Kartverket.Data.Admin", b =>
+                {
+                    b.Property<int>("CaseWorkerID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CaseWorkerID"));
+
+                    b.Property<string>("Mail")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("CaseWorkerID");
+
+                    b.ToTable("Admin");
+                });
 
             modelBuilder.Entity("Kartverket.Data.Case", b =>
                 {
@@ -78,6 +101,9 @@ namespace Kartverket.Migrations
                     b.Property<int>("KartverketEmployee_EmployeeID")
                         .HasColumnType("int");
 
+                    b.Property<bool>("MustChangePassword")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -91,6 +117,7 @@ namespace Kartverket.Migrations
                         {
                             CaseWorkerID = 1,
                             KartverketEmployee_EmployeeID = 1,
+                            MustChangePassword = false,
                             Password = "default"
                         });
                 });

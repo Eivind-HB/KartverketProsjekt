@@ -1,0 +1,6 @@
+﻿.geojson-feature {
+    stroke: #FF5F15; /* Safety orange outline */
+    stroke-width: 2; /* Outline thickness */
+    fill: #ffA500; /* orange fill */
+    fill-opacity: 0.5; /* Transparent fill */
+}

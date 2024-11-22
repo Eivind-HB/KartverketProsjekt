@@ -18,6 +18,23 @@ namespace Kartverket.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Admin",
+                columns: table => new
+                {
+                    CaseWorkerID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Mail = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Password = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Admin", x => x.CaseWorkerID);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Case",
                 columns: table => new
                 {
@@ -96,7 +113,8 @@ namespace Kartverket.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     KartverketEmployee_EmployeeID = table.Column<int>(type: "int", nullable: false),
                     Password = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    MustChangePassword = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -208,8 +226,8 @@ namespace Kartverket.Migrations
 
             migrationBuilder.InsertData(
                 table: "CaseWorkers",
-                columns: new[] { "CaseWorkerID", "KartverketEmployee_EmployeeID", "Password" },
-                values: new object[] { 1, 1, "default" });
+                columns: new[] { "CaseWorkerID", "KartverketEmployee_EmployeeID", "MustChangePassword", "Password" },
+                values: new object[] { 1, 1, false, "default" });
 
             migrationBuilder.InsertData(
                 table: "FylkesInfo",
@@ -652,6 +670,9 @@ namespace Kartverket.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Admin");
+
             migrationBuilder.DropTable(
                 name: "Case");
 

@@ -4,7 +4,6 @@
     ViewData["Title"] = "RegisteredCaseOverview";
 }
 
-
 <h2>Sak Registrert!</h2>
 
 <div class="page-container">
@@ -13,7 +12,7 @@
         <table class="table table-compact">
             <thead>
                 <tr>
-                    <th>Saks Nummer</th>
+                    <th>Saksnummer</th>
                     <th>Saks Type</th>
                     <th>Saks Dato</th>
                     <th>GeoJson</th>
@@ -27,6 +26,7 @@
                     <td>@Model.Issue_IssueNr</td>
                     <td>@Model.Date</td>
                     <td>@Model.LocationInfo</td>
+                    <td>@Model.Description</td>
                     <td>@Model.User_UserID</td>
                 </tr>
             </tbody>
@@ -34,7 +34,7 @@
         <table class="table table-compact">
             <tbody>
                 <tr>
-                    <td>Du har send inn saken uten en brukerprofil, så du MÅ huske saksnummeret for å kunne se oppdateringer! Saksnummeret kan søkes på "registrerte rettelser" siden</td>
+                    <td>Du har send inn saken uten en brukerprofil, sÃ¥ du MÃ… huske saksnummeret for Ã¥ kunne se oppdateringer! Saksnummeret kan sÃ¸kes pÃ¥ "registrerte rettelser" siden</td>
                 </tr>
             </tbody>
         </table>
@@ -50,6 +50,7 @@
     <div class="map-change-container">
         <div id="map" class="map-section"></div>
     </div>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Tilbake til hjem</a>
 </div>
 
 <!-- Image Modal -->
@@ -72,50 +73,18 @@
 
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
-    <script src="~/js/mapChanges.js"></script>
     <script src="~/js/modal.js"></script>
 
+    
+    @* This script fetches GeoJSON and CaseNumber from the case model
+       The variables are used in singleDrawnCase.js
+       Needs to be in this order to work
+    *@
     <script>
-        // Toggle the edit form visibility
-        function toggleEditForm(caseNo) {
-            const form = document.getElementById(`edit-form-${caseNo}`);
-            const editButtons = document.getElementById(`edit-buttons-${caseNo}`);
-            const isHidden = form.style.display === "none";
-
-            form.style.display = isHidden ? "block" : "none";
-            editButtons.style.display = isHidden ? "flex" : "none";
-        }
-
-        // Passes the serialized AreaChanges model data to the mapChanges function
-        //var drawnChanges = Html.Raw(Json.Serialize(Model));
-        //initializeDrawnChanges(drawnChanges);
-                // Assuming you have a map object and a single change object
-        var singleChange = {
-            caseNo: Model.CaseNo,
-            locationInfo: Model.LocationInfo,
-            Description: Model.Description
-        };
-
-        drawSingleGeoJson(singleChange, map);
-
-
-        // Accordion functionality
-        document.querySelectorAll('.accordion-header').forEach(button => {
-            button.addEventListener('click', () => {
-                const accordionContent = button.nextElementSibling;
-                button.classList.toggle('active');
-
-                if (accordionContent.style.display === 'block') {
-                    accordionContent.style.display = 'none';
-                } else {
-                    accordionContent.style.display = 'block';
-                }
-
-                // Update map size when accordion changes
-                map.invalidateSize();
-            });
-        });
+        // Fetches the single GeoJSON-data from the model
+        var geoJsonData = @Html.Raw(Model.LocationInfo);
+        var caseNumber = @Model.CaseNo;
     </script>
-}
+    <script src="~/js/singleDrawnCase.js"></script>
 
-<a asp-action="Index" class="btn btn-secondary">Tilbake til oversikt</a>
+}

@@ -1,4 +1,5 @@
-﻿using Kartverket.Data;
+﻿using Ganss.Xss;
+using Kartverket.Data;
 using Kartverket.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -88,12 +89,15 @@ namespace Kartverket.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditDescription(int caseId, string newDescription)
         {
+            var sanitizer = new HtmlSanitizer();
+            var sanitizedDescription = sanitizer.Sanitize(newDescription);
+
             // Henter saken basert på CaseNo
             var caseItem = _context.Case.FirstOrDefault(c => c.CaseNo == caseId);
             if (caseItem != null)
             {
                 // Oppdaterer beskrivelse
-                caseItem.Description = newDescription;
+                caseItem.Description = sanitizedDescription;
                 _context.SaveChanges();
             }
 

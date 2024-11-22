@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Kartverket.Models;
+using Ganss.Xss;
 
 namespace Kartverket.Controllers
 {
@@ -118,6 +119,10 @@ namespace Kartverket.Controllers
         {
             if (ModelState.IsValid)
             {
+                var sanitizer = new HtmlSanitizer();
+                model.Mail = sanitizer.Sanitize(model.Mail);
+                model.Password = sanitizer.Sanitize(model.Password);
+
                 // Check if email already exists
                 if (await _context.Users.AnyAsync(u => u.Mail == model.Mail))
                 {
@@ -219,8 +224,10 @@ namespace Kartverket.Controllers
             }
 
 
-            user.UserName = model.UserName;
-            user.Mail = model.Mail;
+            var sanitizer = new HtmlSanitizer();
+
+            user.UserName = sanitizer.Sanitize(model.UserName);
+            user.Mail = sanitizer.Sanitize(model.Mail);
             //user.UserID = model.UserID;
 
             await _context.SaveChangesAsync();
