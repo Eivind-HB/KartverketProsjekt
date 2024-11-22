@@ -4,6 +4,7 @@ using Kartverket.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Kartverket.Controllers
 {
   
