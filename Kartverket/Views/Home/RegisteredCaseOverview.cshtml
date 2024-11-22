@@ -17,7 +17,6 @@
                     <th>Saks Dato</th>
                     <th>GeoJson</th>
                     <th>Beskrivelse</th>
-                    <th>Bilde</th>
                     <th>BrukerID</th>
                 </tr>
             </thead>
@@ -28,7 +27,6 @@
                     <td>@Model.Date</td>
                     <td>@Model.LocationInfo</td>
                     <td>@Model.Description</td>
-                    <td>@Model.Images</td>
                     <td>@Model.User_UserID</td>
                 </tr>
             </tbody>
@@ -41,14 +39,42 @@
             </tbody>
         </table>
     </div>
+    <div class="btn-group">
+        @if (@Model.Images != null)
+        {
+            var base64 = Convert.ToBase64String(@Model.Images);
+            var imgSrc = String.Format("data:image/png;base64,{0}", base64);
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="@imgSrc">Vis Bilde</button>
+        }
+    </div>
     <div class="map-change-container">
         <div id="map" class="map-section"></div>
     </div>
     <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Tilbake til hjem</a>
 </div>
 
+<!-- Image Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Vedlagt Bilde</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img id="modalImage" src="" alt="Case Image" class="img-fluid" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Lukk</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
+    <script src="~/js/modal.js"></script>
+
     
     @* This script fetches GeoJSON and CaseNumber from the case model
        The variables are used in singleDrawnCase.js
