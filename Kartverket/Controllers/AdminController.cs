@@ -80,14 +80,8 @@ namespace Kartverket.Controllers
                 if (caseWorker.Password == "default" && model.Password == "default")
                 {
                     isPasswordValid = true;
-                    // TODO: Implement logic to force password change on next login
                 }
-                else if (caseWorker.Password == "default")
-                {
-                    // If the stored password is "default" but the input isn't, it's invalid
-                    isPasswordValid = false;
-                }
-                else
+                else if (caseWorker.Password != "default")
                 {
                     try
                     {
@@ -103,12 +97,30 @@ namespace Kartverket.Controllers
 
                 if (isPasswordValid)
                 {
+                    // Check if the user must change their password
+                    if (caseWorker.MustChangePassword)
+                    {
+                        // Redirect to password change page
+                        return RedirectToAction("ChangePasswordAdmin", new { id = caseWorker.CaseWorkerID });
+                    }
+
+                    // Set MustChangePassword to true after the first successful login
+                    if (caseWorker.Password == "default") 
+                    {
+                        caseWorker.MustChangePassword = true;
+                        await _context.SaveChangesAsync();
+                    }
+
                     // Create claims and sign in the user
                     var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, caseWorker.CaseWorkerID.ToString()),
-                new Claim(ClaimTypes.Name, employee.Mail)
+                new Claim(ClaimTypes.Name, employee.Mail),
+
+                // Adds a claim to say it is an Admin
+                new Claim(ClaimTypes.Role, "Admin")
             };
+                   
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var authProperties = new AuthenticationProperties
                     {
@@ -127,6 +139,39 @@ namespace Kartverket.Controllers
                 // If password verification fails, return error
                 ModelState.AddModelError(string.Empty, "Feil mail eller passord.");
             }
+            return View(model);
+        }
+        
+        [HttpGet]
+        public IActionResult ChangePasswordAdmin(int id)
+        {
+            // Return view with the CaseWorker ID
+            return View(new AdminPasswordUpdate { CaseWorkerID = id });
+        }
+
+        //Change Password is sent to the database and hashed
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePasswordAdmin(AdminPasswordUpdate model)
+        {
+            if (ModelState.IsValid)
+            {
+                var caseWorker = await _context.CaseWorkers.FindAsync(model.CaseWorkerID);
+
+                if (caseWorker != null)
+                {
+                    // Hash the new password and update it
+                    caseWorker.Password = _passwordHasher.HashPassword(caseWorker, model.NewPasswordAdmin);
+                    caseWorker.MustChangePassword = false; // Reset the flag
+
+                    await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Your password has been changed successfully.";
+                    return RedirectToAction("LogInFormAdmin"); // Redirect back to login or another page
+                }
+
+                ModelState.AddModelError(string.Empty, "User not found.");
+            }
+
             return View(model);
         }
     }

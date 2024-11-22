@@ -46,13 +46,13 @@ namespace Kartverket.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        //Henting av kommuneinfo
+        //Fetching of kommuneinfo
         [HttpGet("GetKommuneInfo")]
         public async Task<IActionResult> GetKommuneInfo(double latitude, double longitude)
         {
             var kommuneInfo = await _KommuneInfoApiService.GetKommuneInfoAsync(latitude, longitude);
 
-            // Returner kommuneinfo som JSON
+            // Returns kommuneinfo as JSON
             return Json(kommuneInfo);
 
         }

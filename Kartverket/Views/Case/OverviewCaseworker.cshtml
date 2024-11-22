@@ -57,7 +57,6 @@
                                     <th>Saks Dato</th>
                                     <th>GeoJson</th>
                                     <th>Beskrivelse</th>
-                                    <th>Bilde</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -76,7 +75,6 @@
                                             <textarea name="newDescription" class="form-control">@change.Description</textarea>
                                         </form>
                                     </td>
-                                    <td>@change.Images</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -101,7 +99,7 @@
                             </tbody>
                         </table>
 
-                        <!-- Buttons for Edit and Delete -->
+                        <!-- Buttons for Edit, Delete and Display Image -->
                         <div class="btn-group">
                             <!-- Deletion button -->                       
                             <form asp-action="DeleteCase" asp-controller="Case" method="post" style="display: inline;">
@@ -111,9 +109,17 @@
 
                             <!-- Edit button to toggle edit form -->
                             <button onclick="toggleEditForm(@change.CaseNo)" class="btn btn-primary" style="display: inline;">Rediger</button>
+
+                            <!-- Button to display the image in a modal.
+                            When clicked, it triggers the 'show.bs.modal' event,
+                            passing the case ID to fetch the image source from the server. -->
+                            @if (change.Images != null)
+                            {
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#imageModal" data-case-id="@change.CaseNo">Vis Bilde</button>
+                            }
                         </div>
 
-                        <!-- Save and Cancel buttons for Edit Form, only visible when editing -->
+                        <!-- Save and C ancel buttons for Edit Form, only visible when editing -->
                         <div id="edit-buttons-@change.CaseNo" class="edit-form-btn" style="display: none;">
                             <button form="edit-form-@change.CaseNo" type="submit" class="btn btn-success">Lagre</button>
                             <button type="button" onclick="toggleEditForm(@change.CaseNo)" class="btn btn-secondary">Avbryt</button>
@@ -249,10 +255,30 @@
         <div id="map" class="map-section"></div>
     </div>
 </div>
+
+
+<!-- Image Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Vedlagt Bilde</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img id="modalImage" src="" alt="Case Image" class="img-fluid" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Lukk</button>
+            </div>
+        </div>
+    </div>
+</div>
   
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
     <script src="~/js/mapChanges.js"></script>
+    <script src="~/js/modal.js"></script>
 
     <script>
         // Toggle the edit form visibility

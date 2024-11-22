@@ -20,13 +20,14 @@
     <link rel="stylesheet" href="~/css/accordian.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+    <link rel="stylesheet" href="~/css/leafletDraw.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
     <link rel="stylesheet" href="~/css/DropDown.css" />
     <link rel="stylesheet" href="~/css/LogInSite.css" />
     <link rel="stylesheet" href="~/Kartverket.styles.css" asp-append-version="true" />
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 </head>
-<body>
+<body class="custom-background">
     <header class="NavHeader">
         <nav class="navbar navbar-expand-lg navbar-light bg-white mb-0">
             <div class="container-fluid">
@@ -39,18 +40,35 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav d-flex justify-content-between w-100">
-                        <li class="nav-item" id="Home">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Forside</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="RoadCorrection">Rett i kartet</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Case" asp-action="AreaChangeOverview">Registrerte rettelser</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="OmOss">Om oss</a>
-                        </li>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            // Admin Navbar
+                            <li class="nav-item" id="Home">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Forside</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="RoadCorrection">Rett i kartet</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Case" asp-action="OverviewCaseworker">Registrerte rettelser</a>
+                            </li>
+                        }
+                        else
+                        {
+                            // User/Not Logged In Navbar 
+                            <li class="nav-item" id="Home">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Forside</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="RoadCorrection">Rett i kartet</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Case" asp-action="AreaChangeOverview">Registrerte rettelser</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="OmOss">Om oss</a>
+                            </li>
+                        }
                     </ul>
                     <a class="navbar-brand" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <div class="pfp-element">
@@ -60,13 +78,24 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="User" asp-action="Profile">Hallo, @User.Identity.Name!</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="User" asp-action="Logout">Logg ut</a>
-                            </li>
-                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="KontaktOss">Kontakt Oss</a></li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <span class="nav-link text-dark">Hallo, @User.Identity.Name!</span>
+                                </li>
+                                <li class="nav-item"><a class="nav-link text-dark" asp-controller="User" asp-action="Logout">Logg ut</a></li>
+                                <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Case" asp-action="OverviewCaseworker">OverviewCaseworker</a></li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="User" asp-action="Profile">Hallo, @User.Identity.Name!</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="User" asp-action="Logout">Logg ut</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="KontaktOss">Kontakt Oss</a></li>
+                            }
                         }
                         else
                         {
@@ -78,7 +107,6 @@
                             </li>
                             <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="KontaktOss">Kontakt Oss</a></li>
                         }
-                        <li><a class="dropdown-item" asp-area="" asp-controller="Case" asp-action="OverviewCaseworker">OverviewCaseworker</a></li>
 
                     </ul>
                 </div>

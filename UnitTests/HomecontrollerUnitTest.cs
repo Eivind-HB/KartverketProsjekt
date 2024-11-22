@@ -316,7 +316,7 @@ namespace Kartverket.Test
             // Assert
             Assert.NotNull(result); // Ensure that result is not null
             Assert.Equal("RoadCorrection", result.ViewName); // Check that it returns the correct view
-            Assert.Equal("Kommune er ikke regisrert! Prøv å trykk en ekstra gang på kartet etter du har markert det", result.ViewData["ErrorMessage"]); // Check for specific error message
+            Assert.Equal("Kommune er ikke regisrert! PrÃ¸v Ã¥ trykk en ekstra gang pÃ¥ kartet etter du har markert det", result.ViewData["ErrorMessage"]); // Check for specific error message
         }
 
         [Fact]
@@ -351,7 +351,7 @@ namespace Kartverket.Test
             // Assert
             Assert.NotNull(result); // Ensure that result is not null
             Assert.Equal("RoadCorrection", result.ViewName); // Check that it returns the correct view
-            Assert.Equal("Kartet må være markert!", result.ViewData["ErrorMessage"]); // Check for specific error message
+            Assert.Equal("Kartet mÃ¥ vÃ¦re markert!", result.ViewData["ErrorMessage"]); // Check for specific error message
         }
     }
 }

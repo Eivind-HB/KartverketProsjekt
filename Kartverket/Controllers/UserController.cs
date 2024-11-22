@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Kartverket.Models;
+using Ganss.Xss;
 
 namespace Kartverket.Controllers
 {
@@ -90,7 +91,7 @@ namespace Kartverket.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //Display av UserData
+        //Display of UserData
         [HttpGet]
         public async Task<IActionResult> UDOverview()
         {
@@ -111,13 +112,17 @@ namespace Kartverket.Controllers
 
 
 
-        //Registrering av ny bruker
+        //Register new user
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UDOverview(User model)
         {
             if (ModelState.IsValid)
             {
+                var sanitizer = new HtmlSanitizer();
+                model.Mail = sanitizer.Sanitize(model.Mail);
+                model.Password = sanitizer.Sanitize(model.Password);
+
                 // Check if email already exists
                 if (await _context.Users.AnyAsync(u => u.Mail == model.Mail))
                 {
@@ -147,7 +152,7 @@ namespace Kartverket.Controllers
             return View("RegistrationForm", model);
         }
 
-        //Hent UserData fra databasen
+        //Fetch UserData from database
         private async Task<User?> GetUserData()
         {
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -164,7 +169,7 @@ namespace Kartverket.Controllers
             return View(new User());
         }
 
-        //Pofile 
+        //Profile 
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Profile()
@@ -219,8 +224,10 @@ namespace Kartverket.Controllers
             }
 
 
-            user.UserName = model.UserName;
-            user.Mail = model.Mail;
+            var sanitizer = new HtmlSanitizer();
+
+            user.UserName = sanitizer.Sanitize(model.UserName);
+            user.Mail = sanitizer.Sanitize(model.Mail);
             //user.UserID = model.UserID;
 
             await _context.SaveChangesAsync();

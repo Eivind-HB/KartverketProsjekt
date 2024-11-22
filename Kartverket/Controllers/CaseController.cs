@@ -1,4 +1,5 @@
-﻿using Kartverket.Data;
+﻿using Ganss.Xss;
+using Kartverket.Data;
 using Kartverket.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,7 @@ namespace Kartverket.Controllers
         }
 
 
-        //Display av registrerte forandringer av terrenget
+        //Display of registered area changes 
         [HttpGet]
         public IActionResult AreaChangeOverview()
         {
@@ -56,7 +57,7 @@ namespace Kartverket.Controllers
 
 
 
-        //Sletting av sak
+        //Case Deletion
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteCase(int caseId)
@@ -78,7 +79,7 @@ namespace Kartverket.Controllers
             }
             catch (Exception ex)
             {
-                // Logg eventuelle feil
+                // Log eventual errors
                 TempData["Message"] = "Det oppsto en feil under sletting av saken.";
                 return RedirectToAction("AreaChangeOverview"); 
             }
@@ -88,16 +89,19 @@ namespace Kartverket.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditDescription(int caseId, string newDescription)
         {
-            // Henter saken basert på CaseNo
+            var sanitizer = new HtmlSanitizer();
+            var sanitizedDescription = sanitizer.Sanitize(newDescription);
+
+            // Fetches case based on CaseNo
             var caseItem = _context.Case.FirstOrDefault(c => c.CaseNo == caseId);
             if (caseItem != null)
             {
-                // Oppdaterer beskrivelse
-                caseItem.Description = newDescription;
+                // OUpdates description and saves changes
+                caseItem.Description = sanitizedDescription;
                 _context.SaveChanges();
             }
 
-            // Går tilbake til AreaChangeOverview. MIGHT NEED TO MAKE IT SO THAT THE ACCORDION STAYS OPEN??
+            // Goes back to AreaChangeOverview. MIGHT NEED TO MAKE IT SO THAT THE ACCORDION STAYS OPEN??
             return RedirectToAction("AreaChangeOverview");
         }
 
@@ -114,6 +118,18 @@ namespace Kartverket.Controllers
             return RedirectToAction("AreaChangeOverview");
             }
 
-
+        [HttpGet]
+        public IActionResult GetCaseImage(int caseId)
+        {
+            var caseItem = _context.Case.FirstOrDefault(c => c.CaseNo == caseId);
+            if (caseItem != null && caseItem.Images != null)
+            {
+                var base64 = Convert.ToBase64String(caseItem.Images);
+                var imgSrc = String.Format("data:image/png;base64,{0}", base64);
+                return Json(new { imgSrc });
+            }
+            return NotFound();
         }
+    }
+
 }

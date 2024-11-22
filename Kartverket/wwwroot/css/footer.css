@@ -3,6 +3,9 @@ footer {
     border-top: 8px solid var(--primary-green);
     background: var(--gray-bg);
     padding: 35px 0 18px;
-    position: relative;
-    margin-top: 18px;
+    position: relative; /* Change from relative to absolute */
+    bottom: 0;
+    left: 0;
+    width: 100%; /* Ensure the footer spans the entire width */
+    margin-top: 18px; /* Reset any top margin */
 }

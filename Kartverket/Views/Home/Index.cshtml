@@ -7,19 +7,65 @@
   <p class="lead">Kartverkets data er sentrale i Norges offisielle datagrunnlag og brukes i en lang rekke kart på papir og nett. Her kan du hjelpe oss med å holde kartene oppdatert.</p>
 
 <div class="link-container">
-    <div class="link-box">
-        <img src="~/Content/NorskKart.png" class="img-link-box" />
-        <a asp-action="RoadCorrection"><h3>Rett opp i kartet</h3></a>
-    </div>
-    <div class="link-box">
-        <img src="~/Content/Default-pfp.svg" class="img-link-box" />
-        <a asp-controller="User" asp-action="RegistrationForm"><h3>Registrer deg</h3></a>
-     </div>
-   
-            
-</div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="link-box">
+                    <a asp-action="RoadCorrection" class="link-box">
+                        <img src="~/Content/NorskKart.png" class="img-link-box" />
+                        <h3>Rett opp i kartet</h3>
+                    </a>
+                </div>
+                <div class="link-box">
+                    <a asp-controller="Case" asp-action="OverviewCaseworker" class="link-box">
+                        <img src="~/Content/GreenFolder.png" class="img-link-box" />
+                        <h3>Registrerte Rettelser</h3>
+                    </a>
+                </div>
+                }
 
-    <h4>For å lettere holde deg oppdatert på dine innmeldte saker kan du registrere deg!</h4>
+            else
+            {
+                <div class="link-box">
+                    <a asp-action="RoadCorrection" class="link-box">
+                        <img src="~/Content/NorskKart.png" class="img-link-box" />
+                        <h3>Rett opp i kartet</h3>
+                    </a>
+                </div>
+                <div class="link-box">
+                    <a asp-controller="Case" asp-action="AreaChangeOverview" class="link-box">
+                        <img src="~/Content/GreenFolder.png" class="img-link-box" />
+                        <h3>Registrerte rettelser</h3>
+                    </a>
+                </div>
+                }
+        }
+        else
+        {
+            <div class="link-box">
+                <a asp-action="RoadCorrection" class="link-box">
+                    <img src="~/Content/NorskKart.png" class="img-link-box" />
+                    <h3>Rett opp i kartet</h3>
+                </a>
+            </div>
+            <div class="link-box">
+                <a asp-controller="User" asp-action="RegistrationForm" class="link-box">
+                    <img src="~/Content/Default-pfp.svg" class="img-link-box" />
+                    <h3>Registrer deg</h3>
+                </a>
+            </div>
+            }
+
+</div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <h4>Over kan du registrere saker og se dine tidligere innsendinger!</h4>
+    }
+    else
+    {
+        <h4>For å lettere holde deg oppdatert på dine innmeldte saker kan du registrere deg!</h4>
+    }
 
     
 @section Scripts {

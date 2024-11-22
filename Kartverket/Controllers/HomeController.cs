@@ -33,6 +33,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Ganss.Xss;
 
 namespace Kartverket.Controllers
 {
@@ -99,8 +100,36 @@ namespace Kartverket.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterAreaChange(AreaChange areaModel, UserData userModel, IFormFile ImageUpload)
         {
+            //Sanitizes GeoJson, Username and Kommuneinfo
+            var sanitizer = new HtmlSanitizer();
+            areaModel.GeoJson = sanitizer.Sanitize(areaModel.GeoJson);
+            areaModel.Description = sanitizer.Sanitize(areaModel.Description);
+            areaModel.Kommunenavn = sanitizer.Sanitize(areaModel.Kommunenavn);
+            areaModel.Fylkesnavn = sanitizer.Sanitize(areaModel.Fylkesnavn);
+            userModel.UserName = sanitizer.Sanitize(userModel.UserName);
+
+            //This section handles the image upload to the database
+            //Checks if the image is uploaded and if it is, it checks if the file is of the correct type and size
             if (ImageUpload != null && ImageUpload.Length > 0)
             {
+                var allowedExtension = new[] { ".jpg", ".jpeg", ".png" };
+                const long maxFileSize = 5 * 1024 * 1024;
+                var fileExtension = Path.GetExtension(ImageUpload.FileName).ToLower();
+
+                //Checks if the file is of the correct type, if not it returns an error message
+                if (!allowedExtension.Contains(fileExtension))
+                {
+                    ViewData["ErrorMessage"]="Bare filtyper JPG, JPEG, PNG under 5MB er tillatt";
+                    return View("RoadCorrection",areaModel);
+                }
+
+                //Checks if the file is of the correct size, if not it returns an error message
+                if (ImageUpload.Length > maxFileSize)
+                {
+                    ModelState.AddModelError("ImageUpload", "Filen kan ikke være større enn 5MB");
+                }
+
+                //Image is converted to byte array and stored in the database
                 using (var memoryStream = new MemoryStream())
                 {
                     await ImageUpload.CopyToAsync(memoryStream);
@@ -149,7 +178,7 @@ namespace Kartverket.Controllers
             UserDataChanges.Add(userChange);
 
 
-            //init av noen variabler som jeg selv har brukt, skal nok endres
+            //init of variables I used, most likely going to change
             var geoJson = areaModel.GeoJson;
             var description = areaModel.Description;
             var fylkesNo = Int32.Parse(areaModel.Fylkesnummer);
@@ -196,9 +225,10 @@ namespace Kartverket.Controllers
             //var newlycreated = true;
 
             //random id nummer, placeholder
-            var userId = rnd.Next(1, 10);
+            var userId = rnd.Next(100000, 999999);
             if (User.Identity.IsAuthenticated)
             {
+
                 var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
                 userId = 0;
                 if (userIdClaim != null)
@@ -243,7 +273,7 @@ namespace Kartverket.Controllers
         }
 
 
-        //Henting av KommuneInfo
+        //Fetching of KommuneInfo
         [HttpPost]
         public async Task<IActionResult> KommuneInfoApi(string kommuneNr)
         {

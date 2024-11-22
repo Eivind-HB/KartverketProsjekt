@@ -7,14 +7,53 @@ html {
 }
 
 body {
-    margin-bottom: 60px;
+    height: 100%;
+    margin-bottom: 0px;
     padding-top: 150px;
     font-family: var(--main-font);
+    position: relative; /* Needed to position the pseudo-element */
+    background-color: var(--gray-bg); /* Fallback color */
 }
 
-@media (min-width: 768px) {
-    html {
-        font-size: var(--large-font-size);
+    body::before {
+        content: ""; /* Required to create the pseudo-element */
+        position: fixed; /* Stays fixed during scroll */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('../Content/MapMin.jpg'); /* Replace with your image path */
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        opacity: 0.2; /* Adjust this value to control transparency */
+        z-index: -1; /* Places the pseudo-element behind all content */
+    }
+
+/* Custom background for specific pages (if needed) */
+.custom-background {
+    position: relative; /* Required for positioning the pseudo-element */
+    background: none; /* Removes any direct background to allow ::before to handle it */
+}
+
+    .custom-background::before {
+        content: ""; /* Creates a pseudo-element */
+        position: fixed; /* Covers the entire screen */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('../Content/MapMin.jpg') no-repeat center center fixed; /* Background image */
+        background-size: cover; /* Ensures the image scales properly */
+        opacity: 0.2; /* Adjust transparency here */
+        z-index: -1; /* Push the background behind everything else */
+    }
+
+/* Media Queries for smaller screens */
+@media (max-width: 768px) {
+    body {
+        background-image: none;
+        background-color: var(--gray-bg); /* Fallback for smaller screens */
     }
 }
 
@@ -110,9 +149,15 @@ textarea {
     padding: 1em;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 20rem; /* Adjust width for a compact look */
+    width: 20rem; /* Adjust width for a compact look */ 
+    text-decoration: none; /* Remove underline from links */ 
+    transition: transform 0.2s ease; /* Optional hover effect */
 }
 
+    .link-box:hover {
+        transform: scale(1.05); /* Slight zoom on hover */
+        text-decoration: none; /* Prevent underline on hover */
+    }
 /* Image styling */
 .img-link-box {
     max-width: 100%;
@@ -128,8 +173,3 @@ textarea {
     .link-box a h3 {
         margin: 0;
     }
-
-    .link-box a:hover h3 {
-        text-decoration: underline;
-    }
-
