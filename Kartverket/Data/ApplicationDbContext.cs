@@ -6,8 +6,12 @@ namespace Kartverket.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        private readonly DataSeeder _dataSeeder;
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
         {
+            _dataSeeder = new DataSeeder();
         }
 
         public DbSet<Case> Case { get; set; }
@@ -43,7 +47,7 @@ namespace Kartverket.Data
 
             modelBuilder.Entity<CaseWorker>()
                 .HasKey(f => f.CaseWorkerID);
-            DataSeeder.SeedData(modelBuilder);
+            _dataSeeder.SeedData(modelBuilder);
         }
 
     }

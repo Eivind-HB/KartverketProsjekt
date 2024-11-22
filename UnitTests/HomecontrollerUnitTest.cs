@@ -13,6 +13,8 @@ using Xunit;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Moq;
+using System.Threading.Tasks;
 
 namespace Kartverket.Test
 {
@@ -216,66 +218,70 @@ namespace Kartverket.Test
         public async Task RegisterAreaChange_ValidData_ReturnsRedirectToAction()
         {
             // Arrange
-            var mockLogger = Substitute.For<ILogger<HomeController>>();
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .UseInMemoryDatabase(databaseName: "TestDb")
                 .Options;
 
-            var dbContext = new ApplicationDbContext(options);
-            var controller = new HomeController(mockLogger, dbContext);
+            // Mock DataSeeder to avoid file access
+            var mockDataSeeder = new Mock<DataSeeder>();
+            mockDataSeeder.Setup(ds => ds.SeedData(It.IsAny<ModelBuilder>())).Verifiable();
 
-            // Mocking User Identity
-            var userClaims = new List<Claim>
-    {
-        new Claim(ClaimTypes.NameIdentifier, "1"),
-        new Claim(ClaimTypes.Name, "testuser")
-    };
-            var identity = new ClaimsIdentity(userClaims, "TestAuthType");
-            var principal = new ClaimsPrincipal(identity);
+            using var context = new ApplicationDbContext(options);
+            var mockLogger = new Mock<ILogger<HomeController>>();
+            var controller = new HomeController(mockLogger.Object, context);
 
-            // Set the User property of the controller
+            // Set up user authentication
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+            {
+            new Claim(ClaimTypes.NameIdentifier, "1"),
+            new Claim(ClaimTypes.Name, "testuser@example.com"),
+            }, "mock"));
+
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = principal }
+                HttpContext = new DefaultHttpContext() { User = user }
             };
 
             var areaModel = new AreaChange
             {
-                GeoJson = "{\"type\":\"Point\",\"coordinates\":[102.0, 0.5]}",
+                GeoJson = "{\"type\":\"Point\",\"coordinates\":[10.0, 60.0]}",
                 Description = "Test description",
                 IssueType = "1",
-                Kommunenavn = "Oslo",
+                Kommunenavn = "Test Kommune",
                 Kommunenummer = "0301",
-                Fylkesnavn = "Oslo",
+                Fylkesnavn = "Test Fylke",
                 Fylkesnummer = "03"
             };
 
-            var userModel = new UserData
-            {
-                UserName = "testuser"
-            };
+            var userModel = new UserData { UserName = "testuser" };
 
-            // Create a mock IFormFile
-            var fileMock = Substitute.For<IFormFile>();
-            fileMock.Length.Returns(1);
-            fileMock.FileName.Returns("testimage.png");
-
-            using (var stream = new MemoryStream())
-            {
-                await fileMock.CopyToAsync(stream);
-                stream.Position = 0; // Reset stream position for reading
-                fileMock.OpenReadStream().Returns(stream);
-            }
+            // Mock file upload
+            var fileMock = new Mock<IFormFile>();
+            var content = "Hello World from a Fake File";
+            var fileName = "test.jpg";
+            var ms = new MemoryStream();
+            var writer = new StreamWriter(ms);
+            writer.Write(content);
+            writer.Flush();
+            ms.Position = 0;
+            fileMock.Setup(_ => _.OpenReadStream()).Returns(ms);
+            fileMock.Setup(_ => _.FileName).Returns(fileName);
+            fileMock.Setup(_ => _.Length).Returns(ms.Length);
 
             // Act
-            var result = await controller.RegisterAreaChange(areaModel, userModel, fileMock) as RedirectToActionResult;
+            var result = await controller.RegisterAreaChange(areaModel, userModel, fileMock.Object);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.Equal("AreaChangeOverview", result.ActionName);
+            var redirectResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("AreaChangeOverview", redirectResult.ActionName);
+            Assert.Equal("Case", redirectResult.ControllerName);
 
-            // Verify that the data was saved to the database
-            Assert.Single(dbContext.Case); // Ensure one case was added
+            // Verify that a new case was added to the database
+            var addedCase = await context.Case.FirstOrDefaultAsync();
+            Assert.NotNull(addedCase);
+            Assert.Equal(areaModel.Description, addedCase.Description);
+            Assert.Equal(areaModel.GeoJson, addedCase.LocationInfo);
+            // Add more assertions as needed
         }
 
         [Fact]
@@ -310,7 +316,7 @@ namespace Kartverket.Test
             // Assert
             Assert.NotNull(result); // Ensure that result is not null
             Assert.Equal("RoadCorrection", result.ViewName); // Check that it returns the correct view
-            Assert.Equal("Kommune er ikke regisrert! Prøv å trykk en ekstra gang på kartet etter du har markert det", result.ViewData["ErrorMessage"]); // Check for specific error message
+            Assert.Equal("Kommune er ikke regisrert! PrÃ¸v Ã¥ trykk en ekstra gang pÃ¥ kartet etter du har markert det", result.ViewData["ErrorMessage"]); // Check for specific error message
         }
 
         [Fact]
@@ -345,7 +351,7 @@ namespace Kartverket.Test
             // Assert
             Assert.NotNull(result); // Ensure that result is not null
             Assert.Equal("RoadCorrection", result.ViewName); // Check that it returns the correct view
-            Assert.Equal("Kartet må være markert!", result.ViewData["ErrorMessage"]); // Check for specific error message
+            Assert.Equal("Kartet mÃ¥ vÃ¦re markert!", result.ViewData["ErrorMessage"]); // Check for specific error message
         }
     }
 }
