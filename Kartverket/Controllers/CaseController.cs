@@ -3,6 +3,7 @@ using Kartverket.Data;
 using Kartverket.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Kartverket.Controllers
 {
@@ -12,7 +13,6 @@ namespace Kartverket.Controllers
 
         private readonly ApplicationDbContext _context;
 
-        private static List<Case> Cases = new List<Case>();
 
         public CaseController(ApplicationDbContext context)
         {
@@ -20,23 +20,36 @@ namespace Kartverket.Controllers
         }
 
 
-        //Display of registered area changes 
-        [HttpGet]
-        public IActionResult AreaChangeOverview()
+        /// <summary>
+        /// Checks if the user is logged in and has a profile. If not the user is sent to the NoProfileCaseSearch View.
+        /// Finds the userID and fetches only the Cases that is connected to the ID.
+        /// </summary>
+        /// <returns> View - HasProfileCaseOverview </returns>
+        public IActionResult HasProfileCaseOverview()
         {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+                return RedirectToAction("NoProfileCaseSearch");
+
+            var userId = int.Parse(userIdClaim.Value);
+
             var viewModel = new Kartverket.Models.AreaChangeOverviewModel
             {
-                Cases = _context.Case.ToList(),
+                Cases = _context.Case.Where(c => c.User_UserID == userId).ToList(),
                 Issues = _context.Issues.ToList(),
                 KommuneInfos = _context.KommuneInfo.ToList(),
                 FylkesInfos = _context.FylkesInfo.ToList(),
                 Status = _context.Status.ToList()
             };
-            ViewBag.ErrorMessage = TempData["ErrorMessage"];
-            TempData.Remove("ErrorMessage");
-            ViewBag.ViewModel = TempData["OpprettetSaksnr"];
+
             return View(viewModel);
         }
+
+        public IActionResult NoProfileCaseSearch()
+        {
+            return View();
+        }
+
 
         [HttpGet]
         public IActionResult OverviewCaseworker()
@@ -56,7 +69,6 @@ namespace Kartverket.Controllers
         }
 
 
-
         //Case Deletion
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -68,20 +80,20 @@ namespace Kartverket.Controllers
                 if (caseToDelete == null)
                 {
                     TempData["Message"] = "Saken ble ikke funnet.";
-                    return RedirectToAction("AreaChangeOverview"); 
+                    return RedirectToAction("HasProfileCaseOverview"); 
                 }
 
                 _context.Case.Remove(caseToDelete);
                 _context.SaveChanges();
 
                 TempData["Message"] = "Saken ble slettet.";
-                return RedirectToAction("AreaChangeOverview"); 
+                return RedirectToAction("HasProfileCaseOverview"); 
             }
             catch (Exception ex)
             {
                 // Log eventual errors
                 TempData["Message"] = "Det oppsto en feil under sletting av saken.";
-                return RedirectToAction("AreaChangeOverview"); 
+                return RedirectToAction("HasProfileCaseOverview"); 
             }
         }
 
@@ -102,8 +114,10 @@ namespace Kartverket.Controllers
             }
 
             // Goes back to AreaChangeOverview. MIGHT NEED TO MAKE IT SO THAT THE ACCORDION STAYS OPEN??
-            return RedirectToAction("AreaChangeOverview");
+            return RedirectToAction("HasProfileCaseOverview");
         }
+
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -115,8 +129,9 @@ namespace Kartverket.Controllers
                 return View("CaseDetails", cases);
             }
             TempData["ErrorMessage"] = "Saken ble ikke funnet.";
-            return RedirectToAction("AreaChangeOverview");
-            }
+            return View("NoProfileCaseSearch");
+        }
+        
 
         [HttpGet]
         public IActionResult GetCaseImage(int caseId)
