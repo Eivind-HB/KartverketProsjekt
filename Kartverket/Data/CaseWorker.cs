@@ -10,5 +10,7 @@ namespace Kartverket.Data
         public int CaseWorkerID { get; set; }
         public int KartverketEmployee_EmployeeID { get; set; }
         public string Password { get; set; }
+
+        public bool MustChangePassword { get; set; } = false;
     }
 }
