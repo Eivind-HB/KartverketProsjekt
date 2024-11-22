@@ -4,9 +4,9 @@ using CsvHelper.Configuration;
 using Kartverket.Data;
 using Microsoft.EntityFrameworkCore;
 
-public static class DataSeeder
+public class DataSeeder
 {
-    public static void SeedData(ModelBuilder modelBuilder)
+    public virtual void SeedData(ModelBuilder modelBuilder)
     {
         SeedKommuneInfo(modelBuilder);
         SeedFylkesInfo(modelBuilder);
