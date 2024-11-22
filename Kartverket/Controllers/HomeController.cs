@@ -273,27 +273,7 @@ namespace Kartverket.Controllers
         }
 
 
-        //Fetching of KommuneInfo
-        [HttpPost]
-        public async Task<IActionResult> KommuneInfoApi(string kommuneNr)
-        {
-            if (string.IsNullOrEmpty(kommuneNr))
-            {
-                ViewData["Error"] = "Venligst legg inn et gyldig Kommunenummer. Det skal v�re 4 siffer.";
-                return View("Index");
-            }
-
-            var areaChangesList = areaChanges; 
-            var userDataList = UserDataChanges;
-
-            var model = new ChangeOverviewModel
-            {
-                AreaChanges = areaChangesList,
-                Users = userDataList
-            };
-
-            return View(model);
-        }
+        
 
     }
 }
