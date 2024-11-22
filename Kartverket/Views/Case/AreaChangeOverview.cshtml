@@ -207,6 +207,7 @@
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
     <script src="~/js/mapChanges.js"></script>
+    <script src="~/js/modal.js"></script>
 
     <script>
         // Toggle the edit form visibility
@@ -240,12 +241,6 @@
             });
         });
 
-        var imageModal = document.getElementById('imageModal');
-        imageModal.addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget;
-            var imgSrc = button.getAttribute('data-img-src');
-            var modalImage = imageModal.querySelector('#modalImage');
-            modalImage.src = imgSrc;
-        });
+       
     </script>
 }

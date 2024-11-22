@@ -276,6 +276,7 @@
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
     <script src="~/js/mapChanges.js"></script>
+    <script src="~/js/modal.js"></script>
 
     <script>
         // Toggle the edit form visibility
@@ -287,14 +288,6 @@
             form.style.display = isHidden ? "block" : "none";
             editButtons.style.display = isHidden ? "flex" : "none";
         }
-
-        var imageModal = document.getElementById('imageModal');
-        imageModal.addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget;
-            var imgSrc = button.getAttribute('data-img-src');
-            var modalImage = imageModal.querySelector('#modalImage');
-            modalImage.src = imgSrc;
-        });
 
         // Passes the serialized AreaChanges model data to the mapChanges function
         var drawnChanges = @Html.Raw(Json.Serialize(Model.Cases));
