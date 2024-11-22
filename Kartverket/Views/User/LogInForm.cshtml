@@ -28,16 +28,23 @@
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary">Logg Inn</button>
-        <div class="form-group" style="margin-top: 1rem;">
-            <a href="#">Glemt passord?</a>
-        </div>
-        <div class="form-group">
-            <a href="RegistrationForm">Registrer deg!</a>
-        </div>
-        <div class="form-group" style="margin-bottom: 1rem;">
-            <a asp-controller="Admin" asp-action="LogInFormAdmin">Admin</a>
-        </div>
+
     </form>
+    <div class="registration-section">
+        <a asp-action="RegistrationForm" method="post">
+            <button type="submit" class="btn2 btn-secondary2">Registrer deg</button>
+        </a>
+    </div>
+    <div class="registration-section">
+        <a asp-action="Index" method="post">
+            <button type="submit" class="btn2 btn-secondary2">Glemt passord?</button>
+        </a>
+    </div>
+    <div class="registration-section">
+        <a asp-controller="Admin" asp-action="LogInFormAdmin" method="post">
+            <button type="submit" class="btn2 btn-secondary2">Glemt passord?</button>
+        </a>
+    </div>
 </div>
 
 @section Scripts {
