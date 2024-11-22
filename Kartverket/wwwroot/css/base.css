@@ -173,3 +173,17 @@ textarea {
     .link-box a h3 {
         margin: 0;
     }
+
+.password-toggle {
+    cursor: pointer;
+    user-select: none;
+}
+
+#togglePassword {
+    margin-right: 5px;
+}
+
+.toggle-label {
+    font-size: 0.9em;
+    color: #000000;
+}
