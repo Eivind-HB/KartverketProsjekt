@@ -14,7 +14,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Kartverket.Tests
+namespace Kartverket.Test
 {
     public class HomeControllerTests
     {
@@ -210,6 +210,142 @@ namespace Kartverket.Tests
 
             // Assert
             Assert.IsType<ViewResult>(result);
+        }
+
+        [Fact]
+        public async Task RegisterAreaChange_ValidData_ReturnsRedirectToAction()
+        {
+            // Arrange
+            var mockLogger = Substitute.For<ILogger<HomeController>>();
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
+
+            var dbContext = new ApplicationDbContext(options);
+            var controller = new HomeController(mockLogger, dbContext);
+
+            // Mocking User Identity
+            var userClaims = new List<Claim>
+    {
+        new Claim(ClaimTypes.NameIdentifier, "1"),
+        new Claim(ClaimTypes.Name, "testuser")
+    };
+            var identity = new ClaimsIdentity(userClaims, "TestAuthType");
+            var principal = new ClaimsPrincipal(identity);
+
+            // Set the User property of the controller
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = principal }
+            };
+
+            var areaModel = new AreaChange
+            {
+                GeoJson = "{\"type\":\"Point\",\"coordinates\":[102.0, 0.5]}",
+                Description = "Test description",
+                IssueType = "1",
+                Kommunenavn = "Oslo",
+                Kommunenummer = "0301",
+                Fylkesnavn = "Oslo",
+                Fylkesnummer = "03"
+            };
+
+            var userModel = new UserData
+            {
+                UserName = "testuser"
+            };
+
+            // Create a mock IFormFile
+            var fileMock = Substitute.For<IFormFile>();
+            fileMock.Length.Returns(1);
+            fileMock.FileName.Returns("testimage.png");
+
+            using (var stream = new MemoryStream())
+            {
+                await fileMock.CopyToAsync(stream);
+                stream.Position = 0; // Reset stream position for reading
+                fileMock.OpenReadStream().Returns(stream);
+            }
+
+            // Act
+            var result = await controller.RegisterAreaChange(areaModel, userModel, fileMock) as RedirectToActionResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("AreaChangeOverview", result.ActionName);
+
+            // Verify that the data was saved to the database
+            Assert.Single(dbContext.Case); // Ensure one case was added
+        }
+
+        [Fact]
+        public async Task RegisterAreaChange_InvalidKommuneName_ReturnsViewWithErrorMessage()
+        {
+            // Arrange
+            var mockLogger = Substitute.For<ILogger<HomeController>>();
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
+
+            var dbContext = new ApplicationDbContext(options);
+            var controller = new HomeController(mockLogger, dbContext);
+
+            // Create an AreaChange model with valid GeoJson but invalid Kommune name
+            var areaModel = new AreaChange
+            {
+                GeoJson = "{\"type\":\"Point\",\"coordinates\":[102.0, 0.5]}", // Valid GeoJson
+                Description = "Test description",
+                IssueType = "1",
+                Kommunenavn = null // Invalid Kommune name
+            };
+
+            var userModel = new UserData
+            {
+                UserName = "testuser"
+            };
+
+            // Act
+            var result = await controller.RegisterAreaChange(areaModel, userModel, null) as ViewResult;
+
+            // Assert
+            Assert.NotNull(result); // Ensure that result is not null
+            Assert.Equal("RoadCorrection", result.ViewName); // Check that it returns the correct view
+            Assert.Equal("Kommune er ikke regisrert! Prøv å trykk en ekstra gang på kartet etter du har markert det", result.ViewData["ErrorMessage"]); // Check for specific error message
+        }
+
+        [Fact]
+        public async Task RegisterAreaChange_InvalidGeoJson_ReturnsViewWithErrorMessage()
+        {
+            // Arrange
+            var mockLogger = Substitute.For<ILogger<HomeController>>();
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
+
+            var dbContext = new ApplicationDbContext(options);
+            var controller = new HomeController(mockLogger, dbContext);
+
+            // Create an AreaChange model with invalid GeoJson (empty string)
+            var areaModel = new AreaChange
+            {
+                GeoJson = "", // Invalid GeoJson (empty string)
+                Description = "Test description",
+                IssueType = "1",
+                Kommunenavn = "Oslo" // Ensure this is valid to focus on GeoJson validation
+            };
+
+            var userModel = new UserData
+            {
+                UserName = "testuser"
+            };
+
+            // Act
+            var result = await controller.RegisterAreaChange(areaModel, userModel, null) as ViewResult;
+
+            // Assert
+            Assert.NotNull(result); // Ensure that result is not null
+            Assert.Equal("RoadCorrection", result.ViewName); // Check that it returns the correct view
+            Assert.Equal("Kartet må være markert!", result.ViewData["ErrorMessage"]); // Check for specific error message
         }
     }
 }

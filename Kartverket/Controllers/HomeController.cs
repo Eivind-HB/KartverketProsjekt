@@ -108,6 +108,23 @@ namespace Kartverket.Controllers
                 }
             }
 
+
+            //Checks that the geojson in areamodel is not null/empty
+            if (string.IsNullOrEmpty(areaModel.GeoJson))
+            {
+                // Store error message in ViewBag
+                ViewBag.ErrorMessage = "Kartet må være markert!";
+                return View("RoadCorrection"); // Return to the same view with the model
+            }
+
+            //Checks that the description in areamodel is not null/empty
+            if (string.IsNullOrEmpty(areaModel.Kommunenavn))
+            {
+                // Store error message in ViewBag
+                ViewBag.ErrorMessage = "Kommune er ikke regisrert! Prøv å trykk en ekstra gang på kartet etter du har markert det";
+                return View("RoadCorrection"); // Return to the same view with the model
+            }
+
             var newChange = new AreaChange
             {
                 IssueId = Guid.NewGuid().ToString(),
@@ -172,9 +189,9 @@ namespace Kartverket.Controllers
             int CaseNoNumber = rnd.Next(100000, 999999);
 
 
-            TempData["OpprettetSaksnr"] = CaseNoNumber;
-            ViewBag.ViewModel = TempData["OpprettetSaksnr"];
-            TempData.Keep("OpprettetSaksnr");
+            //TempData["OpprettetSaksnr"] = CaseNoNumber;
+            //ViewBag.ViewModel = TempData["OpprettetSaksnr"];
+            //TempData.Keep("OpprettetSaksnr");
 
             //var newlycreated = true;
 
