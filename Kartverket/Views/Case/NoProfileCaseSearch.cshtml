@@ -1,0 +1,29 @@
+﻿@model AreaChangeOverviewModel
+
+@{
+    ViewData["Title"] = "Søk på Saker";
+}
+
+<div class="page-container">
+    <h1>Søk etter sak</h1>
+    <p>Her kan du søke etter en sak med å saksnummer. Om du ønker lettere tilgang til dine innmeldte saker kan du lage en konto!</p>
+    
+    <form asp-action="CaseSearch" asp-controller="Case" method="post">
+        @Html.AntiForgeryToken()
+        <label for="CaseNo">Søk på sak etter saksnummer:</label>
+        <input type="number" id="CaseNo" name="CaseNo" required>
+        <button type="submit">Søk</button>
+    </form>
+
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+    }
+    <!-- Feilmelding -->
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+</div>
