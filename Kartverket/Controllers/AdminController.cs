@@ -115,8 +115,12 @@ namespace Kartverket.Controllers
                     var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, caseWorker.CaseWorkerID.ToString()),
-                new Claim(ClaimTypes.Name, employee.Mail)
+                new Claim(ClaimTypes.Name, employee.Mail),
+
+                // Adds a claim to say it is an Admin
+                new Claim(ClaimTypes.Role, "Admin")
             };
+                   
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var authProperties = new AuthenticationProperties
                     {
