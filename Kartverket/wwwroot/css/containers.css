@@ -34,3 +34,14 @@
     margin-top: 2rem;
     margin-bottom: 1rem;
 }
+
+/* New styles for password toggle container */
+.password-toggle-container {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.2rem;
+}
