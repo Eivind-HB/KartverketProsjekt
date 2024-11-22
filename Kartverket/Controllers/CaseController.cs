@@ -57,7 +57,7 @@ namespace Kartverket.Controllers
 
 
 
-        //Sletting av sak
+        //Case Deletion
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteCase(int caseId)
@@ -92,11 +92,11 @@ namespace Kartverket.Controllers
             var sanitizer = new HtmlSanitizer();
             var sanitizedDescription = sanitizer.Sanitize(newDescription);
 
-            // Henter saken basert på CaseNo
+            // Fetches case based on CaseNo
             var caseItem = _context.Case.FirstOrDefault(c => c.CaseNo == caseId);
             if (caseItem != null)
             {
-                // Oppdaterer beskrivelse
+                // OUpdates description and saves changes
                 caseItem.Description = sanitizedDescription;
                 _context.SaveChanges();
             }

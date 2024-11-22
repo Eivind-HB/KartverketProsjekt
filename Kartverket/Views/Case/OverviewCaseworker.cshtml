@@ -110,8 +110,10 @@
                             <!-- Edit button to toggle edit form -->
                             <button onclick="toggleEditForm(@change.CaseNo)" class="btn btn-primary" style="display: inline;">Rediger</button>
 
+                            <!-- Display Image button that opens image modal-->
                             @if (change.Images != null)
                             {
+                                // Convert byte array to base64 string and adds it to the image source
                                 var base64 = Convert.ToBase64String(change.Images);
                                 var imgSrc = String.Format("data:image/png;base64,{0}", base64);
                                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="@imgSrc">Vis Bilde</button>
@@ -254,6 +256,7 @@
         <div id="map" class="map-section"></div>
     </div>
 </div>
+
 
 <!-- Image Modal -->
 <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">

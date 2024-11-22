@@ -107,23 +107,28 @@ namespace Kartverket.Controllers
             areaModel.Fylkesnavn = sanitizer.Sanitize(areaModel.Fylkesnavn);
             userModel.UserName = sanitizer.Sanitize(userModel.UserName);
 
+            //This section handles the image upload to the database
+            //Checks if the image is uploaded and if it is, it checks if the file is of the correct type and size
             if (ImageUpload != null && ImageUpload.Length > 0)
             {
                 var allowedExtension = new[] { ".jpg", ".jpeg", ".png" };
                 const long maxFileSize = 5 * 1024 * 1024;
                 var fileExtension = Path.GetExtension(ImageUpload.FileName).ToLower();
-                
+
+                //Checks if the file is of the correct type, if not it returns an error message
                 if (!allowedExtension.Contains(fileExtension))
                 {
                     ViewData["ErrorMessage"]="Bare filtyper JPG, JPEG, PNG under 5MB er tillatt";
                     return View("RoadCorrection",areaModel);
                 }
 
+                //Checks if the file is of the correct size, if not it returns an error message
                 if (ImageUpload.Length > maxFileSize)
                 {
                     ModelState.AddModelError("ImageUpload", "Filen kan ikke være større enn 5MB");
                 }
-                
+
+                //Image is converted to byte array and stored in the database
                 using (var memoryStream = new MemoryStream())
                 {
                     await ImageUpload.CopyToAsync(memoryStream);
@@ -266,7 +271,7 @@ namespace Kartverket.Controllers
         }
 
 
-        //Henting av KommuneInfo
+        //Fetching of KommuneInfo
         [HttpPost]
         public async Task<IActionResult> KommuneInfoApi(string kommuneNr)
         {
