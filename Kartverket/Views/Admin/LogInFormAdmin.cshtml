@@ -1,13 +1,13 @@
-﻿@model Kartverket.Data.Login
+﻿@model Kartverket.Data.LoginAdmin
 
 @{
-    ViewData["Title"] = "LogIn";
+    ViewData["Title"] = "AdminLogIn";
 }
 
 <div class="page-container registration-form">
-    <h1>Logg Inn</h1>
+    <h1>Logg Inn Admin</h1>
 
-    <form asp-action="LogInForm" method="post">
+    <form asp-action="LogInFormAdmin" method="post">
         @Html.AntiForgeryToken()
         @if (!ViewData.ModelState.IsValid)
         {
@@ -28,23 +28,7 @@
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary">Logg Inn</button>
-
     </form>
-    <div class="registration-section">
-        <a asp-action="RegistrationForm" method="post">
-            <button type="submit" class="btn2 btn-secondary2">Registrer deg</button>
-        </a>
-    </div>
-    <div class="registration-section">
-        <a asp-action="Index" method="post">
-            <button type="submit" class="btn2 btn-secondary2">Glemt passord?</button>
-        </a>
-    </div>
-    <div class="registration-section">
-        <a asp-controller="Admin" asp-action="LogInFormAdmin" method="post">
-            <button type="submit" class="btn2 btn-secondary2">Glemt passord?</button>
-        </a>
-    </div>
 </div>
 
 @section Scripts {

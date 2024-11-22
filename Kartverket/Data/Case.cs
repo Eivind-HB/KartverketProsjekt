@@ -21,7 +21,6 @@ namespace Kartverket.Data
         [Required]
         public int Issue_IssueNr { get; set; }
         public byte[]? Images { get; set; }
-        [Required]
         public int KommuneNo { get; set; }
         [Required]
         public int FylkesNo { get; set; }
