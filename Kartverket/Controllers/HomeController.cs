@@ -33,6 +33,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Ganss.Xss;
 
 namespace Kartverket.Controllers
 {
@@ -99,8 +100,30 @@ namespace Kartverket.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterAreaChange(AreaChange areaModel, UserData userModel, IFormFile ImageUpload)
         {
+            var sanitizer = new HtmlSanitizer();
+            areaModel.GeoJson = sanitizer.Sanitize(areaModel.GeoJson);
+            areaModel.Description = sanitizer.Sanitize(areaModel.Description);
+            areaModel.Kommunenavn = sanitizer.Sanitize(areaModel.Kommunenavn);
+            areaModel.Fylkesnavn = sanitizer.Sanitize(areaModel.Fylkesnavn);
+            userModel.UserName = sanitizer.Sanitize(userModel.UserName);
+
             if (ImageUpload != null && ImageUpload.Length > 0)
             {
+                var allowedExtension = new[] { ".jpg", ".jpeg", ".png" };
+                const long maxFileSize = 5 * 1024 * 1024;
+                var fileExtension = Path.GetExtension(ImageUpload.FileName).ToLower();
+                
+                if (!allowedExtension.Contains(fileExtension))
+                {
+                    ViewData["ErrorMessage"]="Bare filtyper JPG, JPEG, PNG under 5MB er tillatt";
+                    return View("RoadCorrection",areaModel);
+                }
+
+                if (ImageUpload.Length > maxFileSize)
+                {
+                    ModelState.AddModelError("ImageUpload", "Filen kan ikke være større enn 5MB");
+                }
+                
                 using (var memoryStream = new MemoryStream())
                 {
                     await ImageUpload.CopyToAsync(memoryStream);

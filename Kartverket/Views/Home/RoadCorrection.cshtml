@@ -9,6 +9,13 @@
         <p>Venligst gi en beskrivelse av feilen du har funnet og tegn på kartet circa hvor feilen er. </p>
     </div>
 
+    @if (ViewData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @ViewData["ErrorMessage"]
+            </div>
+    }
+
     <!-- Flex container for map and where you edit the changes -->
     <div class="map-description-container">
         <!-- Map section -->
