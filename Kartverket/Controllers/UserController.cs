@@ -91,7 +91,7 @@ namespace Kartverket.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //Display av UserData
+        //Display of UserData
         [HttpGet]
         public async Task<IActionResult> UDOverview()
         {
@@ -112,7 +112,7 @@ namespace Kartverket.Controllers
 
 
 
-        //Registrering av ny bruker
+        //Register new user
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UDOverview(User model)
@@ -152,7 +152,7 @@ namespace Kartverket.Controllers
             return View("RegistrationForm", model);
         }
 
-        //Hent UserData fra databasen
+        //Fetch UserData from database
         private async Task<User?> GetUserData()
         {
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -169,7 +169,7 @@ namespace Kartverket.Controllers
             return View(new User());
         }
 
-        //Pofile 
+        //Profile 
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Profile()

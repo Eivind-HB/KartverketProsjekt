@@ -100,6 +100,7 @@ namespace Kartverket.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterAreaChange(AreaChange areaModel, UserData userModel, IFormFile ImageUpload)
         {
+            //Sanitizes GeoJson, Username and Kommuneinfo
             var sanitizer = new HtmlSanitizer();
             areaModel.GeoJson = sanitizer.Sanitize(areaModel.GeoJson);
             areaModel.Description = sanitizer.Sanitize(areaModel.Description);
@@ -177,7 +178,7 @@ namespace Kartverket.Controllers
             UserDataChanges.Add(userChange);
 
 
-            //init av noen variabler som jeg selv har brukt, skal nok endres
+            //init of variables I used, most likely going to change
             var geoJson = areaModel.GeoJson;
             var description = areaModel.Description;
             var fylkesNo = Int32.Parse(areaModel.Fylkesnummer);

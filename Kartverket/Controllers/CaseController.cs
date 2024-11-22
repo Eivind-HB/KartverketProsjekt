@@ -20,7 +20,7 @@ namespace Kartverket.Controllers
         }
 
 
-        //Display av registrerte forandringer av terrenget
+        //Display of registered area changes 
         [HttpGet]
         public IActionResult AreaChangeOverview()
         {
@@ -79,7 +79,7 @@ namespace Kartverket.Controllers
             }
             catch (Exception ex)
             {
-                // Logg eventuelle feil
+                // Log eventual errors
                 TempData["Message"] = "Det oppsto en feil under sletting av saken.";
                 return RedirectToAction("AreaChangeOverview"); 
             }
@@ -101,7 +101,7 @@ namespace Kartverket.Controllers
                 _context.SaveChanges();
             }
 
-            // Går tilbake til AreaChangeOverview. MIGHT NEED TO MAKE IT SO THAT THE ACCORDION STAYS OPEN??
+            // Goes back to AreaChangeOverview. MIGHT NEED TO MAKE IT SO THAT THE ACCORDION STAYS OPEN??
             return RedirectToAction("AreaChangeOverview");
         }
 
