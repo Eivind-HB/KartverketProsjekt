@@ -19,12 +19,12 @@
                             <div class="accordion" id="casesAccordion">
                                 <!-- Search by CaseNo Form -->
                                 <form id="caseSearchForm">
-                                    <input type="text" id="caseSearchInput" placeholder="Search by CaseNo" />
+                                    <input type="text" id="caseSearchInput" placeholder="Søk etter SaksID" />
                                     <button type="button" id="caseSearchButton">Search</button>
                                 </form>
                                 <!-- Filter Form -->
                                 <form id="caseFilterForm">
-                                    <input type="text" id="kommuneSearchInput" placeholder="Search by Kommune Name" />
+                                    <input type="text" id="kommuneSearchInput" placeholder="Søk etter Kommunenavn" />
                                     <select class="form-control" id="issueTypeSearchInput" name="IssueType">
                                         <option value="" selected>Ingen type valgt</option>
                                         <option value="2">Vei/Sti</option>
@@ -164,6 +164,12 @@
                 <div id="collapseAllUsers" class="accordion-collapse collapse" aria-labelledby="headingAllUsers" data-bs-parent="#parentAccordion">
                     <div class="accordion-body">
                         <div class="accordion" id="usersAccordion">
+                            <form id="userSearchForm">
+                                <input type="text" id="userIDSearchInput" placeholder="Søk etter brukerID" />
+                                <input type="text" id="userNameSearchInput" placeholder="Søk etter brukernavn" />
+                                <input type="text" id="userCasesSearchInput" placeholder="Søk etter innmeldte saker" />
+                                <button type="button" id="userSearchButton">Filter</button>
+                            </form>
                             @foreach (var user in Model.Users)
                             {
                                 List<Int128> SakSentUserList = new List<Int128>();
@@ -234,6 +240,10 @@
                     <div id="collapseAllCaseworkers" class="accordion-collapse collapse" aria-labelledby="headingAllCaseworkers" data-bs-parent="#parentAccordion">
                         <div class="accordion-body">
                             <div class="accordion" id="caseworkersAccordion">
+                                <form id="caseworkerSearchForm">
+                                    <input type="text" id="CWIDSearchInput" placeholder="Søk etter Saksbehandler ID" />
+                                    <button type="button" id="caseworkerSearchButton">Filter</button>
+                                </form>
                                 @foreach (var caseworker in Model.CaseWorkers)
                                 {
                                     var mail = "default";
