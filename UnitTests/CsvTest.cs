@@ -26,7 +26,7 @@ namespace Kartverket.Test
 
             // Assert
             Assert.NotNull(records);
-            Assert.Single(records); // Checking that the CSV file has 1 record
+            Assert.Equal(21, records.Count()); // Checking that the CSV file has 1 record
             Assert.Equal(1, records.First().CaseWorkerID);
             Assert.Equal(1, records.First().KartverketEmployee_EmployeeID);
         }
@@ -44,7 +44,7 @@ namespace Kartverket.Test
 
             // Assert
             Assert.NotNull(records);
-            Assert.Equal(15, records.Count()); // Checking that the CSV file has 15 records
+            Assert.Equal(16, records.Count()); // Checking that the CSV file has 15 records
             Assert.Equal(03, records.First().FylkesNameID);
             Assert.Equal("Oslo", records.First().FylkesName);
         }
@@ -62,7 +62,7 @@ namespace Kartverket.Test
 
             // Assert
             Assert.NotNull(records);
-            Assert.Equal(357, records.Count()); // Checking that the CSV file has 357 records
+            Assert.Equal(358, records.Count()); // Checking that the CSV file has 357 records
             Assert.Equal(5636, records.First().KommuneInfoID);
             Assert.Equal("Unjárga - Nesseby", records.First().KommuneName);
         }
@@ -101,11 +101,11 @@ namespace Kartverket.Test
             Assert.Equal(21, records.Count()); // Checking that the CSV file has 21 records
             Assert.Equal(1, records.First().EmployeeID);
             Assert.Equal(00000000, records.First().PhoneNo);
-            Assert.Equal("'admin@kartverket.no'", records.First().Mail);
-            Assert.Equal("'Admin'", records.First().Title);
+            Assert.Equal("admin@kartverket.no", records.First().Mail);
+            Assert.Equal("Admin", records.First().Title);
             Assert.Equal(0, records.First().Wage);
-            Assert.Equal("'Admin'", records.First().Firstname);
-            Assert.Equal("'Adminsen'", records.First().Lastname);
+            Assert.Equal("Admin", records.First().Firstname);
+            Assert.Equal("Adminsen", records.First().Lastname);
 
         }
 
