@@ -6,12 +6,13 @@
     var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
     int userId = userIdClaim != null ? int.Parse(userIdClaim.Value) : 0;
 
-    // Uses dictonaries for faster access to information.
+    // Uses dictionaries for faster access to information.
     var issueDict = Model.Issues.ToDictionary(x => x.issueNo, x => x.IssueType);
     var kommuneDict = Model.KommuneInfos.ToDictionary(x => x.KommuneInfoID, x => x.KommuneName);
     var fylkeDict = Model.FylkesInfos.ToDictionary(x => x.FylkesNameID, x => x.FylkesName);
     var statusDict = Model.Status.ToDictionary(x => x.StatusNo, x => x.StatusName);
 }
+
 
 <div class="page-container">
     <h1>Oversikt av registrerte endringer</h1>
@@ -20,18 +21,18 @@
         
     <a class="nav-link text-dark" asp-controller="User" asp-action="Profile">Hei, @User.Identity.Name!, her er dine innmeldte saker</a>
 
-    @foreach (var change in Model.Cases)
+    @foreach (var individualCase in Model.Cases)
     {        
         // Bruk ordbøkene for rask oppslag av data
-        var issueType = issueDict.ContainsKey(change.Issue_IssueNr) ? issueDict[change.Issue_IssueNr] : "Ukjent";
-        var kommuneName = kommuneDict.ContainsKey(change.KommuneNo) ? kommuneDict[change.KommuneNo] : "Ukjent kommune";
-        var fylkeName = fylkeDict.ContainsKey(change.FylkesNo) ? fylkeDict[change.FylkesNo] : "Ukjent fylke";
-        var statusType = statusDict.ContainsKey(change.StatusNo) ? statusDict[change.StatusNo] : "Ukjent status";
+            var issueType = issueDict.ContainsKey(individualCase.Issue_IssueNr) ? issueDict[individualCase.Issue_IssueNr] : "Ukjent";
+            var kommuneName = kommuneDict.ContainsKey(individualCase.KommuneNo) ? kommuneDict[individualCase.KommuneNo] : "Ukjent kommune";
+            var fylkeName = fylkeDict.ContainsKey(individualCase.FylkesNo) ? fylkeDict[individualCase.FylkesNo] : "Ukjent fylke";
+            var statusType = statusDict.ContainsKey(individualCase.StatusNo) ? statusDict[individualCase.StatusNo] : "Ukjent status";
 
         <!-- Individual Case Section -->
         <div class="accordion-item">
             <button class="accordion-header">
-                Sak ID: @change.CaseNo
+                    Sak ID: @individualCase.CaseNo
                 <span class="accordion-icon">▼</span>
             </button>
 
@@ -53,22 +54,22 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>@change.CaseNo</td>
+                                <td>@individualCase.CaseNo</td>
                                 <td>@issueType</td>
                                 <td>@statusType</td>
-                                <td>@change.Date</td>
-                                <td>@change.LocationInfo</td>
+                                <td>@individualCase.Date</td>
+                                <td>@individualCase.LocationInfo</td>
                                 <td>
-                                    <span id="description-@change.CaseNo">@change.Description</span>
+                                        <span id="description-@individualCase.CaseNo">@individualCase.Description</span>
 
                                     <!-- Edit Form -->
-                                    <form id="edit-form-@change.CaseNo" asp-action="EditDescription" asp-controller="Case" method="post" style="display:none;">
+                                        <form id="edit-form-@individualCase.CaseNo" asp-action="EditDescription" asp-controller="Case" method="post" style="display:none;">
                                         @Html.AntiForgeryToken()
-                                        <input type="hidden" name="caseId" value="@change.CaseNo" />
-                                        <textarea name="newDescription" class="form-control">@change.Description</textarea>
+                                            <input type="hidden" name="caseId" value="@individualCase.CaseNo" />
+                                            <textarea name="newDescription" class="form-control">@individualCase.Description</textarea>
                                     </form>
                                 </td>
-                                <td>@change.User_UserID</td>
+                                    <td>@individualCase.User_UserID</td>
                             </tr>
                         </tbody>
                     </table>
@@ -86,9 +87,9 @@
                         <tbody>
                             <tr>
                                 <td>@kommuneName</td>
-                                <td>@change.KommuneNo</td>
+                                <td>@individualCase.KommuneNo</td>
                                 <td>@fylkeName</td>
-                                <td>@change.FylkesNo</td>
+                                <td>@individualCase.FylkesNo</td>
                             </tr>
                         </tbody>
                     </table>
@@ -97,27 +98,34 @@
                     <div class="btn-group">
                         <form asp-action="DeleteCase" asp-controller="Case" method="post" style="display: inline;">
                             @Html.AntiForgeryToken()
-                            <input type="hidden" name="caseId" value="@change.CaseNo" />
+                            <input type="hidden" name="caseId" value="@individualCase.CaseNo" />
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Er du sikker du vil slette denne saken? Dette kan ikke tas tilbake')">Slett sak</button>
                         </form>
 
-                        <button onclick="toggleEditForm(@change.CaseNo)" class="btn btn-primary" style="display: inline;">Rediger</button>
+                        <button onclick="toggleEditForm(@individualCase.CaseNo)" class="btn btn-primary" style="display: inline;">Rediger</button>
 
-                        @if (change.Images != null)
+                        @if (individualCase.Images != null)
                         {
-                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#imageModal" data-case-id="@change.CaseNo">Vis Bilde</button>
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#imageModal" data-case-id="@individualCase.CaseNo">Vis Bilde</button>
                         }
                     </div>
 
                     <!-- Save and Cancel buttons for Edit Form, only visible when editing -->
-                    <div id="edit-buttons-@change.CaseNo" class="edit-form-btn" style="display: none;">
-                        <button form="edit-form-@change.CaseNo" type="submit" class="btn btn-success">Lagre</button>
-                        <button type="button" onclick="toggleEditForm(@change.CaseNo)" class="btn btn-secondary">Avbryt</button>
+                    <div id="edit-buttons-@individualCase.CaseNo" class="edit-form-btn" style="display: none;">
+                        <button form="edit-form-@individualCase.CaseNo" type="submit" class="btn btn-success">Lagre</button>
+                        <button type="button" onclick="toggleEditForm(@individualCase.CaseNo)" class="btn btn-secondary">Avbryt</button>
                     </div>
                 </div>
             </div>
         </div>
-        
+
+        /* 
+            Stores the case-data to be used in the drawscript. Safer than html.raw
+        */
+            <div class="case-data"
+                 data-case-no="@individualCase.CaseNo"
+                 data-geojson="@individualCase.LocationInfo">
+            </div>
     }
     </div>
 
@@ -147,8 +155,22 @@
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
     <script src="~/js/modal.js"></script>
+    <script src="~/js/singleDrawnCase.js"></script>
 
     <script>
+
+        document.querySelectorAll('.case-data').forEach(individualCase => {
+            const caseNo = individualCase.getAttribute('data-case-no');
+            const geoJson = individualCase.getAttribute('data-geojson');
+
+            try {
+                const parsedGeoJson = JSON.parse(geoJson); // Pars JSON fra attributtet
+                singleDrawnChange(parsedGeoJson, caseNo);
+            } catch (error) {
+                console.error(`Kunne ikke parse GeoJSON for sak ${caseNo}:`, error);
+            }
+        });
+
         function toggleEditForm(caseNo) {
             const form = document.getElementById(`edit-form-${caseNo}`);
             const editButtons = document.getElementById(`edit-buttons-${caseNo}`);

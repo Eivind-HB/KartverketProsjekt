@@ -1,13 +1,11 @@
-﻿
-/* 
+﻿/* 
   This function is to display a single DrawnChange on a leafletmap. 
   Needs to be given valid geoJsonData a caseNumber to display
 */
-
-function singleDrawnChange(geoJsonData, CaseNo) { 
+function singleDrawnChange(geoJsonData, caseNo) { 
 
     console.log("GeoJSON Data:", geoJsonData);
-    console.log("CaseNo", caseNumber);
+    console.log("CaseNo", caseNo);
     // Makes sure om GeoJSON-data is valid
     if (geoJsonData) {
         // Adds the GeoJson data to the map
@@ -17,7 +15,7 @@ function singleDrawnChange(geoJsonData, CaseNo) {
             }, //Adds casenumber as popup on click
             onEachFeature: function (feature, layer) {
 
-                var popupContent = `Saksnummer: ${caseNumber}`;
+                var popupContent = `Saksnummer: ${caseNo}`;
 
                 layer.bindPopup(popupContent);
             }

@@ -9,15 +9,15 @@
     <h1>Oversikt av registrerte endringer</h1>
 
     <div class="accordion-container">
-        @foreach (var change in Model.Cases)
+        @foreach (var individualCase in Model.Cases)
         {
-            var issueType = @change.Issue_IssueNr.ToString();
-            var kommuneName = change.KommuneNo.ToString();
-            var fylkeName = change.FylkesNo.ToString();
+            var issueType = individualCase.Issue_IssueNr.ToString();
+            var kommuneName = individualCase.KommuneNo.ToString();
+            var fylkeName = individualCase.FylkesNo.ToString();
             <!-- Individual Case Section -->
             <div class="accordion-item">
                 <button class="accordion-header">
-                    Saks ID: @change.CaseNo
+                    Saks ID: @individualCase.CaseNo
                     <span class="accordion-icon">▼</span>
                 </button>
 
@@ -26,7 +26,7 @@
                     <div class="issue-location-details">
                         @foreach (var differentIssues in Model.Issues)
                         {
-                            var CaseIssue = @change.Issue_IssueNr;
+                            var CaseIssue = individualCase.Issue_IssueNr;
                             if(CaseIssue == @differentIssues.issueNo)
                             {
                                 issueType = @differentIssues.IssueType;
@@ -34,7 +34,7 @@
                         }
                         @foreach (var differentKommuneNos in Model.KommuneInfos)
                         {
-                            var CaseKommuneNo = @change.KommuneNo;
+                            var CaseKommuneNo = individualCase.KommuneNo;
                             if (CaseKommuneNo == @differentKommuneNos.KommuneInfoID)
                             {
                                 kommuneName = @differentKommuneNos.KommuneName;
@@ -42,7 +42,7 @@
                         }
                         @foreach (var differentFylkeNos in Model.FylkesInfos)
                         {
-                            var CaseFylkeNo = @change.FylkesNo;
+                            var CaseFylkeNo = individualCase.FylkesNo;
                             if (CaseFylkeNo == @differentFylkeNos.FylkesNameID)
                             {
                                 fylkeName = @differentFylkeNos.FylkesName;
@@ -61,18 +61,18 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>@change.CaseNo</td>
+                                    <td>@individualCase.CaseNo</td>
                                     <td>@issueType</td>
-                                    <td>@change.Date</td>
-                                    <td>@change.LocationInfo</td>
+                                    <td>@individualCase.Date</td>
+                                    <td>@individualCase.LocationInfo</td>
                                     <!--Here what can be changed by editing will be put. For now it is only description, but it will contain IssueType and Image-->
                                     <td>
-                                        <span id="description-@change.CaseNo">@change.Description</span>
+                                        <span id="description-@individualCase.CaseNo">@individualCase.Description</span>
                                         
                                         <!-- Edit Form -->
-                                        <form id="edit-form-@change.CaseNo" asp-action="EditDescription" asp-controller="Case" method="post" style="display:none;">
-                                            <input type="hidden" name="caseId" value="@change.CaseNo" />
-                                            <textarea name="newDescription" class="form-control">@change.Description</textarea>
+                                        <form id="edit-form-@individualCase.CaseNo" asp-action="EditDescription" asp-controller="Case" method="post" style="display:none;">
+                                            <input type="hidden" name="caseId" value="@individualCase.CaseNo" />
+                                            <textarea name="newDescription" class="form-control">@individualCase.Description</textarea>
                                         </form>
                                     </td>
                                 </tr>
@@ -92,9 +92,9 @@
                             <tbody>
                                 <tr>
                                     <td>@kommuneName</td>
-                                    <td>@change.KommuneNo</td>
+                                    <td>@individualCase.KommuneNo</td>
                                     <td>@fylkeName</td>
-                                    <td>@change.FylkesNo</td>
+                                    <td>@individualCase.FylkesNo</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -103,26 +103,26 @@
                         <div class="btn-group">
                             <!-- Deletion button -->                       
                             <form asp-action="DeleteCase" asp-controller="Case" method="post" style="display: inline;">
-                                <input type ="hidden" name="caseId" value="@change.CaseNo"/>
+                                <input type ="hidden" name="caseId" value="@individualCase.CaseNo"/>
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Er du sikker du vil slette denne saken? Dette kan ikke tas tilbake')">Slett sak</button>
                             </form>
 
                             <!-- Edit button to toggle edit form -->
-                            <button onclick="toggleEditForm(@change.CaseNo)" class="btn btn-primary" style="display: inline;">Rediger</button>
+                            <button onclick="toggleEditForm(@individualCase.CaseNo)" class="btn btn-primary" style="display: inline;">Rediger</button>
 
                             <!-- Button to display the image in a modal.
                             When clicked, it triggers the 'show.bs.modal' event,
                             passing the case ID to fetch the image source from the server. -->
-                            @if (change.Images != null)
+                            @if (individualCase.Images != null)
                             {
-                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#imageModal" data-case-id="@change.CaseNo">Vis Bilde</button>
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#imageModal" data-case-id="@individualCase.CaseNo">Vis Bilde</button>
                             }
                         </div>
 
                         <!-- Save and C ancel buttons for Edit Form, only visible when editing -->
-                        <div id="edit-buttons-@change.CaseNo" class="edit-form-btn" style="display: none;">
-                            <button form="edit-form-@change.CaseNo" type="submit" class="btn btn-success">Lagre</button>
-                            <button type="button" onclick="toggleEditForm(@change.CaseNo)" class="btn btn-secondary">Avbryt</button>
+                        <div id="edit-buttons-@individualCase.CaseNo" class="edit-form-btn" style="display: none;">
+                            <button form="edit-form-@individualCase.CaseNo" type="submit" class="btn btn-success">Lagre</button>
+                            <button type="button" onclick="toggleEditForm(@individualCase.CaseNo)" class="btn btn-secondary">Avbryt</button>
                         </div>
                     </div>
                 </div>
