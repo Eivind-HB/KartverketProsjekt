@@ -44,6 +44,8 @@ namespace Kartverket.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    CommentCaseWorker = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
                     User_UserID = table.Column<int>(type: "int", nullable: false),
                     Issue_IssueNr = table.Column<int>(type: "int", nullable: false),
@@ -227,28 +229,51 @@ namespace Kartverket.Migrations
             migrationBuilder.InsertData(
                 table: "CaseWorkers",
                 columns: new[] { "CaseWorkerID", "KartverketEmployee_EmployeeID", "MustChangePassword", "Password" },
-                values: new object[] { 1, 1, false, "default" });
+                values: new object[,]
+                {
+                    { 1, 1, false, "default" },
+                    { 201, 101, false, "default" },
+                    { 202, 102, false, "default" },
+                    { 203, 103, false, "default" },
+                    { 204, 104, false, "default" },
+                    { 205, 105, false, "default" },
+                    { 206, 106, false, "default" },
+                    { 207, 107, false, "default" },
+                    { 208, 108, false, "default" },
+                    { 209, 109, false, "default" },
+                    { 210, 110, false, "default" },
+                    { 211, 111, false, "default" },
+                    { 212, 112, false, "default" },
+                    { 213, 113, false, "default" },
+                    { 214, 114, false, "default" },
+                    { 215, 115, false, "default" },
+                    { 216, 116, false, "default" },
+                    { 217, 117, false, "default" },
+                    { 218, 118, false, "default" },
+                    { 219, 119, false, "default" },
+                    { 220, 120, false, "default" }
+                });
 
             migrationBuilder.InsertData(
                 table: "FylkesInfo",
                 columns: new[] { "FylkesNameID", "FylkesName" },
                 values: new object[,]
                 {
-                    { 3, " Oslo" },
-                    { 11, " Rogaland" },
-                    { 15, " Møre og Romsdal" },
-                    { 18, " Nordland - Nordlánnda" },
-                    { 31, " Østfold" },
-                    { 32, " Akershus" },
-                    { 33, " Buskerud" },
-                    { 34, " Innlandet" },
-                    { 39, " Vestfold" },
-                    { 40, " Telemark" },
-                    { 42, " Agder" },
-                    { 46, " Vestland" },
-                    { 50, " Trøndelag - Trööndelage" },
-                    { 55, " Troms - Romsa - Tromssa" },
-                    { 56, " Finnmark - Finnmárku - Finmarkku" }
+                    { 3, "Oslo" },
+                    { 11, "Rogaland" },
+                    { 15, "Møre og Romsdal" },
+                    { 18, "Nordland - Nordlánnda" },
+                    { 31, "Østfold" },
+                    { 32, "Akershus" },
+                    { 33, "Buskerud" },
+                    { 34, "Innlandet" },
+                    { 39, "Vestfold" },
+                    { 40, "Telemark" },
+                    { 42, "Agder" },
+                    { 46, "Vestland" },
+                    { 50, "Trøndelag - Trööndelage" },
+                    { 55, "Troms - Romsa - Tromssa" },
+                    { 56, "Finnmark - Finnmárku - Finmarkku" }
                 });
 
             migrationBuilder.InsertData(
