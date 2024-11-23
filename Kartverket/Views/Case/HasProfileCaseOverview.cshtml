@@ -2,7 +2,7 @@
 @using System.Security.Claims
 
 @{
-    ViewData["Title"] = "Oversikt for Innlogget Bruker";
+    ViewData["Title"] = "Sak oversikt";
     var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
     int userId = userIdClaim != null ? int.Parse(userIdClaim.Value) : 0;
 
@@ -48,8 +48,7 @@
                                 <th>Sak status</th>
                                 <th>Innmeldings dato</th>
                                 <th>GeoJson</th>
-                                <th>Beskrivelse</th>
-                                <th>BrukerID</th>
+                                <th>Beskrivelse</th>                                
                             </tr>
                         </thead>
                         <tbody>

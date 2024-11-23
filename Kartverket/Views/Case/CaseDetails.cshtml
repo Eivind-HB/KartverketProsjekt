@@ -1,7 +1,7 @@
 @model Kartverket.Data.Case
 
 @{
-    ViewData["Title"] = "Saks Detaljer";
+    ViewData["Title"] = "Individuel sak oversikt";
 }
 
 
@@ -17,8 +17,7 @@
                     <th>Saks Type</th>
                     <th>Saks Dato</th>
                     <th>GeoJson</th>
-                    <th>Beskrivelse</th>
-                    <th>BrukerID</th>
+                    <th>Beskrivelse</th>                    
                 </tr>
             </thead>
             <tbody>
@@ -27,8 +26,7 @@
                     <td>@Model.Issue_IssueNr</td>
                     <td>@Model.Date</td>
                     <td>@Model.LocationInfo</td>
-                    <td>@Model.Description</td>
-                    <td>@Model.User_UserID</td>
+                    <td>@Model.Description</td>                    
                 </tr>
             </tbody>
         </table>
