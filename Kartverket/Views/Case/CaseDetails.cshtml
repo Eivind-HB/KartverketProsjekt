@@ -46,6 +46,12 @@
         <div id="map" class="map-section"></div>
     </div>
 
+    <!--Stores the case-data to be used in DrawnCase.js. Safer than html.raw -->    
+    <div class="case-data"
+         data-case-no="@Model.CaseNo"
+         data-geojson="@Model.LocationInfo">
+    </div>
+
     <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Tilbake til oversikt</a>
 </div>
 
@@ -73,13 +79,19 @@
     <script src="~/js/DrawnCase.js"></script>
 
 
-    @* This function fetches GeoJSON and caseNo from the case model
+    @* This function fetches GeoJSON and caseNo from the case model using DOM
        The function is from DrawnCase.js
     *@
     <script>
-            // Fetches the single GeoJSON-data from the model
-        const geoJsonData = @Html.Raw(Model.LocationInfo);
-        const caseNo = @Model.CaseNo;
-        singleDrawnChange(geoJsonData, caseNo);
+         // Fetches case data from DOM
+    const caseDataElement = document.querySelector('.case-data');
+
+    // Calls the singleDrawnChange from DrawnCase.js using the case-data.
+    if (caseDataElement) {
+        singleDrawnChange(
+            JSON.parse(caseDataElement.getAttribute('data-geojson')),
+            caseDataElement.getAttribute('data-case-no')
+        );
+    }
     </script>
 }
