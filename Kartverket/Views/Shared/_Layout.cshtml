@@ -40,7 +40,7 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav d-flex justify-content-between w-100">
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin")) //logged in, and logged in as an admin
                         {
                             // Admin Navbar
                             <li class="nav-item" id="Home">
@@ -76,9 +76,9 @@
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        @if (User.Identity.IsAuthenticated)
+                        @if (User.Identity.IsAuthenticated) //logged in
                         {
-                            @if (User.IsInRole("Admin"))
+                            @if (User.IsInRole("Admin")) //logged in as admin
                             {
                                 <li class="nav-item">
                                     <span class="nav-link text-dark">Hallo, @User.Identity.Name!</span>
@@ -86,7 +86,7 @@
                                 <li class="nav-item"><a class="nav-link text-dark" asp-controller="User" asp-action="Logout">Logg ut</a></li>
                                 <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Case" asp-action="OverviewCaseworker">OverviewCaseworker</a></li>
                             }
-                            else
+                            else //normal user
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-controller="User" asp-action="Profile">Hallo, @User.Identity.Name!</a>
@@ -97,7 +97,7 @@
                                 <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="KontaktOss">Kontakt Oss</a></li>
                             }
                         }
-                        else
+                        else //not logged in at all
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="User" asp-action="LogInForm">Login</a>
