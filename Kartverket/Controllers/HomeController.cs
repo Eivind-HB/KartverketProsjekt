@@ -50,7 +50,6 @@ namespace Kartverket.Controllers
         //In-memory lagring av lister
         private static List<AreaChange> areaChanges = new List<AreaChange>();
         private static List<UserData> UserDataChanges = new List<UserData>();
-        private static List<LogInData> LogInInfo = new List<LogInData>();
         private static List<PositionModel> positions = new List<PositionModel>();
         private static readonly List<User> Usersinfo = new List<User>();
 
