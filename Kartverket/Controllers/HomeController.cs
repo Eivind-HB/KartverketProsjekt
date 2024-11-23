@@ -150,7 +150,7 @@ namespace Kartverket.Controllers
             if (areaModel.Kommunenummer == null && issueNo != 3)
             {
                 // Store error message in ViewBag
-                ViewBag.ErrorMessage = "Kommune er ikke regisrert! Prøv å trykk en ekstra gang på kartet etter du har markert det";
+                ViewBag.ErrorMessage = "Kommune er ikke registrert! Prøv å trykk en ekstra gang på kartet etter du har markert det";
                 return View("RoadCorrection"); // Return to the same view with the model
             }
             if (issueNo == 3) //if the issuetype is 'Sjø', thus without kommune/fylkes info from API call
@@ -165,7 +165,6 @@ namespace Kartverket.Controllers
                 UserName = userModel.UserName,
             };
 
-            //areaChanges.Add(newChange);
             UserDataChanges.Add(userChange);
 
 
@@ -226,7 +225,6 @@ namespace Kartverket.Controllers
                 CaseNo = CaseNoNumber,
                 LocationInfo = geoJson,
                 Description = description,
-                CommentCaseWorker = "",
                 Date = dateNow,
                 User_UserID = userId, 
                 Issue_IssueNr = (int)issueNo, //it says it 'may be null', but its already been checked earlier in the code
