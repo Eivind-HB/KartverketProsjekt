@@ -1,7 +1,7 @@
 @model Kartverket.Data.Case
 
 @{
-    ViewData["Title"] = "Saks Detaljer";
+    ViewData["Title"] = "Individuel sak oversikt";
 }
 
 
@@ -17,8 +17,7 @@
                     <th>Saks Type</th>
                     <th>Saks Dato</th>
                     <th>GeoJson</th>
-                    <th>Beskrivelse</th>
-                    <th>BrukerID</th>
+                    <th>Beskrivelse</th>                    
                 </tr>
             </thead>
             <tbody>
@@ -27,8 +26,7 @@
                     <td>@Model.Issue_IssueNr</td>
                     <td>@Model.Date</td>
                     <td>@Model.LocationInfo</td>
-                    <td>@Model.Description</td>
-                    <td>@Model.User_UserID</td>
+                    <td>@Model.Description</td>                    
                 </tr>
             </tbody>
         </table>
@@ -44,6 +42,12 @@
     </div>
     <div class="map-change-container">
         <div id="map" class="map-section"></div>
+    </div>
+
+    <!--Stores the case-data to be used in DrawnCase.js. Safer than html.raw -->    
+    <div class="case-data"
+         data-case-no="@Model.CaseNo"
+         data-geojson="@Model.LocationInfo">
     </div>
 
     <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Tilbake til oversikt</a>
@@ -70,16 +74,22 @@
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
     <script src="~/js/modal.js"></script>
-    <script src="~/js/singleDrawnCase.js"></script>
+    <script src="~/js/DrawnCase.js"></script>
 
 
-    @* This function fetches GeoJSON and CaseNumber from the case model
-       The function is from singleDrawnCase.js
+    @* This function fetches GeoJSON and caseNo from the case model using DOM
+       The function is from DrawnCase.js
     *@
     <script>
-            // Fetches the single GeoJSON-data from the model
-        var geoJsonData = @Html.Raw(Model.LocationInfo);
-        var caseNumber = @Model.CaseNo;
-        singleDrawnChange(geoJsonData, caseNumber);
+         // Fetches case data from DOM
+    const caseDataElement = document.querySelector('.case-data');
+
+    // Calls the singleDrawnChange from DrawnCase.js using the case-data.
+    if (caseDataElement) {
+        singleDrawnChange(
+            JSON.parse(caseDataElement.getAttribute('data-geojson')),
+            caseDataElement.getAttribute('data-case-no')
+        );
+    }
     </script>
 }

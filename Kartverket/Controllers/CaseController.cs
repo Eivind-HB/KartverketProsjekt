@@ -26,6 +26,7 @@ namespace Kartverket.Controllers
         /// Finds the userID and fetches only the Cases that is connected to the ID.
         /// </summary>
         /// <returns> View - HasProfileCaseOverview </returns>
+        [HttpGet]
         public IActionResult HasProfileCaseOverview()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
