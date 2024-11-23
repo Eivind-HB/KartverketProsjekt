@@ -338,6 +338,11 @@ namespace Kartverket.Migrations
                     b.HasData(
                         new
                         {
+                            FylkesNameID = 100,
+                            FylkesName = "Sjø uten fylke"
+                        },
+                        new
+                        {
                             FylkesNameID = 3,
                             FylkesName = "Oslo"
                         },
@@ -489,211 +494,211 @@ namespace Kartverket.Migrations
                         new
                         {
                             EmployeeID = 1,
-                            Firstname = "'Admin'",
-                            Lastname = "'Adminsen'",
-                            Mail = "'admin@kartverket.no'",
+                            Firstname = "Admin",
+                            Lastname = "Adminsen",
+                            Mail = "admin@kartverket.no",
                             PhoneNo = 0,
-                            Title = "'Admin'",
+                            Title = "Admin",
                             Wage = 0
                         },
                         new
                         {
                             EmployeeID = 101,
-                            Firstname = "'Erik'",
-                            Lastname = "'Hansen'",
-                            Mail = "'erik.hansen@kartverket.no'",
+                            Firstname = "Erik",
+                            Lastname = "Hansen",
+                            Mail = "erik.hansen@kartverket.no",
                             PhoneNo = 12345678,
-                            Title = "'SeniorSurveyor'",
+                            Title = "SeniorSurveyor",
                             Wage = 650000
                         },
                         new
                         {
                             EmployeeID = 102,
-                            Firstname = "'Maria'",
-                            Lastname = "'Olsen'",
-                            Mail = "'maria.olsen@kartverket.no'",
+                            Firstname = "Maria",
+                            Lastname = "Olsen",
+                            Mail = "maria.olsen@kartverket.no",
                             PhoneNo = 23456789,
-                            Title = "'GIS Specialist'",
+                            Title = "GIS Specialist",
                             Wage = 600000
                         },
                         new
                         {
                             EmployeeID = 103,
-                            Firstname = "'Anders'",
-                            Lastname = "'Berg'",
-                            Mail = "'anders.berg@kartverket.no'",
+                            Firstname = "Anders",
+                            Lastname = "Berg",
+                            Mail = "anders.berg@kartverket.no",
                             PhoneNo = 34567890,
-                            Title = "'Property Lawyer'",
+                            Title = "Property Lawyer",
                             Wage = 700000
                         },
                         new
                         {
                             EmployeeID = 104,
-                            Firstname = "'Sofia'",
-                            Lastname = "'Larsen'",
-                            Mail = "'sofia.larsen@kartverket.no'",
+                            Firstname = "Sofia",
+                            Lastname = "Larsen",
+                            Mail = "sofia.larsen@kartverket.no",
                             PhoneNo = 45678901,
-                            Title = "'Cartographer'",
+                            Title = "Cartographer",
                             Wage = 580000
                         },
                         new
                         {
                             EmployeeID = 105,
-                            Firstname = "'Nils'",
-                            Lastname = "'Bakken'",
-                            Mail = "'nils.bakken@kartverket.no'",
+                            Firstname = "Nils",
+                            Lastname = "Bakken",
+                            Mail = "nils.bakken@kartverket.no",
                             PhoneNo = 56789012,
-                            Title = "'Data Analyst'",
+                            Title = "Data Analyst",
                             Wage = 620000
                         },
                         new
                         {
                             EmployeeID = 106,
-                            Firstname = "'Line'",
-                            Lastname = "'Pedersen'",
-                            Mail = "'line.pedersen@kartverket.no'",
+                            Firstname = "Line",
+                            Lastname = "Pedersen",
+                            Mail = "line.pedersen@kartverket.no",
                             PhoneNo = 67890123,
-                            Title = "'GIS Manager'",
+                            Title = "GIS Manager",
                             Wage = 680000
                         },
                         new
                         {
                             EmployeeID = 107,
-                            Firstname = "'Jonas'",
-                            Lastname = "'Andreassen'",
-                            Mail = "'jonas.andreassen@kartverket.no'",
+                            Firstname = "Jonas",
+                            Lastname = "Andreassen",
+                            Mail = "jonas.andreassen@kartverket.no",
                             PhoneNo = 78961234,
-                            Title = "'Senior Surveyor'",
+                            Title = "Senior Surveyor",
                             Wage = 660000
                         },
                         new
                         {
                             EmployeeID = 108,
-                            Firstname = "'Emma'",
-                            Lastname = "'Kristiansen'",
-                            Mail = "'emma.kristiansen@kartverket.no'",
+                            Firstname = "Emma",
+                            Lastname = "Kristiansen",
+                            Mail = "emma.kristiansen@kartverket.no",
                             PhoneNo = 89012345,
-                            Title = "'Cartography Specialist'",
+                            Title = "Cartography Specialist",
                             Wage = 590000
                         },
                         new
                         {
                             EmployeeID = 109,
-                            Firstname = "'Martin'",
-                            Lastname = "'Johansen'",
-                            Mail = "'martin.johansen@kartverket.no'",
+                            Firstname = "Martin",
+                            Lastname = "Johansen",
+                            Mail = "martin.johansen@kartverket.no",
                             PhoneNo = 90123456,
-                            Title = "'Data Analyst'",
+                            Title = "Data Analyst",
                             Wage = 610000
                         },
                         new
                         {
                             EmployeeID = 110,
-                            Firstname = "'Ingrid'",
-                            Lastname = "'Nelson'",
-                            Mail = "'ingrid.nelson@kartverket.no'",
+                            Firstname = "Ingrid",
+                            Lastname = "Nelson",
+                            Mail = "ingrid.nelson@kartverket.no",
                             PhoneNo = 1234567,
-                            Title = "'Project Coordinator'",
+                            Title = "Project Coordinator",
                             Wage = 630000
                         },
                         new
                         {
                             EmployeeID = 111,
-                            Firstname = "'Magnus'",
-                            Lastname = "'Olsen'",
-                            Mail = "'magnus.olsen@kartverket.no'",
+                            Firstname = "Magnus",
+                            Lastname = "Olsen",
+                            Mail = "magnus.olsen@kartverket.no",
                             PhoneNo = 12345478,
-                            Title = "'Remote SensingExpert'",
+                            Title = "Remote SensingExpert",
                             Wage = 670000
                         },
                         new
                         {
                             EmployeeID = 112,
-                            Firstname = "'Sara'",
-                            Lastname = "'Hansen'",
-                            Mail = "'sara.hansen@kartverket.no'",
+                            Firstname = "Sara",
+                            Lastname = "Hansen",
+                            Mail = "sara.hansen@kartverket.no",
                             PhoneNo = 23459789,
-                            Title = "'Legal Advisor'",
+                            Title = "Legal Advisor",
                             Wage = 690000
                         },
                         new
                         {
                             EmployeeID = 113,
-                            Firstname = "'Daniel'",
-                            Lastname = "'Berg'",
-                            Mail = "'daniel.berg@kartverket.no'",
+                            Firstname = "Daniel",
+                            Lastname = "Berg",
+                            Mail = "daniel.berg@kartverket.no",
                             PhoneNo = 34517890,
-                            Title = "'Technical Specialist'",
+                            Title = "Technical Specialist",
                             Wage = 640000
                         },
                         new
                         {
                             EmployeeID = 114,
-                            Firstname = "'Julia'",
-                            Lastname = "'Larsen'",
-                            Mail = "'julia.larsen@kartverket.no'",
+                            Firstname = "Julia",
+                            Lastname = "Larsen",
+                            Mail = "julia.larsen@kartverket.no",
                             PhoneNo = 45671901,
-                            Title = "'Research Coordinator'",
+                            Title = "Research Coordinator",
                             Wage = 620000
                         },
                         new
                         {
                             EmployeeID = 115,
-                            Firstname = "'Thomas'",
-                            Lastname = "'Jensen'",
-                            Mail = "'thomas.jensen@kartverket.no'",
+                            Firstname = "Thomas",
+                            Lastname = "Jensen",
+                            Mail = "thomas.jensen@kartverket.no",
                             PhoneNo = 56779012,
-                            Title = "'Senior Analyst'",
+                            Title = "Senior Analyst",
                             Wage = 650000
                         },
                         new
                         {
                             EmployeeID = 116,
-                            Firstname = "'Maria'",
-                            Lastname = "'Andersen'",
-                            Mail = "'maria.andersen@kartverket.no'",
+                            Firstname = "Maria",
+                            Lastname = "Andersen",
+                            Mail = "maria.andersen@kartverket.no",
                             PhoneNo = 67820123,
-                            Title = "'Geospatial Specialist'",
+                            Title = "Geospatial Specialist",
                             Wage = 600000
                         },
                         new
                         {
                             EmployeeID = 117,
-                            Firstname = "'Alexander'",
-                            Lastname = "'Pedersen'",
-                            Mail = "'alexander.pedersen@kartverket.no'",
+                            Firstname = "Alexander",
+                            Lastname = "Pedersen",
+                            Mail = "alexander.pedersen@kartverket.no",
                             PhoneNo = 78901234,
-                            Title = "'Field Operations Manager'",
+                            Title = "Field Operations Manager",
                             Wage = 680000
                         },
                         new
                         {
                             EmployeeID = 118,
-                            Firstname = "'Sofia'",
-                            Lastname = "'Olsen'",
-                            Mail = "'sofia.olsen@kartverket.no'",
+                            Firstname = "Sofia",
+                            Lastname = "Olsen",
+                            Mail = "sofia.olsen@kartverket.no",
                             PhoneNo = 83012345,
-                            Title = "'Data Visualization Expert'",
+                            Title = "Data Visualization Expert",
                             Wage = 610000
                         },
                         new
                         {
                             EmployeeID = 119,
-                            Firstname = "'Hans'",
-                            Lastname = "'Hansen'",
-                            Mail = "'hans.hansen@kartverket.no'",
+                            Firstname = "Hans",
+                            Lastname = "Hansen",
+                            Mail = "hans.hansen@kartverket.no",
                             PhoneNo = 90323436,
-                            Title = "'Senior Consultant'",
+                            Title = "Senior Consultant",
                             Wage = 670000
                         },
                         new
                         {
                             EmployeeID = 120,
-                            Firstname = "'Linnea'",
-                            Lastname = "'Berg'",
-                            Mail = "'linnea.berg@kartverket.no'",
+                            Firstname = "Linnea",
+                            Lastname = "Berg",
+                            Mail = "linnea.berg@kartverket.no",
                             PhoneNo = 1234267,
-                            Title = "'Research Analyst'",
+                            Title = "Research Analyst",
                             Wage = 590000
                         });
                 });
@@ -715,6 +720,11 @@ namespace Kartverket.Migrations
                     b.ToTable("KommuneInfo");
 
                     b.HasData(
+                        new
+                        {
+                            KommuneInfoID = 100100,
+                            KommuneName = "Sjø uten kommune"
+                        },
                         new
                         {
                             KommuneInfoID = 5636,
@@ -793,7 +803,7 @@ namespace Kartverket.Migrations
                         new
                         {
                             KommuneInfoID = 5605,
-                            KommuneName = "Sør-Varanger"
+                            KommuneName = "Sør - Varanger"
                         },
                         new
                         {
@@ -948,7 +958,7 @@ namespace Kartverket.Migrations
                         new
                         {
                             KommuneInfoID = 5054,
-                            KommuneName = "Indre Fosen"
+                            KommuneName = "IndreFosen"
                         },
                         new
                         {
@@ -1053,7 +1063,7 @@ namespace Kartverket.Migrations
                         new
                         {
                             KommuneInfoID = 5027,
-                            KommuneName = "Midtre Gauldal"
+                            KommuneName = "MidtreGauldal"
                         },
                         new
                         {
@@ -1363,7 +1373,7 @@ namespace Kartverket.Migrations
                         new
                         {
                             KommuneInfoID = 4219,
-                            KommuneName = "Evje og Hornnes"
+                            KommuneName = "EvjeogHornnes"
                         },
                         new
                         {
@@ -1483,7 +1493,7 @@ namespace Kartverket.Migrations
                         new
                         {
                             KommuneInfoID = 4020,
-                            KommuneName = "Midt-Telemark"
+                            KommuneName = "Midt - Telemark"
                         },
                         new
                         {
@@ -1563,17 +1573,17 @@ namespace Kartverket.Migrations
                         new
                         {
                             KommuneInfoID = 3453,
-                            KommuneName = "Øystre Slidre"
+                            KommuneName = "ØystreSlidre"
                         },
                         new
                         {
                             KommuneInfoID = 3452,
-                            KommuneName = "Vestre Slidre"
+                            KommuneName = "VestreSlidre"
                         },
                         new
                         {
                             KommuneInfoID = 3451,
-                            KommuneName = "Nord-Aurdal"
+                            KommuneName = "Nord - Aurdal"
                         },
                         new
                         {
@@ -1583,17 +1593,17 @@ namespace Kartverket.Migrations
                         new
                         {
                             KommuneInfoID = 3449,
-                            KommuneName = "Sør-Aurdal"
+                            KommuneName = "Sør - Aurdal"
                         },
                         new
                         {
                             KommuneInfoID = 3448,
-                            KommuneName = "Nordre Land"
+                            KommuneName = "NordreLand"
                         },
                         new
                         {
                             KommuneInfoID = 3447,
-                            KommuneName = "Søndre Land"
+                            KommuneName = "SøndreLand"
                         },
                         new
                         {
@@ -1603,12 +1613,12 @@ namespace Kartverket.Migrations
                         new
                         {
                             KommuneInfoID = 3443,
-                            KommuneName = "Vestre Toten"
+                            KommuneName = "VestreToten"
                         },
                         new
                         {
                             KommuneInfoID = 3442,
-                            KommuneName = "Østre Toten"
+                            KommuneName = "ØstreToten"
                         },
                         new
                         {
@@ -1628,7 +1638,7 @@ namespace Kartverket.Migrations
                         new
                         {
                             KommuneInfoID = 3438,
-                            KommuneName = "Sør-Fron"
+                            KommuneName = "Sør - Fron"
                         },
                         new
                         {
@@ -1638,7 +1648,7 @@ namespace Kartverket.Migrations
                         new
                         {
                             KommuneInfoID = 3436,
-                            KommuneName = "Nord-Fron"
+                            KommuneName = "Nord - Fron"
                         },
                         new
                         {
@@ -1703,7 +1713,7 @@ namespace Kartverket.Migrations
                         new
                         {
                             KommuneInfoID = 3423,
-                            KommuneName = "Stor-Elvdal"
+                            KommuneName = "Stor - Elvdal"
                         },
                         new
                         {
@@ -1743,12 +1753,12 @@ namespace Kartverket.Migrations
                         new
                         {
                             KommuneInfoID = 3415,
-                            KommuneName = "Sør-Odal"
+                            KommuneName = "Sør - Odal"
                         },
                         new
                         {
                             KommuneInfoID = 3414,
-                            KommuneName = "Nord-Odal"
+                            KommuneName = "Nord - Odal"
                         },
                         new
                         {
@@ -1788,7 +1798,7 @@ namespace Kartverket.Migrations
                         new
                         {
                             KommuneInfoID = 3338,
-                            KommuneName = "Nore og Uvdal"
+                            KommuneName = "NoreogUvdal"
                         },
                         new
                         {
@@ -1848,7 +1858,7 @@ namespace Kartverket.Migrations
                         new
                         {
                             KommuneInfoID = 3314,
-                            KommuneName = "Øvre Eiker"
+                            KommuneName = "ØvreEiker"
                         },
                         new
                         {
@@ -1918,7 +1928,7 @@ namespace Kartverket.Migrations
                         new
                         {
                             KommuneInfoID = 3226,
-                            KommuneName = "Aurskog-Høland"
+                            KommuneName = "Aurskog - Høland"
                         },
                         new
                         {
@@ -1963,7 +1973,7 @@ namespace Kartverket.Migrations
                         new
                         {
                             KommuneInfoID = 3207,
-                            KommuneName = "Nordre Follo"
+                            KommuneName = "NordreFollo"
                         },
                         new
                         {
@@ -1998,7 +2008,7 @@ namespace Kartverket.Migrations
                         new
                         {
                             KommuneInfoID = 3118,
-                            KommuneName = "Indre Østfold"
+                            KommuneName = "IndreØstfold"
                         },
                         new
                         {
