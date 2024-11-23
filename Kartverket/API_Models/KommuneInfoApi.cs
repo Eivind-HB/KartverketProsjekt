@@ -64,13 +64,13 @@ namespace Kartverket.API_Models
         public string? kommunenummer { get; set; }
 
         [JsonPropertyName("avgrensningsboks")]
-        public Avgrensningsboks Avgrensningsboks { get; set; }
+        public Avgrensningsboks? Avgrensningsboks { get; set; }
 
         [JsonPropertyName("punktIOmrade")]
-        public PunktIOmrade PunktIOmrade { get; set; }
+        public PunktIOmrade? PunktIOmrade { get; set; }
 
         [JsonPropertyName("gyldigeNavn")]
-        public List<GyldigeNavn> GyldigeNavn { get; set; }
+        public List<GyldigeNavn>? GyldigeNavn { get; set; }
     }
 
 }
