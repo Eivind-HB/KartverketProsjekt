@@ -329,5 +329,12 @@
                 map.invalidateSize();
             });
         });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const homeNavItem = document.querySelector('.nav-item a[href*="OverviewCaseworker"]');
+            if (homeNavItem) {
+                homeNavItem.parentElement.style.backgroundColor = 'var(--light-green)';
+            }
+        });
     </script>
 }

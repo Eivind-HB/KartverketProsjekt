@@ -5,11 +5,10 @@
    
     <h1>Melding om feil i kart</h1>
   <p class="lead">Kartverkets data er sentrale i Norges offisielle datagrunnlag og brukes i en lang rekke kart på papir og nett. Her kan du hjelpe oss med å holde kartene oppdatert.</p>
-
 <div class="link-container">
-        @if (User.Identity.IsAuthenticated)
+        @if (User.Identity.IsAuthenticated) //logged in
         {
-            @if (User.IsInRole("Admin"))
+            @if (User.IsInRole("Admin")) //logged in as admin
             {
                 <div class="link-box">
                     <a asp-action="RoadCorrection" class="link-box">
@@ -58,7 +57,7 @@
             }
 
 </div>
-    @if (User.Identity.IsAuthenticated)
+    @if (User.Identity.IsAuthenticated)//logged in
     {
         <h4>Over kan du registrere saker og se dine tidligere innsendinger!</h4>
     }
