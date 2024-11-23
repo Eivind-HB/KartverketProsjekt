@@ -14,6 +14,7 @@ namespace Kartverket.Data
         [Required]
         public string LocationInfo { get; set; }
         public string? Description { get; set; }
+        public string? CommentCaseWorker { get; set; }
         [Required]
         public DateOnly? Date { get; set; }
         [Required]

@@ -53,6 +53,9 @@ namespace Kartverket.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CaseNo"));
 
+                    b.Property<string>("CommentCaseWorker")
+                        .HasColumnType("longtext");
+
                     b.Property<DateOnly?>("Date")
                         .IsRequired()
                         .HasColumnType("date");
@@ -114,6 +117,146 @@ namespace Kartverket.Migrations
                         {
                             CaseWorkerID = 1,
                             KartverketEmployee_EmployeeID = 1,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 201,
+                            KartverketEmployee_EmployeeID = 101,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 202,
+                            KartverketEmployee_EmployeeID = 102,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 203,
+                            KartverketEmployee_EmployeeID = 103,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 204,
+                            KartverketEmployee_EmployeeID = 104,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 205,
+                            KartverketEmployee_EmployeeID = 105,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 206,
+                            KartverketEmployee_EmployeeID = 106,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 207,
+                            KartverketEmployee_EmployeeID = 107,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 208,
+                            KartverketEmployee_EmployeeID = 108,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 209,
+                            KartverketEmployee_EmployeeID = 109,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 210,
+                            KartverketEmployee_EmployeeID = 110,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 211,
+                            KartverketEmployee_EmployeeID = 111,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 212,
+                            KartverketEmployee_EmployeeID = 112,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 213,
+                            KartverketEmployee_EmployeeID = 113,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 214,
+                            KartverketEmployee_EmployeeID = 114,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 215,
+                            KartverketEmployee_EmployeeID = 115,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 216,
+                            KartverketEmployee_EmployeeID = 116,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 217,
+                            KartverketEmployee_EmployeeID = 117,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 218,
+                            KartverketEmployee_EmployeeID = 118,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 219,
+                            KartverketEmployee_EmployeeID = 119,
+                            MustChangePassword = false,
+                            Password = "default"
+                        },
+                        new
+                        {
+                            CaseWorkerID = 220,
+                            KartverketEmployee_EmployeeID = 120,
                             MustChangePassword = false,
                             Password = "default"
                         });
@@ -196,77 +339,77 @@ namespace Kartverket.Migrations
                         new
                         {
                             FylkesNameID = 3,
-                            FylkesName = " Oslo"
+                            FylkesName = "Oslo"
                         },
                         new
                         {
                             FylkesNameID = 11,
-                            FylkesName = " Rogaland"
+                            FylkesName = "Rogaland"
                         },
                         new
                         {
                             FylkesNameID = 15,
-                            FylkesName = " Møre og Romsdal"
+                            FylkesName = "Møre og Romsdal"
                         },
                         new
                         {
                             FylkesNameID = 18,
-                            FylkesName = " Nordland - Nordlánnda"
+                            FylkesName = "Nordland - Nordlánnda"
                         },
                         new
                         {
                             FylkesNameID = 31,
-                            FylkesName = " Østfold"
+                            FylkesName = "Østfold"
                         },
                         new
                         {
                             FylkesNameID = 32,
-                            FylkesName = " Akershus"
+                            FylkesName = "Akershus"
                         },
                         new
                         {
                             FylkesNameID = 33,
-                            FylkesName = " Buskerud"
+                            FylkesName = "Buskerud"
                         },
                         new
                         {
                             FylkesNameID = 34,
-                            FylkesName = " Innlandet"
+                            FylkesName = "Innlandet"
                         },
                         new
                         {
                             FylkesNameID = 39,
-                            FylkesName = " Vestfold"
+                            FylkesName = "Vestfold"
                         },
                         new
                         {
                             FylkesNameID = 40,
-                            FylkesName = " Telemark"
+                            FylkesName = "Telemark"
                         },
                         new
                         {
                             FylkesNameID = 42,
-                            FylkesName = " Agder"
+                            FylkesName = "Agder"
                         },
                         new
                         {
                             FylkesNameID = 46,
-                            FylkesName = " Vestland"
+                            FylkesName = "Vestland"
                         },
                         new
                         {
                             FylkesNameID = 50,
-                            FylkesName = " Trøndelag - Trööndelage"
+                            FylkesName = "Trøndelag - Trööndelage"
                         },
                         new
                         {
                             FylkesNameID = 55,
-                            FylkesName = " Troms - Romsa - Tromssa"
+                            FylkesName = "Troms - Romsa - Tromssa"
                         },
                         new
                         {
                             FylkesNameID = 56,
-                            FylkesName = " Finnmark - Finnmárku - Finmarkku"
+                            FylkesName = "Finnmark - Finnmárku - Finmarkku"
                         });
                 });
 
