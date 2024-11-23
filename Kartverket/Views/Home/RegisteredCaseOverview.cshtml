@@ -75,16 +75,16 @@
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
     <script src="~/js/modal.js"></script>
-    <script src="~/js/singleDrawnCase.js"></script>
+    <script src="~/js/DrawnCase.js"></script>
 
     
-    @* This function fetches GeoJSON and CaseNumber from the case model
-       The function is from singleDrawnCase.js
+    @* This function fetches GeoJSON and caseNo from the case model
+       The function is from DrawnCase.js
     *@
     <script>
         // Fetches the single GeoJSON-data from the model
         var geoJsonData = @Html.Raw(Model.LocationInfo);
-        var caseNumber = @Model.CaseNo;
-        singleDrawnChange(geoJsonData, caseNumber);
+        var caseNo = @Model.CaseNo;
+        singleDrawnChange(geoJsonData, caseNo);
     </script>
 }
