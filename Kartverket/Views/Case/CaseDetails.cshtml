@@ -91,5 +91,12 @@
             caseDataElement.getAttribute('data-case-no')
         );
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+                const homeNavItem = document.querySelector('.nav-item a[href*="HasProfileCaseOverview"]');
+                if (homeNavItem) {
+                    homeNavItem.parentElement.style.backgroundColor = 'var(--light-green)';
+                }
+            });
     </script>
 }
