@@ -246,11 +246,9 @@ namespace Kartverket.Test
             {
                 GeoJson = "{\"type\":\"Point\",\"coordinates\":[10.0, 60.0]}",
                 Description = "Test description",
-                IssueType = "1",
-                Kommunenavn = "Test Kommune",
-                Kommunenummer = "0301",
-                Fylkesnavn = "Test Fylke",
-                Fylkesnummer = "03"
+                IssueType = 1,
+                Kommunenummer = 0301,
+                Fylkesnummer = 03
             };
 
             var userModel = new UserData { UserName = "testuser" };
@@ -301,8 +299,8 @@ namespace Kartverket.Test
             {
                 GeoJson = "{\"type\":\"Point\",\"coordinates\":[102.0, 0.5]}", // Valid GeoJson
                 Description = "Test description",
-                IssueType = "1",
-                Kommunenavn = null // Invalid Kommune name
+                IssueType = 1,
+                Kommunenummer = null // Invalid Kommune name
             };
 
             var userModel = new UserData
@@ -336,8 +334,7 @@ namespace Kartverket.Test
             {
                 GeoJson = "", // Invalid GeoJson (empty string)
                 Description = "Test description",
-                IssueType = "1",
-                Kommunenavn = "Oslo" // Ensure this is valid to focus on GeoJson validation
+                IssueType = 1,
             };
 
             var userModel = new UserData
