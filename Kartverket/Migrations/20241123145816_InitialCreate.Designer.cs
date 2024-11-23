@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kartverket.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241123131459_InitialCreate")]
+    [Migration("20241123145816_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
