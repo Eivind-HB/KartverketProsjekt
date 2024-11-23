@@ -1,4 +1,5 @@
-﻿.accordion-container {
+﻿
+.accordion-container {
     width: 100%;
     margin-bottom: 2rem;
     font-family: var(--main-font);
@@ -81,7 +82,6 @@
     background-color: rgba(232, 245, 235, 0.3);
 }
 
-.accordion-content .table td:last-child,
 .accordion-content .table th:last-child {
     max-width: 150px; /* Adjust the width as needed */
     overflow: hidden;
@@ -107,3 +107,87 @@
         white-space: nowrap;
     }
 }
+
+.accordion-container-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    padding: 1rem;
+    margin: 1rem;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.accordion-container-container h1 {
+    color: var(--primary-green);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+.accordion-container-container .table {
+    margin: 0;
+    border: 1px solid var(--border-gray);
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+}
+
+.accordion-container-container .table thead th {
+    background-color: var(--light-green);
+    color: var(--primary-green);
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    border-bottom: 2px solid var(--primary-green);
+}
+
+.accordion-container-container .table td, .accordion.content th {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-gray);
+    color: var(--text-color);
+}
+
+.accordion-container-container .table tbody tr:hover {
+    background-color: rgba(232, 245, 235, 0.3);
+}
+
+.accordion-container-container .table th:last-child {
+    max-width: 150px; /* Adjust the width as needed */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.accordion-container-header {
+    width: 100%;
+    height: 5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    background-color: var(--light-green);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    text-align: left;
+    font-weight: 600;
+    color: var(--primary-green);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+    .accordion-container-header:hover {
+        background-color: #d9ede0;
+    }
+
+    .accordion-container-header.active {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+/*
+.accordion-container-item {
+    border: 1px solid var(--border-gray);
+    margin-bottom: 0.5rem;
+    height: 5rem;
+    border-radius: var(--border-radius-sm);
+    background: #ffffff;
+    box-shadow: var(--shadow-sm);
+}
+    */
