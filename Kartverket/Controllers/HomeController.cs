@@ -34,6 +34,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Ganss.Xss;
+using static Dapper.SqlMapper;
 
 namespace Kartverket.Controllers
 {
@@ -104,8 +105,6 @@ namespace Kartverket.Controllers
             var sanitizer = new HtmlSanitizer();
             areaModel.GeoJson = sanitizer.Sanitize(areaModel.GeoJson);
             areaModel.Description = sanitizer.Sanitize(areaModel.Description);
-            areaModel.Kommunenavn = sanitizer.Sanitize(areaModel.Kommunenavn);
-            areaModel.Fylkesnavn = sanitizer.Sanitize(areaModel.Fylkesnavn);
             userModel.UserName = sanitizer.Sanitize(userModel.UserName);
 
             //This section handles the image upload to the database
@@ -146,56 +145,41 @@ namespace Kartverket.Controllers
                 return View("RoadCorrection"); // Return to the same view with the model
             }
 
-            //Checks that the description in areamodel is not null/empty
-            if (string.IsNullOrEmpty(areaModel.Kommunenavn))
+            //Checks that the kommuneinfo(name here) in areamodel is not null/empty
+            var issueNo = areaModel.IssueType;
+            if (areaModel.Kommunenummer == null && issueNo != 3)
             {
                 // Store error message in ViewBag
-                ViewBag.ErrorMessage = "Kommune er ikke regisrert! Prøv å trykk en ekstra gang på kartet etter du har markert det";
+                ViewBag.ErrorMessage = "Kommune er ikke registrert! Prøv å trykk en ekstra gang på kartet etter du har markert det";
                 return View("RoadCorrection"); // Return to the same view with the model
             }
-
-            var newChange = new AreaChange
+            if (issueNo == 3) //if the issuetype is 'Sjø', thus without kommune/fylkes info from API call
             {
-                IssueId = Guid.NewGuid().ToString(),
-                GeoJson = areaModel.GeoJson,
-                Description = areaModel.Description,
-                IssueType = areaModel.IssueType,
-                IssueDate = DateTime.Now,
-                ImageData = areaModel.ImageData,
-
-                Kommunenavn = areaModel.Kommunenavn,
-                Kommunenummer = areaModel.Kommunenummer,
-                Fylkesnavn = areaModel.Fylkesnavn,
-                Fylkesnummer = areaModel.Fylkesnummer,
-            };
+                //set the numbers to 100 and 100100, which is sjø uten kommune/fylke in DB
+                areaModel.Kommunenummer = 100100;
+                areaModel.Fylkesnummer = 100;
+            }
 
             var userChange = new UserData
             {
                 UserName = userModel.UserName,
             };
 
-            areaChanges.Add(newChange);
             UserDataChanges.Add(userChange);
 
 
-            //init of variables I used, most likely going to change
+            Random rnd = new Random();
+            
+            //init of variables gathered from areaModel which are to be sent to mariaDB
             var geoJson = areaModel.GeoJson;
             var description = areaModel.Description;
-            var fylkesNo = Int32.Parse(areaModel.Fylkesnummer);
-            var kommuneNo = Int32.Parse(areaModel.Kommunenummer);
-            var issueNo = Int32.Parse(areaModel.IssueType);
-
-
-            //Niri EF
-            if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
-            {
-                return BadRequest("Invalid data.");
-            }
-
-            if (geoJson == null)
-            {
-                return BadRequest(geoJson);
-            }
+            var fylkesNo = areaModel.Fylkesnummer;
+            var kommuneNo = areaModel.Kommunenummer;
+            var dateNow = DateOnly.FromDateTime(DateTime.Now);
+            int CaseNoNumber = rnd.Next(100000, 999999);//random id int nummer for casenumer(ID and PK)
+            //create variables describing the logged in state
+            bool loggedIn = User.Identity.IsAuthenticated;//if the user is logged inn
+            bool admin = User.IsInRole("Admin");//id the user is logged inn as an admin
 
             Geometry geometry;
             try
@@ -210,68 +194,53 @@ namespace Kartverket.Controllers
                 return BadRequest("Invalid GeoJson format.");
             }
 
-            //Create MySqlGeometry from WKB
-            //MySqlGeometry mySqlGeometry = MySqlGeometry.FromWKB(wkb);   funker ikke
-
-            //random id int nummer
-            Random rnd = new Random();
-            int CaseNoNumber = rnd.Next(100000, 999999);
-
-
-            //TempData["OpprettetSaksnr"] = CaseNoNumber;
-            //ViewBag.ViewModel = TempData["OpprettetSaksnr"];
-            //TempData.Keep("OpprettetSaksnr");
-
-            //var newlycreated = true;
-
-            //random id nummer, placeholder
+            //random id nummer for users without login
             var userId = rnd.Next(100000, 999999);
-            if (User.Identity.IsAuthenticated)
+            if (loggedIn)
             {
-                if (User.IsInRole("Admin"))
+                if (admin)
                 {
                     var caseWorkerIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
                     if (caseWorkerIdClaim != null)
                     {
+                        //userId is set to the admins (caseworkers) userid
                         userId = int.Parse(caseWorkerIdClaim.Value);
                     }
                 }
-                else
+                else //if the user isnt an admin...
                 {
                     var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-                    userId = 0;
+                    userId = 0; //had to create the variable outside of the loop, code got angry at me;(
                     if (userIdClaim != null)
                     {
+                        //... userId is set to the logged in users userid
                         userId = int.Parse(userIdClaim.Value);
                     }
                 }
             }
 
-            var dateNow = DateOnly.FromDateTime(DateTime.Now);
-
-
+            //creates the information that will actually be fed into mariaDB
             var newGeoChange = new Case
             {
                 CaseNo = CaseNoNumber,
                 LocationInfo = geoJson,
                 Description = description,
                 Date = dateNow,
-                //CaseWorker_CaseWorkerID = 1,
                 User_UserID = userId, 
-                Issue_IssueNr = issueNo,
+                Issue_IssueNr = (int)issueNo, //it says it 'may be null', but its already been checked earlier in the code
                 Images = areaModel.ImageData,
-                KommuneNo = kommuneNo,
-                FylkesNo = fylkesNo,
-                StatusNo = 1
+                KommuneNo = (int)kommuneNo, //^^^^
+                FylkesNo = (int)fylkesNo, //  ^^^^
+                StatusNo = 1 //default statusnumber, "Sendt"
 
             };
 
             // Save to the database
             _context.Case.Add(newGeoChange);
             _context.SaveChanges();
-            if (User.Identity.IsAuthenticated)
+            if (loggedIn)
             {
-                return RedirectToAction("AreaChangeOverview", "Case");
+                return RedirectToAction("HasProfileCaseOverview", "Case");
             }
             return View("RegisteredCaseOverview", newGeoChange);
         }
