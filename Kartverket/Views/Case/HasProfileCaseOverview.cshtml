@@ -119,13 +119,14 @@
             </div>
         </div>
 
-        /* 
-            Stores the case-data to be used in the drawscript. Safer than html.raw
-        */
+            /*
+            Stores the case-data to be used in DrawnCase.js. Safer than html.raw
+            */
             <div class="case-data"
                  data-case-no="@individualCase.CaseNo"
                  data-geojson="@individualCase.LocationInfo">
             </div>
+           
     }
     </div>
 
@@ -159,17 +160,7 @@
 
     <script>
 
-        document.querySelectorAll('.case-data').forEach(individualCase => {
-            const caseNo = individualCase.getAttribute('data-case-no');
-            const geoJson = individualCase.getAttribute('data-geojson');
-
-            try {
-                const parsedGeoJson = JSON.parse(geoJson); // Pars JSON fra attributtet
-                singleDrawnChange(parsedGeoJson, caseNo);
-            } catch (error) {
-                console.error(`Kunne ikke parse GeoJSON for sak ${caseNo}:`, error);
-            }
-        });
+        multipleDrawnChanges();
 
         function toggleEditForm(caseNo) {
             const form = document.getElementById(`edit-form-${caseNo}`);

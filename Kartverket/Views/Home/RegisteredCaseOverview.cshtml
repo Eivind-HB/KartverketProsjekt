@@ -83,8 +83,8 @@
     *@
     <script>
         // Fetches the single GeoJSON-data from the model
-        var geoJsonData = @Html.Raw(Model.LocationInfo);
-        var caseNo = @Model.CaseNo;
+        const geoJsonData = @Html.Raw(Model.LocationInfo);
+        const caseNo = @Model.CaseNo;
         singleDrawnChange(geoJsonData, caseNo);
     </script>
 }

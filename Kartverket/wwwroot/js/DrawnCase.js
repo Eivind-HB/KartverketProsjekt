@@ -24,3 +24,22 @@ function singleDrawnChange(geoJsonData, caseNo) {
         console.error("GeoJSON-data er tom eller ugyldig.");
     }
 }
+/* 
+    This function goes through all the cases currently available in the view and uses singleDrawnChange to draw them on a leaflet map.
+    It requires a leaflet map
+    and a div like this: 
+    
+            <div class="case-data"
+                 data-case-no="@individualCase.CaseNo"
+                 data-geojson="@individualCase.LocationInfo">
+            </div>
+
+    This is safer than having to fetch the infomration with Html.Raw
+*/
+function multipleDrawnChanges() {
+    document.querySelectorAll('.case-data').forEach(individualCase => {
+        const caseNo = individualCase.getAttribute('data-case-no');
+        const geoJson = JSON.parse(individualCase.getAttribute('data-geojson')); // Direkte parsing ved antatt gyldighet
+        singleDrawnChange(geoJson, caseNo);
+    });
+}
