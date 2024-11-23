@@ -10,11 +10,26 @@ if (typeof map === 'undefined') {
     var drawnItems = new L.FeatureGroup();
     map.addLayer(drawnItems);
 
+    const strokeColor = '#FF5F15'; /* Safety orange outline */
+    const fillColor =  '#FFA500'; /* orange fill */    
+
     var drawControl = new L.Control.Draw({
         draw: {
-            polyline: true,
+            polyline: {
+                shapeOptions: {
+                    color: strokeColor,
+                    fillColor: fillColor,
+                    fillOpacity: 0.5
+                }
+            },
             marker: true,
-            rectangle: true,
+            rectangle: {
+                shapeOptions: {
+                    color: strokeColor,
+                    fillColor: fillColor,
+                    fillOpacity: 0.5
+                }
+            },
             circle: false,
             circlemarker: false,          
             polygon: false,
