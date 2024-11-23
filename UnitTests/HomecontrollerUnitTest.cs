@@ -271,7 +271,7 @@ namespace Kartverket.Test
 
             // Assert
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
-            Assert.Equal("AreaChangeOverview", redirectResult.ActionName);
+            Assert.Equal("HasProfileCaseOverview", redirectResult.ActionName);
             Assert.Equal("Case", redirectResult.ControllerName);
 
             // Verify that a new case was added to the database
@@ -314,7 +314,7 @@ namespace Kartverket.Test
             // Assert
             Assert.NotNull(result); // Ensure that result is not null
             Assert.Equal("RoadCorrection", result.ViewName); // Check that it returns the correct view
-            Assert.Equal("Kommune er ikke regisrert! Prøv å trykk en ekstra gang på kartet etter du har markert det", result.ViewData["ErrorMessage"]); // Check for specific error message
+            Assert.Equal("Kommune er ikke registrert! Prøv å trykk en ekstra gang på kartet etter du har markert det", result.ViewData["ErrorMessage"]); // Check for specific error message
         }
 
         [Fact]
