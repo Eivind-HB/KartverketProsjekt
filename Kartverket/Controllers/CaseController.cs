@@ -128,12 +128,22 @@ namespace Kartverket.Controllers
             var cases = await _context.Case.FirstOrDefaultAsync(c => c.CaseNo == CaseNo);
             if (cases != null)
             {
-                return View("CaseDetails", cases);
+                //SingleCaseModel
+                var viewModel = new Kartverket.Models.SingleCaseModel
+                {
+                    Case = cases,
+                    Issues = _context.Issues.ToList(),
+                    KommuneInfos = _context.KommuneInfo.ToList(),
+                    FylkesInfos = _context.FylkesInfo.ToList(),
+                    Status = _context.Status.ToList()
+                };
+                return View("CaseDetails", viewModel);
             }
             TempData["ErrorMessage"] = "Saken ble ikke funnet.";
             return View("NoProfileCaseSearch");
         }
         
+
 
         [HttpGet]
         public IActionResult GetCaseImage(int caseId)

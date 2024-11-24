@@ -1,7 +1,20 @@
-@model Kartverket.Data.Case
+@model Kartverket.Models.SingleCaseModel
 
 @{
     ViewData["Title"] = "Individuel sak oversikt";
+
+    // Uses dictionaries for faster access to information.
+    var issueDict = Model.Issues.ToDictionary(x => x.issueNo, x => x.IssueType);
+    var kommuneDict = Model.KommuneInfos.ToDictionary(x => x.KommuneInfoID, x => x.KommuneName);
+    var fylkeDict = Model.FylkesInfos.ToDictionary(x => x.FylkesNameID, x => x.FylkesName);
+    var statusDict = Model.Status.ToDictionary(x => x.StatusNo, x => x.StatusName);
+
+    // Bruk ordbøkene for rask oppslag av data
+    var issueType = issueDict.ContainsKey(Model.Case.Issue_IssueNr) ? issueDict[Model.Case.Issue_IssueNr] : "Ukjent";
+    var kommuneName = kommuneDict.ContainsKey(Model.Case.KommuneNo) ? kommuneDict[Model.Case.KommuneNo] : "Ukjent kommune";
+    var fylkeName = fylkeDict.ContainsKey(Model.Case.FylkesNo) ? fylkeDict[Model.Case.FylkesNo] : "Ukjent fylke";
+    var statusType = statusDict.ContainsKey(Model.Case.StatusNo) ? statusDict[Model.Case.StatusNo] : "Ukjent status";
+
 }
 
 
@@ -18,17 +31,23 @@
                     <th>Sak Status</th>
                     <th>Saks Dato</th>
                     <th>GeoJson</th>
-                    <th>Beskrivelse</th>                    
+                    <th>Beskrivelse</th>
+                    <th>Kommentar fra Kartverket</th>
+                    <th>Fylke</th>
+                    <th>Kommune</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>@Model.CaseNo</td>
-                    <td>@Model.Issue_IssueNr</td>
-                    <td>@Model.StatusNo</td>
-                    <td>@Model.Date</td>
-                    <td>@Model.LocationInfo</td>
-                    <td>@Model.Description</td>                    
+                    <td>@Model.Case.CaseNo</td>
+                    <td>@issueType</td>
+                    <td>@statusType</td>
+                    <td>@Model.Case.Date</td>
+                    <td>@Model.Case.LocationInfo</td>
+                    <td>@Model.Case.Description</td>
+                    <td>@Model.Case.CommentCaseWorker</td>
+                    <td>@fylkeName</td>
+                    <td>@kommuneName</td>
                 </tr>
             </tbody>
         </table>
@@ -37,9 +56,9 @@
         <!-- Button to display the image in a modal.
         When clicked, it triggers the 'show.bs.modal' event,
         passing the case ID to fetch the image source from the server. -->
-        @if (@Model.Images != null)
+        @if (@Model.Case.Images != null)
         {
-            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#imageModal" data-case-id="@Model.CaseNo">Vis Bilde</button>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#imageModal" data-case-id="@Model.Case.CaseNo">Vis Bilde</button>
         }
     </div>
     <div class="map-change-container">
@@ -48,8 +67,8 @@
 
     <!--Stores the case-data to be used in DrawnCase.js. Safer than html.raw -->    
     <div class="case-data"
-         data-case-no="@Model.CaseNo"
-         data-geojson="@Model.LocationInfo">
+         data-case-no="@Model.Case.CaseNo"
+         data-geojson="@Model.Case.LocationInfo">
     </div>
 
     <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Tilbake til oversikt</a>

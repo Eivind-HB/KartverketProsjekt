@@ -241,7 +241,16 @@ namespace Kartverket.Controllers
             {
                 return RedirectToAction("HasProfileCaseOverview", "Case");
             }
-            return View("RegisteredCaseOverview", newGeoChange);
+            //SingleCaseModel
+            var viewModel = new Kartverket.Models.SingleCaseModel
+            {
+                Case = newGeoChange,
+                Issues = _context.Issues.ToList(),
+                KommuneInfos = _context.KommuneInfo.ToList(),
+                FylkesInfos = _context.FylkesInfo.ToList(),
+                Status = _context.Status.ToList()
+            };
+            return View("RegisteredCaseOverview", viewModel);
         }
 
         [HttpGet]
