@@ -139,33 +139,23 @@
     <script src="~/js/modal.js"></script>
     <script src="~/js/DrawnCase.js"></script>
     <script src="~/js/EditForm.js"></script>
+    <script src="~/js/Accordion.js"></script>
     
 
     <script>
-        multipleDrawnChanges();         
+        multipleDrawnChanges();
         
-
-        // Accordion functionality
-        document.querySelectorAll('.accordion-header').forEach(button => {
-            button.addEventListener('click', () => {
-                const accordionContent = button.nextElementSibling;
-                button.classList.toggle('active');
-
-                if (accordionContent.style.display === 'block') {
-                    accordionContent.style.display = 'none';
-                } else {
-                    accordionContent.style.display = 'block';
-                }
-
-                map.invalidateSize();
-            });
-        });
-
+        // initializesAccordion using function from Accordion.js
+        initializeAccordion('.accordion-container', map);
+        
         document.addEventListener('DOMContentLoaded', function () {
             const homeNavItem = document.querySelector('.nav-item a[href*="HasProfileCaseOverview"]');
             if (homeNavItem) {
                 homeNavItem.parentElement.style.backgroundColor = 'var(--light-green)';
             }
         });
+
+        
+
     </script>
 }
