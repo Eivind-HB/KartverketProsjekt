@@ -14,13 +14,14 @@ namespace Kartverket.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IPasswordHasher<CaseWorker> _passwordHasher;
+        private readonly IAuthenticationService _authenticationService;
 
-        public AdminController(ApplicationDbContext context, IPasswordHasher<CaseWorker> passwordHasher)
+        public AdminController(ApplicationDbContext context, IPasswordHasher<CaseWorker> passwordHasher, IAuthenticationService authenticationService)
         {
             _context = context;
             _passwordHasher = passwordHasher;
+            _authenticationService = authenticationService;
         }
-
 
         private async Task<bool> EmailExists(string Mail)
         {
@@ -49,7 +50,7 @@ namespace Kartverket.Controllers
                 Console.WriteLine($"Attempting login with email: '{trimmedInputEmail}'");
 
                 var employee = await _context.KartverketEmployee
-     .FirstOrDefaultAsync(e => e.Mail.Trim().Trim('\'') == trimmedInputEmail);
+                    .FirstOrDefaultAsync(e => e.Mail.Trim().Trim('\'') == trimmedInputEmail);
 
                 if (employee == null)
                 {
@@ -105,7 +106,7 @@ namespace Kartverket.Controllers
                     }
 
                     // Set MustChangePassword to true after the first successful login
-                    if (caseWorker.Password == "default") 
+                    if (caseWorker.Password == "default")
                     {
                         caseWorker.MustChangePassword = true;
                         await _context.SaveChangesAsync();
@@ -113,14 +114,14 @@ namespace Kartverket.Controllers
 
                     // Create claims and sign in the user
                     var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, caseWorker.CaseWorkerID.ToString()),
-                new Claim(ClaimTypes.Name, employee.Mail),
+                        {
+                            new Claim(ClaimTypes.NameIdentifier, caseWorker.CaseWorkerID.ToString()),
+                            new Claim(ClaimTypes.Name, employee.Mail),
 
-                // Adds a claim to say it is an Admin
-                new Claim(ClaimTypes.Role, "Admin")
-            };
-                   
+                            // Adds a claim to say it is an Admin
+                            new Claim(ClaimTypes.Role, "Admin")
+                        };
+
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var authProperties = new AuthenticationProperties
                     {
@@ -128,7 +129,8 @@ namespace Kartverket.Controllers
                         ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7) // Cookie will expire after 7 days
                     };
 
-                    await HttpContext.SignInAsync(
+                    await _authenticationService.SignInAsync(
+                        HttpContext,
                         CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(claimsIdentity),
                         authProperties);
@@ -141,7 +143,7 @@ namespace Kartverket.Controllers
             }
             return View(model);
         }
-        
+
         [HttpGet]
         public IActionResult ChangePasswordAdmin(int id)
         {
@@ -165,7 +167,6 @@ namespace Kartverket.Controllers
                     caseWorker.MustChangePassword = false; // Reset the flag
 
                     await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "Your password has been changed successfully.";
                     return RedirectToAction("LogInFormAdmin"); // Redirect back to login or another page
                 }
 
