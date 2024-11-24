@@ -26,7 +26,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Controllers;
 
 
-namespace Kartverket.Tests
+namespace Kartverket.Test
 {
     public class UserControllerTests
     {
@@ -407,7 +407,7 @@ namespace Kartverket.Tests
         {
             // Arrange
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .UseInMemoryDatabase(databaseName: "TestDatabase2")
                 .Options;
 
             var mockLogger = new Mock<ILogger<UserController>>();
