@@ -10,51 +10,35 @@
         {
             @if (User.IsInRole("Admin")) //logged in as admin
             {
-                <div class="link-box">
-                    <a asp-action="RoadCorrection" class="link-box">
-                        <img src="~/Content/NorskKart.png" class="img-link-box" />
-                        <h3>Rett opp i kartet</h3>
-                    </a>
-                </div>
+                @await Html.PartialAsync("_LinkBox")
                 <div class="link-box">
                     <a asp-controller="Case" asp-action="OverviewCaseworker" class="link-box">
                         <img src="~/Content/GreenFolder.png" class="img-link-box" />
                         <h3>Registrerte Rettelser</h3>
                     </a>
                 </div>
-                }
-
+            }
             else
             {
-                <div class="link-box">
-                    <a asp-action="RoadCorrection" class="link-box">
-                        <img src="~/Content/NorskKart.png" class="img-link-box" />
-                        <h3>Rett opp i kartet</h3>
-                    </a>
-                </div>
+                @await Html.PartialAsync("_LinkBox")
                 <div class="link-box">
                     <a asp-controller="Case" asp-action="HasProfileCaseOverview" class="link-box">
                         <img src="~/Content/GreenFolder.png" class="img-link-box" />
                         <h3>Registrerte rettelser</h3>
                     </a>
                 </div>
-                }
+            }
         }
         else
         {
-            <div class="link-box">
-                <a asp-action="RoadCorrection" class="link-box">
-                    <img src="~/Content/NorskKart.png" class="img-link-box" />
-                    <h3>Rett opp i kartet</h3>
-                </a>
-            </div>
+            @await Html.PartialAsync("_LinkBox")
             <div class="link-box">
                 <a asp-controller="User" asp-action="RegistrationForm" class="link-box">
                     <img src="~/Content/UserIcon.png" class="img-link-box" />
                     <h3>Registrer deg</h3>
                 </a>
             </div>
-            }
+        }
 
 </div>
     @if (User.Identity.IsAuthenticated)//logged in

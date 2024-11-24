@@ -20,8 +20,8 @@
 <h1>Sak Registrert!</h1>
 
 
-<h3> Du har send inn saken uten en brukerprofil. Om du ønsker å følge saken videre MÅ du ta vare på Saksnummeret.
-      Med Saksnummeret kan du søke etter saken i "registrerte rettelser" siden </h3>
+<h3>Du har sendt inn saken uten en brukerprofil. Om du ønsker å følge saken videre MÅ du ta vare på Saksnummeret.
+      Med Saksnummeret kan du søke etter saken i "registrerte rettelser" siden!</h3>
 <div class="page-container">
     <div class="issue-location-details">
         <!-- Case detail table -->
@@ -46,7 +46,7 @@
                     <td>@statusType</td>
                     <td>@Model.Case.Date</td>
                     <td>@Model.Case.LocationInfo</td>
-                    <td><textarea readonly="readonly">@Model.Case.Description</textarea>n</td>
+                    <td><textarea readonly="readonly">@Model.Case.Description</textarea></td>
                     <td>@Model.Case.CommentCaseWorker</td>
                     <td>@fylkeName</td>
                     <td>@kommuneName</td>
@@ -75,7 +75,7 @@
          data-geojson="@Model.Case.LocationInfo">
     </div>
 
-    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Tilbake til hjem</a>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Tilbake til forside</a>
 </div>
 
 @await Html.PartialAsync("_ImageModal")
