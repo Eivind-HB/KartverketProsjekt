@@ -1,51 +1,20 @@
+using Ganss.Xss;
+using Kartverket.Data;
 using Kartverket.Models;
 using Kartverket.Services;
-using Kartverket.API_Models;
-using Kartverket.Data;
-
-using MySqlConnector;
-
-using NetTopologySuite.IO;
-using NetTopologySuite.Geometries;
-
-using Newtonsoft.Json;
-
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Data;
-using System.Diagnostics;
-using System.Security.Claims;
-using static System.Net.WebRequestMethods;
-using Microsoft.EntityFrameworkCore;
-using System.Formats.Asn1;
-using System.Globalization;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
-using Ganss.Xss;
-using static Dapper.SqlMapper;
+using Microsoft.AspNetCore.Mvc;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.IO;
+using System.Security.Claims;
 
 namespace Kartverket.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IKommuneInfoApiService _KommuneInfoApiService;
-        //EF
+        private readonly ILogger<HomeController> _logger;        
         private readonly ApplicationDbContext _context;
-        //Hashing av passord
-        private readonly PasswordHasher<User> _passwordHasher;
+        
 
         //In-memory lagring av lister
         private static List<AreaChange> areaChanges = new List<AreaChange>();
@@ -57,8 +26,7 @@ namespace Kartverket.Controllers
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
-            _context = context;
-            _passwordHasher = new PasswordHasher<User>();
+            _context = context;            
         }
 
         public IActionResult Index()
@@ -72,11 +40,21 @@ namespace Kartverket.Controllers
             return View();
         }
 
+
+        /// <summary>
+        /// Redirects user to Kartverkets about us page. That page is made by Kartverket, not by group 13!
+        /// </summary>
+        /// <returns>Redirects to "Om Oss" at Kartverkets site</returns>
         public IActionResult OmOss()
         {
             return Redirect("https://www.kartverket.no/om-kartverket");
         }
 
+
+        /// <summary>
+        /// Redirects user to Kartverkets contact us page. That page is made by Kartverket, not by group 13!
+        /// </summary>
+        /// <returns>Redirects to "Kontakt oss" at Kartverkets site</returns>
         public IActionResult KontaktOss()
         {
             return Redirect("https://www.kartverket.no/om-kartverket/kontakt-oss");
@@ -96,6 +74,7 @@ namespace Kartverket.Controllers
         {
             return View();
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
