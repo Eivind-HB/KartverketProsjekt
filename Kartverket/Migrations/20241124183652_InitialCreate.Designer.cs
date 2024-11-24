@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kartverket.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241124181258_InitialCreate")]
+    [Migration("20241124183652_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -57,14 +57,16 @@ namespace Kartverket.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CaseNo"));
 
                     b.Property<string>("CommentCaseWorker")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<DateOnly?>("Date")
                         .IsRequired()
                         .HasColumnType("date");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<int>("FylkesNo")
                         .HasColumnType("int");
@@ -268,13 +270,18 @@ namespace Kartverket.Migrations
             modelBuilder.Entity("Kartverket.Data.CaseWorkerAssignment", b =>
                 {
                     b.Property<int>("CaseNo")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CaseNo"));
 
                     b.Property<int>("CaseWorkerID")
                         .HasColumnType("int");
 
                     b.Property<decimal>("PaidHours")
                         .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("CaseNo");
 
                     b.ToTable("CaseWorkerAssignment");
                 });

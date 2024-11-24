@@ -267,13 +267,18 @@ namespace Kartverket.Migrations
             modelBuilder.Entity("Kartverket.Data.CaseWorkerAssignment", b =>
                 {
                     b.Property<int>("CaseNo")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CaseNo"));
 
                     b.Property<int>("CaseWorkerID")
                         .HasColumnType("int");
 
                     b.Property<decimal>("PaidHours")
                         .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("CaseNo");
 
                     b.ToTable("CaseWorkerAssignment");
                 });
