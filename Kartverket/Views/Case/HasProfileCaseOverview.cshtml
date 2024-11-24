@@ -18,38 +18,39 @@
     <h1>Oversikt av registrerte endringer</h1>
 
     <div class="accordion-container">
-        
-    <a class="nav-link text-dark" asp-controller="User" asp-action="Profile">Hei, @User.Identity.Name!, her er dine innmeldte saker</a>
 
-    @foreach (var individualCase in Model.Cases)
-    {        
-        // Bruk ordbøkene for rask oppslag av data
+        <a class="nav-link text-dark" asp-controller="User" asp-action="Profile">Hei, @User.Identity.Name!, her er dine innmeldte saker</a>
+
+        @foreach (var individualCase in Model.Cases)
+        {        
+            // Bruk ordbøkene for rask oppslag av data
             var issueType = issueDict.ContainsKey(individualCase.Issue_IssueNr) ? issueDict[individualCase.Issue_IssueNr] : "Ukjent";
             var kommuneName = kommuneDict.ContainsKey(individualCase.KommuneNo) ? kommuneDict[individualCase.KommuneNo] : "Ukjent kommune";
             var fylkeName = fylkeDict.ContainsKey(individualCase.FylkesNo) ? fylkeDict[individualCase.FylkesNo] : "Ukjent fylke";
             var statusType = statusDict.ContainsKey(individualCase.StatusNo) ? statusDict[individualCase.StatusNo] : "Ukjent status";
-
-        <!-- Individual Case Section -->
-        <div class="accordion-item">
-            <button class="accordion-header">
+            bool commented = individualCase.CommentCaseWorker != null; //if the case has been commented
+            <!-- Individual Case Section -->
+            <div class="accordion-item">
+                <button class="accordion-header">
                     Sak ID: @individualCase.CaseNo
-                <span class="accordion-icon">▼</span>
-            </button>
+                    <span class="accordion-icon">▼</span>
+                </button>
 
-            <div class="accordion-content">
-                <!-- Case and location tables in 1 accordion per case -->
-                <div class="issue-location-details">
-                    <!-- Case detail table -->
-                    <table class="table table-compact">
-                        <thead>
-                            <tr>
-                                <th>Saksnummer</th>
-                                <th>Type Sak</th>
-                                <th>Sak status</th>
-                                <th>Innmeldings dato</th>
-                                <th>GeoJson</th>
-                                <th>Beskrivelse</th>                                
-                            </tr>
+                <div class="accordion-content">
+                    <!-- Case and location tables in 1 accordion per case -->
+                    <div class="issue-location-details">
+                        <!-- Case detail table -->
+                        <table class="table table-compact">
+                            <thead>
+                                <tr>
+                                    <th>Saksnummer</th>
+                                    <th>Type Sak</th>
+                                    <th>Sak status</th>
+                                    <th>Innmeldings dato</th>
+                                    <th>GeoJson</th>
+                                    @if (commented){<th>Kartverkets Kommentar</th>}
+                                    <th>Beskrivelse</th>
+                                </tr>
                         </thead>
                         <tbody>
                             <tr>
@@ -58,8 +59,9 @@
                                 <td>@statusType</td>
                                 <td>@individualCase.Date</td>
                                 <td>@individualCase.LocationInfo</td>
+                                @if (commented){<td>@individualCase.CommentCaseWorker</td>}
                                 <td>
-                                        <span id="description-@individualCase.CaseNo">@individualCase.Description</span>
+                                        <span id="description-@individualCase.CaseNo"><textarea readonly="readonly">@individualCase.Description</textarea></span>
 
                                     <!-- Edit Form -->
                                         <form id="edit-form-@individualCase.CaseNo" asp-action="EditDescription" asp-controller="Case" method="post" style="display:none;">
