@@ -90,6 +90,7 @@
     <script src="~/js/leafletDraw.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 
+
     <script>
         // Assuming 'map' is already initialized in leafletMap.js
 
@@ -155,12 +156,10 @@
             document.getElementById("fylkesnummerInput").value = kommuneInfo.fylkesnummer || "";
         }
 
-                document.addEventListener('DOMContentLoaded', function () {
-                    const homeNavItem = document.querySelector('.nav-item a[href*="RoadCorrection"]');
-                    if (homeNavItem) {
-                        homeNavItem.parentElement.style.backgroundColor = 'var(--light-green)';
-                    }
-                });
+         // Highlights current views navItem when DOM is loaded. 
+        document.addEventListener('DOMContentLoaded', function () {
+            highlightNavItem('RoadCorrection');
+        });
     </script>
 
     <style>

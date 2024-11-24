@@ -18,17 +18,17 @@
                             <div class="accordion" id="casesAccordion">
                                 <!-- Search by CaseNo Form -->
                                 <form id="caseSearchForm">
-                                    <input type="text" id="caseSearchInput" placeholder="Søk etter SaksID" />
+                                    <input type="text" id="caseSearchInput" placeholder="SÃ¸k etter SaksID" />
                                     <button type="button" id="caseSearchButton">Search</button>
                                 </form>
                                 <!-- Filter Form -->
                                 <form id="caseFilterForm">
-                                    <input type="text" id="kommuneSearchInput" placeholder="Søk etter Kommunenavn" />
+                                    <input type="text" id="kommuneSearchInput" placeholder="SÃ¸k etter Kommunenavn" />
                                     <select class="form-control" id="issueTypeSearchInput" name="IssueType">
                                         <option value="" selected>Ingen type valgt</option>
                                         <option value="2">Vei/Sti</option>
                                         <option value="1">Adresse/tomt</option>
-                                        <option value="3">Sjø</option>
+                                        <option value="3">SjÃ¸</option>
                                         <option value="4">Annet</option>
                                     </select>
                                     <input type="date" id="startDateInput" placeholder="Start Date" />
@@ -205,168 +205,154 @@
 
 
     <!-- Accordion for Users -->
-            <button class="accordion-container-header accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAllUsers" aria-expanded="false" aria-controls="collapseAllUsers">
-                Alle Brukere
-            </button>
-                <div id="collapseAllUsers" class="accordion-collapse collapse" aria-labelledby="headingAllUsers" data-bs-parent="#parentAccordion">
-                    <div class="accordion-body">
-                        <div class="accordion" id="usersAccordion">
-                            <form id="userSearchForm">
-                                <input type="text" id="userIDSearchInput" placeholder="Søk etter brukerID" />
-                                <input type="text" id="userNameSearchInput" placeholder="Søk etter brukernavn" />
-                                <input type="text" id="userCasesSearchInput" placeholder="Søk etter innmeldte saker" />
-                                <button type="button" id="userSearchButton">Filter</button>
-                            </form>
-                            @foreach (var user in Model.Users)
-                            {
-                                List<Int128> SakSentUserList = new List<Int128>();
-                                <!-- Individual User Section -->
-                                        <button class="accordion-container-header accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUser-@user.UserID" aria-expanded="false" aria-controls="collapseUser-@user.UserID">
-                                            Bruker ID: @user.UserID, Brukernavn: @user.UserName
-                                        </button>
-                                    <div id="collapseUser-@user.UserID" class="accordion-collapse collapse" aria-labelledby="headingUser-@user.UserID" data-bs-parent="#usersAccordion">
-                                        <div class="accordion-body">
-                                            <!-- Case and location tables in 1 accordion per case -->
-                                            <div class="issue-location-details">
-                                                @foreach (var cases in Model.Cases)
+    <button class="accordion-container-header accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAllUsers" aria-expanded="false" aria-controls="collapseAllUsers">
+        Alle Brukere
+    </button>
+        <div id="collapseAllUsers" class="accordion-collapse collapse" aria-labelledby="headingAllUsers" data-bs-parent="#parentAccordion">
+            <div class="accordion-body">
+                <div class="accordion" id="usersAccordion">
+                    <form id="userSearchForm">
+                        <input type="text" id="userIDSearchInput" placeholder="SÃ¸k etter brukerID" />
+                        <input type="text" id="userNameSearchInput" placeholder="SÃ¸k etter brukernavn" />
+                        <input type="text" id="userCasesSearchInput" placeholder="SÃ¸k etter innmeldte saker" />
+                        <button type="button" id="userSearchButton">Filter</button>
+                    </form>
+                    @foreach (var user in Model.Users)
+                    {
+                        List<Int128> SakSentUserList = new List<Int128>();
+                        <!-- Individual User Section -->
+                                <button class="accordion-container-header accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUser-@user.UserID" aria-expanded="false" aria-controls="collapseUser-@user.UserID">
+                                    Bruker ID: @user.UserID, Brukernavn: @user.UserName
+                                </button>
+                            <div id="collapseUser-@user.UserID" class="accordion-collapse collapse" aria-labelledby="headingUser-@user.UserID" data-bs-parent="#usersAccordion">
+                                <div class="accordion-body">
+                                    <!-- Case and location tables in 1 accordion per case -->
+                                    <div class="issue-location-details">
+                                        @foreach (var cases in Model.Cases)
+                                        {
+                                            var CaseUserID = cases.User_UserID;
+                                            var CaseID = cases.CaseNo;
+                                            var UsersUserID = user.UserID;
+                                            if (CaseUserID == UsersUserID)
+                                            {
+                                                SakSentUserList.Add(CaseID);
+                                            }
+                                        }
+                                        <!-- User detail table -->
+                                        <table class="table table-compact">
+                                            <thead>
+                                                <tr>
+                                                    <th>Bruker ID</th>
+                                                    <th>Brukernavn</th>
+                                                    <th>Mail</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>@user.UserID</td>
+                                                    <td>@user.UserName</td>
+                                                    <td>@user.Mail</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <!-- Location details table -->
+                                        <table class="table table-compact">
+                                            <thead>
+                                                <tr>
+                                                    <th>Saker Registrert ID</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var saker in SakSentUserList)
                                                 {
-                                                    var CaseUserID = cases.User_UserID;
-                                                    var CaseID = cases.CaseNo;
-                                                    var UsersUserID = user.UserID;
-                                                    if (CaseUserID == UsersUserID)
-                                                    {
-                                                        SakSentUserList.Add(CaseID);
-                                                    }
+                                                    <tr>
+                                                        <td>@saker</td>
+                                                    </tr>
                                                 }
-                                                <!-- User detail table -->
-                                                <table class="table table-compact">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Bruker ID</th>
-                                                            <th>Brukernavn</th>
-                                                            <th>Mail</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>@user.UserID</td>
-                                                            <td>@user.UserName</td>
-                                                            <td>@user.Mail</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-
-                                                <!-- Location details table -->
-                                                <table class="table table-compact">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Saker Registrert ID</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach (var saker in SakSentUserList)
-                                                        {
-                                                            <tr>
-                                                                <td>@saker</td>
-                                                            </tr>
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
+                                            </tbody>
+                                        </table>
                                     </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Accordion for Caseworkers -->
-                <button class="accordion-container-header accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAllCaseworkers" aria-expanded="false" aria-controls="collapseAllCaseworkers">
-                    Alle Caseworkers
-                </button>
-                    <div id="collapseAllCaseworkers" class="accordion-collapse collapse" aria-labelledby="headingAllCaseworkers" data-bs-parent="#parentAccordion">
-                        <div class="accordion-body">
-                            <div class="accordion" id="caseworkersAccordion">
-                                <form id="caseworkerSearchForm">
-                                    <input type="text" id="CWIDSearchInput" placeholder="Søk etter Saksbehandler ID" />
-                                    <button type="button" id="caseworkerSearchButton">Filter</button>
-                                </form>
-                                @foreach (var caseworker in Model.CaseWorkers)
-                                {
-                                    var mail = "default";
-                                    var firstname = "default";
-                                    var lastname = "default";
-                                    var PhoneNo = 0;
-                                    var employeeID = 0;
-                                    <!-- Individual Caseworker Section -->
-                                            <button class="accordion-container-header accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCaseworker-@caseworker.CaseWorkerID" aria-expanded="false" aria-controls="collapseCaseworker-@caseworker.CaseWorkerID">
-                                                Caseworker ID: @caseworker.CaseWorkerID
-                                            </button>
-                                        <div id="collapseCaseworker-@caseworker.CaseWorkerID" class="accordion-collapse collapse" aria-labelledby="headingCaseworker-@caseworker.CaseWorkerID" data-bs-parent="#caseworkersAccordion">
-                                            <div class="accordion-body">
-                                                <div class="issue-location-details">
-                                                    @foreach (var workers in Model.Employees)
-                                                    {
-                                                        var CaseworkerID = caseworker.KartverketEmployee_EmployeeID;
-                                                        var workerID = workers.EmployeeID;
-                                                        if (CaseworkerID == workerID)
-                                                        {   
-                                                            mail = workers.Mail;
-                                                            firstname = workers.Firstname;
-                                                            lastname = workers.Lastname;
-                                                            PhoneNo = workers.PhoneNo;
-                                                            employeeID = workers.EmployeeID;
-                                                        }
-                                                    }
-                                                    <!-- Case detail table -->
-                                                    <table class="table table-compact">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>CaseworkerID</th>
-                                                                <th>Fornavn</th>
-                                                                <th>Etternavn</th>
-                                                                <th>Mail</th>
-                                                                <th>Mobil nr</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>@employeeID</td>
-                                                                <td>@firstname</td>
-                                                                <td>@lastname</td>
-                                                                <td>@mail</td>
-                                                                <td>@PhoneNo</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                }
+                                </div>
                             </div>
-                        </div>
-                    </div>
-    </div>
-</div>
-
-
-<!-- Image Modal -->
-<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="imageModalLabel">Vedlagt Bilde</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <img id="modalImage" src="" alt="Case Image" class="img-fluid" />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Lukk</button>
+                    }
+                </div>
             </div>
         </div>
+
+        <!-- Accordion for Caseworkers -->
+        <button class="accordion-container-header accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAllCaseworkers" aria-expanded="false" aria-controls="collapseAllCaseworkers">
+            Alle Caseworkers
+        </button>
+            <div id="collapseAllCaseworkers" class="accordion-collapse collapse" aria-labelledby="headingAllCaseworkers" data-bs-parent="#parentAccordion">
+                <div class="accordion-body">
+                    <div class="accordion" id="caseworkersAccordion">
+                        <form id="caseworkerSearchForm">
+                            <input type="text" id="CWIDSearchInput" placeholder="SÃ¸k etter Saksbehandler ID" />
+                            <button type="button" id="caseworkerSearchButton">Filter</button>
+                        </form>
+                        @foreach (var caseworker in Model.CaseWorkers)
+                        {
+                            var mail = "default";
+                            var firstname = "default";
+                            var lastname = "default";
+                            var PhoneNo = 0;
+                            var employeeID = 0;
+                            <!-- Individual Caseworker Section -->
+                                    <button class="accordion-container-header accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCaseworker-@caseworker.CaseWorkerID" aria-expanded="false" aria-controls="collapseCaseworker-@caseworker.CaseWorkerID">
+                                        Caseworker ID: @caseworker.CaseWorkerID
+                                    </button>
+                                <div id="collapseCaseworker-@caseworker.CaseWorkerID" class="accordion-collapse collapse" aria-labelledby="headingCaseworker-@caseworker.CaseWorkerID" data-bs-parent="#caseworkersAccordion">
+                                    <div class="accordion-body">
+                                        <div class="issue-location-details">
+                                            @foreach (var workers in Model.Employees)
+                                            {
+                                                var CaseworkerID = caseworker.KartverketEmployee_EmployeeID;
+                                                var workerID = workers.EmployeeID;
+                                                if (CaseworkerID == workerID)
+                                                {   
+                                                    mail = workers.Mail;
+                                                    firstname = workers.Firstname;
+                                                    lastname = workers.Lastname;
+                                                    PhoneNo = workers.PhoneNo;
+                                                    employeeID = workers.EmployeeID;
+                                                }
+                                            }
+                                            <!-- Case detail table -->
+                                            <table class="table table-compact">
+                                                <thead>
+                                                    <tr>
+                                                        <th>CaseworkerID</th>
+                                                        <th>Fornavn</th>
+                                                        <th>Etternavn</th>
+                                                        <th>Mail</th>
+                                                        <th>Mobil nr</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>@employeeID</td>
+                                                        <td>@firstname</td>
+                                                        <td>@lastname</td>
+                                                        <td>@mail</td>
+                                                        <td>@PhoneNo</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                        }
+                    </div>
+                </div>
+            </div>
     </div>
+
+    @await Html.PartialAsync("_ImageModal")
 </div>
+
+
+
   
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
@@ -378,31 +364,13 @@
     <!-- Add jQuery for AJAX functionality -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
+    <script src="~/js/EditForm.js"></script>
+    <script src="~/js/Accordion.js"></script>
 
     <script>
-
-        // Passes the serialized AreaChanges model data to the mapChanges function
-        var drawnChanges = @Html.Raw(Json.Serialize(Model.Cases));
-        initializeDrawnChanges(drawnChanges);
-
-        // Accordion functionality
-        document.querySelectorAll('.accordion-header').forEach(button => {
-            button.addEventListener('click', () => {
-                const accordionContent = button.nextElementSibling;
-                button.classList.toggle('active');
-
-                if (accordionContent.style.display === 'block') {
-                    accordionContent.style.display = 'none';
-                } else {
-                    accordionContent.style.display = 'block';
-                }
-
-                // Update map size when accordion changes
-                map.invalidateSize();
-            });
-        });
-
+        // initializesAccordion using function from Accordion.js
+        initializeAccordion('.accordion-container', map);
+        
         document.addEventListener('DOMContentLoaded', function () {
             const homeNavItem = document.querySelector('.nav-item a[href*="OverviewCaseworker"]');
             if (homeNavItem) {

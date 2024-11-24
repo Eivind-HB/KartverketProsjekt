@@ -69,11 +69,9 @@
     
 @section Scripts {
     <script>
+         // Highlights current views navItem when DOM is loaded. 
         document.addEventListener('DOMContentLoaded', function () {
-            const homeNavItem = document.querySelector('.nav-item a[href="/"]');
-            if (homeNavItem) {
-                homeNavItem.parentElement.style.backgroundColor = 'var(--light-green)';
-            }
+            highlightNavItem('Index');
         });
     </script>
 }
