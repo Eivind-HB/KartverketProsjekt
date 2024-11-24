@@ -9,5 +9,6 @@ namespace Kartverket.Data
         [Key]
         public int FylkesNameID { get; set; }
         public string? FylkesName { get; set; }
+        public ICollection<Case> Cases { get; set; }
     }
 }

@@ -26,7 +26,7 @@ namespace Kartverket.Test
 
             // Assert
             Assert.NotNull(records);
-            Assert.Equal(21, records.Count()); // Checking that the CSV file has 1 record
+            Assert.Equal(5, records.Count()); // Checking that the CSV file has 1 record
             Assert.Equal(1, records.First().CaseWorkerID);
             Assert.Equal(1, records.First().KartverketEmployee_EmployeeID);
         }

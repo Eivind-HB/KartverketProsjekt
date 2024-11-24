@@ -35,32 +35,6 @@ namespace Kartverket.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Case",
-                columns: table => new
-                {
-                    CaseNo = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    LocationInfo = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    CommentCaseWorker = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Date = table.Column<DateOnly>(type: "date", nullable: false),
-                    User_UserID = table.Column<int>(type: "int", nullable: false),
-                    Issue_IssueNr = table.Column<int>(type: "int", nullable: false),
-                    Images = table.Column<byte[]>(type: "longblob", nullable: true),
-                    KommuneNo = table.Column<int>(type: "int", nullable: false),
-                    FylkesNo = table.Column<int>(type: "int", nullable: false),
-                    StatusNo = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Case", x => x.CaseNo);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "CaseWorkerAssignment",
                 columns: table => new
                 {
@@ -226,6 +200,56 @@ namespace Kartverket.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "Case",
+                columns: table => new
+                {
+                    CaseNo = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    LocationInfo = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CommentCaseWorker = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    User_UserID = table.Column<int>(type: "int", nullable: false),
+                    IssueNo = table.Column<int>(type: "int", nullable: false),
+                    Images = table.Column<byte[]>(type: "longblob", nullable: true),
+                    KommuneNo = table.Column<int>(type: "int", nullable: false),
+                    FylkesNo = table.Column<int>(type: "int", nullable: false),
+                    StatusNo = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Case", x => x.CaseNo);
+                    table.ForeignKey(
+                        name: "FK_Case_FylkesInfo_FylkesNo",
+                        column: x => x.FylkesNo,
+                        principalTable: "FylkesInfo",
+                        principalColumn: "FylkesNameID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Case_Issues_IssueNo",
+                        column: x => x.IssueNo,
+                        principalTable: "Issues",
+                        principalColumn: "issueNo",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Case_KommuneInfo_KommuneNo",
+                        column: x => x.KommuneNo,
+                        principalTable: "KommuneInfo",
+                        principalColumn: "KommuneInfoID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Case_Status_StatusNo",
+                        column: x => x.StatusNo,
+                        principalTable: "Status",
+                        principalColumn: "StatusNo",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.InsertData(
                 table: "CaseWorkers",
                 columns: new[] { "CaseWorkerID", "KartverketEmployee_EmployeeID", "MustChangePassword", "Password" },
@@ -235,23 +259,7 @@ namespace Kartverket.Migrations
                     { 201, 101, false, "default" },
                     { 202, 102, false, "default" },
                     { 203, 103, false, "default" },
-                    { 204, 104, false, "default" },
-                    { 205, 105, false, "default" },
-                    { 206, 106, false, "default" },
-                    { 207, 107, false, "default" },
-                    { 208, 108, false, "default" },
-                    { 209, 109, false, "default" },
-                    { 210, 110, false, "default" },
-                    { 211, 111, false, "default" },
-                    { 212, 112, false, "default" },
-                    { 213, 113, false, "default" },
-                    { 214, 114, false, "default" },
-                    { 215, 115, false, "default" },
-                    { 216, 116, false, "default" },
-                    { 217, 117, false, "default" },
-                    { 218, 118, false, "default" },
-                    { 219, 119, false, "default" },
-                    { 220, 120, false, "default" }
+                    { 204, 104, false, "default" }
                 });
 
             migrationBuilder.InsertData(
@@ -692,6 +700,26 @@ namespace Kartverket.Migrations
                     { 4, "Fullført" },
                     { 5, "Avvist" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Case_FylkesNo",
+                table: "Case",
+                column: "FylkesNo");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Case_IssueNo",
+                table: "Case",
+                column: "IssueNo");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Case_KommuneNo",
+                table: "Case",
+                column: "KommuneNo");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Case_StatusNo",
+                table: "Case",
+                column: "StatusNo");
         }
 
         /// <inheritdoc />
@@ -716,22 +744,22 @@ namespace Kartverket.Migrations
                 name: "CaseWorkers");
 
             migrationBuilder.DropTable(
+                name: "KartverketEmployee");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
                 name: "FylkesInfo");
 
             migrationBuilder.DropTable(
                 name: "Issues");
 
             migrationBuilder.DropTable(
-                name: "KartverketEmployee");
-
-            migrationBuilder.DropTable(
                 name: "KommuneInfo");
 
             migrationBuilder.DropTable(
                 name: "Status");
-
-            migrationBuilder.DropTable(
-                name: "Users");
         }
     }
 }

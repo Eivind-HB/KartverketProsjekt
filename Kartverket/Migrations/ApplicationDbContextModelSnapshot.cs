@@ -69,7 +69,7 @@ namespace Kartverket.Migrations
                     b.Property<byte[]>("Images")
                         .HasColumnType("longblob");
 
-                    b.Property<int>("Issue_IssueNr")
+                    b.Property<int>("IssueNo")
                         .HasColumnType("int");
 
                     b.Property<int>("KommuneNo")
@@ -86,6 +86,14 @@ namespace Kartverket.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("CaseNo");
+
+                    b.HasIndex("FylkesNo");
+
+                    b.HasIndex("IssueNo");
+
+                    b.HasIndex("KommuneNo");
+
+                    b.HasIndex("StatusNo");
 
                     b.ToTable("Case");
                 });
@@ -145,118 +153,6 @@ namespace Kartverket.Migrations
                         {
                             CaseWorkerID = 204,
                             KartverketEmployee_EmployeeID = 104,
-                            MustChangePassword = false,
-                            Password = "default"
-                        },
-                        new
-                        {
-                            CaseWorkerID = 205,
-                            KartverketEmployee_EmployeeID = 105,
-                            MustChangePassword = false,
-                            Password = "default"
-                        },
-                        new
-                        {
-                            CaseWorkerID = 206,
-                            KartverketEmployee_EmployeeID = 106,
-                            MustChangePassword = false,
-                            Password = "default"
-                        },
-                        new
-                        {
-                            CaseWorkerID = 207,
-                            KartverketEmployee_EmployeeID = 107,
-                            MustChangePassword = false,
-                            Password = "default"
-                        },
-                        new
-                        {
-                            CaseWorkerID = 208,
-                            KartverketEmployee_EmployeeID = 108,
-                            MustChangePassword = false,
-                            Password = "default"
-                        },
-                        new
-                        {
-                            CaseWorkerID = 209,
-                            KartverketEmployee_EmployeeID = 109,
-                            MustChangePassword = false,
-                            Password = "default"
-                        },
-                        new
-                        {
-                            CaseWorkerID = 210,
-                            KartverketEmployee_EmployeeID = 110,
-                            MustChangePassword = false,
-                            Password = "default"
-                        },
-                        new
-                        {
-                            CaseWorkerID = 211,
-                            KartverketEmployee_EmployeeID = 111,
-                            MustChangePassword = false,
-                            Password = "default"
-                        },
-                        new
-                        {
-                            CaseWorkerID = 212,
-                            KartverketEmployee_EmployeeID = 112,
-                            MustChangePassword = false,
-                            Password = "default"
-                        },
-                        new
-                        {
-                            CaseWorkerID = 213,
-                            KartverketEmployee_EmployeeID = 113,
-                            MustChangePassword = false,
-                            Password = "default"
-                        },
-                        new
-                        {
-                            CaseWorkerID = 214,
-                            KartverketEmployee_EmployeeID = 114,
-                            MustChangePassword = false,
-                            Password = "default"
-                        },
-                        new
-                        {
-                            CaseWorkerID = 215,
-                            KartverketEmployee_EmployeeID = 115,
-                            MustChangePassword = false,
-                            Password = "default"
-                        },
-                        new
-                        {
-                            CaseWorkerID = 216,
-                            KartverketEmployee_EmployeeID = 116,
-                            MustChangePassword = false,
-                            Password = "default"
-                        },
-                        new
-                        {
-                            CaseWorkerID = 217,
-                            KartverketEmployee_EmployeeID = 117,
-                            MustChangePassword = false,
-                            Password = "default"
-                        },
-                        new
-                        {
-                            CaseWorkerID = 218,
-                            KartverketEmployee_EmployeeID = 118,
-                            MustChangePassword = false,
-                            Password = "default"
-                        },
-                        new
-                        {
-                            CaseWorkerID = 219,
-                            KartverketEmployee_EmployeeID = 119,
-                            MustChangePassword = false,
-                            Password = "default"
-                        },
-                        new
-                        {
-                            CaseWorkerID = 220,
-                            KartverketEmployee_EmployeeID = 120,
                             MustChangePassword = false,
                             Password = "default"
                         });
@@ -338,13 +234,13 @@ namespace Kartverket.Migrations
                     b.HasData(
                         new
                         {
-                            FylkesNameID = 100,
-                            FylkesName = "Sjø uten fylke"
+                            FylkesNameID = 3,
+                            FylkesName = "Oslo"
                         },
                         new
                         {
-                            FylkesNameID = 3,
-                            FylkesName = "Oslo"
+                            FylkesNameID = 100,
+                            FylkesName = "Sjø uten fylke"
                         },
                         new
                         {
@@ -722,13 +618,13 @@ namespace Kartverket.Migrations
                     b.HasData(
                         new
                         {
-                            KommuneInfoID = 100100,
-                            KommuneName = "Sjø uten kommune"
+                            KommuneInfoID = 5636,
+                            KommuneName = "Unjárga - Nesseby"
                         },
                         new
                         {
-                            KommuneInfoID = 5636,
-                            KommuneName = "Unjárga - Nesseby"
+                            KommuneInfoID = 100100,
+                            KommuneName = "Sjø uten kommune"
                         },
                         new
                         {
@@ -2581,6 +2477,61 @@ namespace Kartverket.Migrations
                     b.HasKey("UserID");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Kartverket.Data.Case", b =>
+                {
+                    b.HasOne("Kartverket.Data.FylkesInfo", "FylkesInfo")
+                        .WithMany("Cases")
+                        .HasForeignKey("FylkesNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Kartverket.Data.Issue", "Issue")
+                        .WithMany("Cases")
+                        .HasForeignKey("IssueNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Kartverket.Data.KommuneInfo", "KommuneInfo")
+                        .WithMany("Cases")
+                        .HasForeignKey("KommuneNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Kartverket.Data.Status", "Status")
+                        .WithMany("Cases")
+                        .HasForeignKey("StatusNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FylkesInfo");
+
+                    b.Navigation("Issue");
+
+                    b.Navigation("KommuneInfo");
+
+                    b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("Kartverket.Data.FylkesInfo", b =>
+                {
+                    b.Navigation("Cases");
+                });
+
+            modelBuilder.Entity("Kartverket.Data.Issue", b =>
+                {
+                    b.Navigation("Cases");
+                });
+
+            modelBuilder.Entity("Kartverket.Data.KommuneInfo", b =>
+                {
+                    b.Navigation("Cases");
+                });
+
+            modelBuilder.Entity("Kartverket.Data.Status", b =>
+                {
+                    b.Navigation("Cases");
                 });
 #pragma warning restore 612, 618
         }
