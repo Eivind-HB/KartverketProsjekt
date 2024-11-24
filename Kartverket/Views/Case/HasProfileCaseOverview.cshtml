@@ -148,11 +148,9 @@
         // initializesAccordion using function from Accordion.js
         initializeAccordion('.accordion-container', map);
         
+         // Highlights current views navItem when DOM is loaded. 
         document.addEventListener('DOMContentLoaded', function () {
-            const homeNavItem = document.querySelector('.nav-item a[href*="HasProfileCaseOverview"]');
-            if (homeNavItem) {
-                homeNavItem.parentElement.style.backgroundColor = 'var(--light-green)';
-            }
+            highlightNavItem('HasProfileCaseOverview');
         });
 
         

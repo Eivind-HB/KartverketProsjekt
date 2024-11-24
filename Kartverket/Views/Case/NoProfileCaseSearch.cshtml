@@ -29,11 +29,10 @@
 </div>
 @section Scripts {
     <script>
+       // Highlights current views navItem when DOM is loaded.
+       // Highlights hasProfile since they share navItem
         document.addEventListener('DOMContentLoaded', function () {
-                const homeNavItem = document.querySelector('.nav-item a[href*="HasProfileCaseOverview"]');
-                if (homeNavItem) {
-                    homeNavItem.parentElement.style.backgroundColor = 'var(--light-green)';
-                }
-            });
+            highlightNavItem('HasProfileCaseOverview');
+        });
     </script>
 }
