@@ -67,7 +67,7 @@
                                             <input type="hidden" name="caseId" value="@individualCase.CaseNo" />
                                             <textarea name="newDescription" class="form-control">@individualCase.Description</textarea>
                                     </form>
-                                </td>
+                                </td>                                  
                             </tr>
                         </tbody>
                     </table>
@@ -127,23 +127,7 @@
     }
     </div>
 
-    <!-- Image Modal -->
-    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="imageModalLabel">Vedlagt Bilde</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <img id="modalImage" src="" alt="Case Image" class="img-fluid" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Lukk</button>
-                </div>
-            </div>
-        </div>
-    </div>
+   @await Html.PartialAsync("_ImageModal")
 
     <div class="map-change-container">
         <div id="map" class="map-section"></div>
@@ -154,41 +138,22 @@
     <script src="~/js/leafletMap.js"></script>
     <script src="~/js/modal.js"></script>
     <script src="~/js/DrawnCase.js"></script>
+    <script src="~/js/EditForm.js"></script>
+    <script src="~/js/Accordion.js"></script>
+    
 
     <script>
-
         multipleDrawnChanges();
-
-        function toggleEditForm(caseNo) {
-            const form = document.getElementById(`edit-form-${caseNo}`);
-            const editButtons = document.getElementById(`edit-buttons-${caseNo}`);
-            const isHidden = form.style.display === "none";
-
-            form.style.display = isHidden ? "block" : "none";
-            editButtons.style.display = isHidden ? "flex" : "none";
-        }
-
-        // Accordion functionality
-        document.querySelectorAll('.accordion-header').forEach(button => {
-            button.addEventListener('click', () => {
-                const accordionContent = button.nextElementSibling;
-                button.classList.toggle('active');
-
-                if (accordionContent.style.display === 'block') {
-                    accordionContent.style.display = 'none';
-                } else {
-                    accordionContent.style.display = 'block';
-                }
-
-                map.invalidateSize();
-            });
-        });
-
+        
+        // initializesAccordion using function from Accordion.js
+        initializeAccordion('.accordion-container', map);
+        
+         // Highlights current views navItem when DOM is loaded. 
         document.addEventListener('DOMContentLoaded', function () {
-            const homeNavItem = document.querySelector('.nav-item a[href*="HasProfileCaseOverview"]');
-            if (homeNavItem) {
-                homeNavItem.parentElement.style.backgroundColor = 'var(--light-green)';
-            }
+            highlightNavItem('HasProfileCaseOverview');
         });
+
+        
+
     </script>
 }
