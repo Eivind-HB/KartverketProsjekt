@@ -7,7 +7,7 @@
     var fylkeName = Model.Case.FylkesInfo?.FylkesName ?? "Ukjent fylke"; // Accessing KommuneName directly
     var statusType = Model.Case.Status?.StatusName ?? "Ukjent status"; // Accessing KommuneName directly
     var issueType = Model.Case.Issue?.IssueType ?? "Ukjent issue"; // Accessing KommuneName directly
-
+    bool commented = Model.Case.CommentCaseWorker != null;
 }
 
 
@@ -25,7 +25,7 @@
                     <th>Saks Dato</th>
                     <th>GeoJson</th>
                     <th>Beskrivelse</th>
-                    <th>Kommentar fra Kartverket</th>
+                    @if (commented){<th>Kommentar fra Kartverket</th>}
                     <th>Fylke</th>
                     <th>Kommune</th>
                 </tr>
@@ -38,7 +38,7 @@
                     <td>@Model.Case.Date</td>
                     <td>@Model.Case.LocationInfo</td>
                     <td><textarea readonly="readonly">@Model.Case.Description</textarea></td>
-                    <td>@Model.Case.CommentCaseWorker</td>
+                    @if (commented){<th>Kartverkets Kommentar</th>}
                     <td>@fylkeName</td>
                     <td>@kommuneName</td>
                 </tr>

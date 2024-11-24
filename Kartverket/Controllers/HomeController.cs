@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace Kartverket.Controllers
 {
@@ -235,7 +236,7 @@ namespace Kartverket.Controllers
                 .Include(c => c.Status)        // Include Status
                 .Include(c => c.FylkesInfo)    // Include FylkesInfo
                 .Include(c => c.Issue)         // Include Issue
-                .FirstOrDefaultAsync(c => c.CaseNo == newGeoChange.CaseNo); // Get the specific case
+                .FirstOrDefaultAsync(c => c.CaseNo == newCase.CaseNo); // Get the specific case
                                                                             // Create the view model for a single case
             var viewModel = new Kartverket.Models.SingleCaseModel
             {

@@ -41,6 +41,7 @@
                                     var fylkeName = change.FylkesInfo?.FylkesName ?? "Ukjent fylke"; // Accessing KommuneName directly
                                     var statusType = change.Status?.StatusName ?? "Ukjent status"; // Accessing KommuneName directly
                                     var issueType = change.Issue?.IssueType ?? "Ukjent issue"; // Accessing KommuneName directly
+                                    bool commented = change.CommentCaseWorker != null;
 
                                     //var issueType = @change.IssueNo.ToString();
                                     //var kommuneName = change.KommuneNo.ToString();
@@ -66,6 +67,7 @@
                                                                 <th>Saks Dato</th>
                                                                 <th>GeoJson</th>
                                                                 <th>Beskrivelse</th>
+                                                                @if (commented){<th>Kartverkets Kommentar</th>}
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -83,6 +85,7 @@
                                                                 <td>
                                                     <span id="description-@change.CaseNo"><textarea readonly="readonly">@change.Description</textarea></span>
                                                                 </td>
+                                                                @if (commented){<td>@change.CommentCaseWorker</td>}
                                                             </tr>
                                                         </tbody>
                                                     </table>

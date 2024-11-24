@@ -19,16 +19,16 @@
 
     <div class="accordion-container">
 
-    @foreach (var individualCase in Model.Cases)
-    {        
-        // Bruk ordbøkene for rask oppslag av data
+        @foreach (var individualCase in Model.Cases)
+        {        
+            // Bruk ordbøkene for rask oppslag av data
             //var issueType = issueDict.ContainsKey(individualCase.IssueNo) ? issueDict[individualCase.IssueNo] : "Ukjent";
             //var kommuneName = kommuneDict.ContainsKey(individualCase.KommuneNo) ? kommuneDict[individualCase.KommuneNo] : "Ukjent kommune";
             var kommuneName = individualCase.KommuneInfo?.KommuneName ?? "Ukjent kommune"; // Accessing KommuneName directly
             var fylkeName = individualCase.FylkesInfo?.FylkesName ?? "Ukjent fylke"; // Accessing KommuneName directly
             var statusType = individualCase.Status?.StatusName ?? "Ukjent status"; // Accessing KommuneName directly
             var issueType = individualCase.Issue?.IssueType ?? "Ukjent issue"; // Accessing KommuneName directly
-
+            bool commented = individualCase.CommentCaseWorker != null;
             //var fylkeName = fylkeDict.ContainsKey(individualCase.FylkesNo) ? fylkeDict[individualCase.FylkesNo] : "Ukjent fylke";
             //var statusType = statusDict.ContainsKey(individualCase.StatusNo) ? statusDict[individualCase.StatusNo] : "Ukjent status";
 
