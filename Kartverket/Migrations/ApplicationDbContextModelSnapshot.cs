@@ -54,14 +54,16 @@ namespace Kartverket.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CaseNo"));
 
                     b.Property<string>("CommentCaseWorker")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<DateOnly?>("Date")
                         .IsRequired()
                         .HasColumnType("date");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<int>("FylkesNo")
                         .HasColumnType("int");
@@ -338,13 +340,13 @@ namespace Kartverket.Migrations
                     b.HasData(
                         new
                         {
-                            FylkesNameID = 100,
-                            FylkesName = "Sjø uten fylke"
+                            FylkesNameID = 3,
+                            FylkesName = "Oslo"
                         },
                         new
                         {
-                            FylkesNameID = 3,
-                            FylkesName = "Oslo"
+                            FylkesNameID = 100,
+                            FylkesName = "Sjø uten fylke"
                         },
                         new
                         {
@@ -722,13 +724,13 @@ namespace Kartverket.Migrations
                     b.HasData(
                         new
                         {
-                            KommuneInfoID = 100100,
-                            KommuneName = "Sjø uten kommune"
+                            KommuneInfoID = 5636,
+                            KommuneName = "Unjárga - Nesseby"
                         },
                         new
                         {
-                            KommuneInfoID = 5636,
-                            KommuneName = "Unjárga - Nesseby"
+                            KommuneInfoID = 100100,
+                            KommuneName = "Sjø uten kommune"
                         },
                         new
                         {
