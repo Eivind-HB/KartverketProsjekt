@@ -18,17 +18,17 @@
                             <div class="accordion" id="casesAccordion">
                                 <!-- Search by CaseNo Form -->
                                 <form id="caseSearchForm">
-                                    <input type="text" id="caseSearchInput" placeholder="Søk etter SaksID" />
+                                    <input type="text" id="caseSearchInput" placeholder="SÃ¸k etter SaksID" />
                                     <button type="button" id="caseSearchButton">Search</button>
                                 </form>
                                 <!-- Filter Form -->
                                 <form id="caseFilterForm">
-                                    <input type="text" id="kommuneSearchInput" placeholder="Søk etter Kommunenavn" />
+                                    <input type="text" id="kommuneSearchInput" placeholder="SÃ¸k etter Kommunenavn" />
                                     <select class="form-control" id="issueTypeSearchInput" name="IssueType">
                                         <option value="" selected>Ingen type valgt</option>
                                         <option value="2">Vei/Sti</option>
                                         <option value="1">Adresse/tomt</option>
-                                        <option value="3">Sjø</option>
+                                        <option value="3">SjÃ¸</option>
                                         <option value="4">Annet</option>
                                     </select>
                                     <input type="date" id="startDateInput" placeholder="Start Date" />
@@ -90,17 +90,17 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td>@change.CaseNo</td>
-                                                                <td>@issueType</td>
-                                                                <td>@statusType</td>
+                                                                <td>
+                                                                    <span id="issueType-@change.CaseNo">@issueType</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span id="status-@change.CaseNo">@statusType</span>
+                                                                </td>
                                                                 <td>@change.Date</td>
                                                                 <td>@change.LocationInfo</td>
                                                                 <td>
                                                                     <span id="description-@change.CaseNo">@change.Description</span>
-                                                                    <!-- Edit Form -->
-                                                                    <form id="edit-form-@change.CaseNo" asp-action="EditDescription" asp-controller="Case" method="post" style="display:none;">
-                                                                        <input type="hidden" name="caseId" value="@change.CaseNo" />
-                                                                        <textarea name="newDescription" class="form-control">@change.Description</textarea>
-                                                                    </form>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -126,6 +126,49 @@
                                                         </tbody>
                                                     </table>
 
+                                                   <!-- Combined Edit Form -->
+                                                    <form id="edit-form-@change.CaseNo" asp-action="EditCase" asp-controller="Case" method="post" style="display:none;" onsubmit="submitEditForm(event, @change.CaseNo)">
+                                                        <input type="hidden" name="caseId" value="@change.CaseNo" />
+                                                        <div>
+                                                            <label for="newIssueType">Saks Type:</label>
+                                                            <select name="newIssueType" class="form-control">
+                                                                @foreach (var issue in Model.Issues)
+                                                                {
+                                                                    if (issue.issueNo == change.Issue_IssueNr)
+                                                                    {
+                                                                        <option value="@issue.issueNo" selected>@issue.IssueType</option>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="@issue.issueNo">@issue.IssueType</option>
+                                                                    }
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                        <div>
+                                                            <label for="newStatus">Status:</label>
+                                                            <select name="newStatus" class="form-control">
+                                                                @foreach (var status in Model.Status)
+                                                                {
+                                                                    if (status.StatusNo == change.StatusNo)
+                                                                    {
+                                                                        <option value="@status.StatusNo" selected>@status.StatusName</option>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="@status.StatusNo">@status.StatusName</option>
+                                                                    }
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                        <div>
+                                                            <label for="newDescription">Beskrivelse:</label>
+                                                            <textarea name="newDescription" class="form-control">@change.Description</textarea>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-success">Lagre</button>
+                                                        <button type="button" onclick="toggleEditForm(@change.CaseNo)" class="btn btn-secondary">Avbryt</button>
+                                                    </form>
+
                                                     <!-- Buttons for Edit, Delete and Display Image -->
                                                     <div class="btn-group">
                                                         <!-- Deletion button -->
@@ -146,7 +189,8 @@
 
                                                     <!-- Save and Cancel buttons for Edit Form, only visible when editing -->
                                                     <div id="edit-buttons-@change.CaseNo" class="edit-form-btn" style="display: none;">
-                                                        <button form="edit-form-@change.CaseNo" type="submit" class="btn btn-success">Lagre</button>
+                                                        <button form="edit-status-form-@change.CaseNo" type="submit" class="btn btn-success">Lagre Status</button>
+                                                        <button form="edit-description-form-@change.CaseNo" type="submit" class="btn btn-success">Lagre Beskrivelse</button>
                                                         <button type="button" onclick="toggleEditForm(@change.CaseNo)" class="btn btn-secondary">Avbryt</button>
                                                     </div>
                                                 </div>
@@ -168,9 +212,9 @@
             <div class="accordion-body">
                 <div class="accordion" id="usersAccordion">
                     <form id="userSearchForm">
-                        <input type="text" id="userIDSearchInput" placeholder="Søk etter brukerID" />
-                        <input type="text" id="userNameSearchInput" placeholder="Søk etter brukernavn" />
-                        <input type="text" id="userCasesSearchInput" placeholder="Søk etter innmeldte saker" />
+                        <input type="text" id="userIDSearchInput" placeholder="SÃ¸k etter brukerID" />
+                        <input type="text" id="userNameSearchInput" placeholder="SÃ¸k etter brukernavn" />
+                        <input type="text" id="userCasesSearchInput" placeholder="SÃ¸k etter innmeldte saker" />
                         <button type="button" id="userSearchButton">Filter</button>
                     </form>
                     @foreach (var user in Model.Users)
@@ -244,7 +288,7 @@
                 <div class="accordion-body">
                     <div class="accordion" id="caseworkersAccordion">
                         <form id="caseworkerSearchForm">
-                            <input type="text" id="CWIDSearchInput" placeholder="Søk etter Saksbehandler ID" />
+                            <input type="text" id="CWIDSearchInput" placeholder="SÃ¸k etter Saksbehandler ID" />
                             <button type="button" id="caseworkerSearchButton">Filter</button>
                         </form>
                         @foreach (var caseworker in Model.CaseWorkers)
@@ -315,7 +359,11 @@
     <script src="~/js/mapChanges.js"></script>
     <script src="~/js/modal.js"></script>
     <script src="~/js/filter.js"></script>
+    <script src="~/js/EditCaseAJAX.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <!-- Add jQuery for AJAX functionality -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="~/js/EditForm.js"></script>
     <script src="~/js/Accordion.js"></script>
 
