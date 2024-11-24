@@ -64,14 +64,12 @@ namespace Kartverket.Migrations
                 name: "CaseWorkerAssignment",
                 columns: table => new
                 {
-                    CaseNo = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CaseNo = table.Column<int>(type: "int", nullable: false),
                     CaseWorkerID = table.Column<int>(type: "int", nullable: false),
                     PaidHours = table.Column<decimal>(type: "decimal(65,30)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CaseWorkerAssignment", x => x.CaseNo);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 

@@ -65,7 +65,9 @@ namespace Kartverket.Controllers
                 Users = _context.Users.ToList(),
                 CaseWorkers = _context.CaseWorkers.ToList(),
                 Employees = _context.KartverketEmployee.ToList(),
-                Status = _context.Status.ToList()
+                Status = _context.Status.ToList(),
+                CaseWorkerAssignment = _context.CaseWorkerAssignment.ToList()
+
             };
             return View(viewModel);
         }
@@ -163,6 +165,28 @@ namespace Kartverket.Controllers
             }
             return NotFound();
         }
-    }
 
+        [HttpPost]
+        public IActionResult AssignCaseworker(int caseNo, int caseworkerID, decimal paidHours)
+        {
+            // Check if the assignment already exists
+            var existingAssignment = _context.CaseWorkerAssignment
+                .FirstOrDefault(c => c.CaseNo == caseNo && c.CaseWorkerID == caseworkerID);
+
+            if (existingAssignment == null)
+            {
+                var caseWorkerAssignment = new CaseWorkerAssignment
+                {
+                    CaseNo = caseNo,
+                    CaseWorkerID = caseworkerID,
+                    PaidHours = paidHours
+                };
+
+                _context.CaseWorkerAssignment.Add(caseWorkerAssignment);
+                _context.SaveChanges();
+            }
+
+            return Json(new { caseNo, caseworkerID });
+        }
+    }
 }

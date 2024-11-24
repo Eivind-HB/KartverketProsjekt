@@ -48,6 +48,7 @@ namespace Kartverket.Data
             modelBuilder.Entity<CaseWorker>()
                 .HasKey(f => f.CaseWorkerID);
             _dataSeeder.SeedData(modelBuilder);
+
         }
 
     }
