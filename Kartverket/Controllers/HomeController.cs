@@ -98,6 +98,7 @@ namespace Kartverket.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterAreaChange(AreaChange areaModel, UserData userModel, IFormFile ImageUpload)
         {
             //Sanitizes GeoJson, Username and Kommuneinfo
