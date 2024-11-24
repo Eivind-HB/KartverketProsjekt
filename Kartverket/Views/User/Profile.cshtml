@@ -1,10 +1,10 @@
 ﻿@model Kartverket.Data.UserUpdate
 
 @{
-    ViewData["Title"] = "Bruker Profil";
+    ViewData["Title"] = "Din Profil";
 }
 
-<h2>Bruker profil</h2>
+<h2>Din profil</h2>
 
 @if (TempData["Message"] != null)
 {
@@ -34,13 +34,13 @@
 <hr />
 
 <h3>Bytt passord</h3>
-<p>For å bytte passord, trykk på knappen under:</p>
+<p>For å bytte passord trykk på knappen nedenfor:</p>
 <a asp-action="ChangePassword" class="btn btn-secondary">Bytt passord</a>
 
 <hr />
 
 <h3>Slett bruker</h3>
-<p>Hvis du har lyst til å slette brukeren så trykker du på knappen under(NB! Brukeren vil bli tapt):</p>
+<p>Hvis du vil å slette din brukerkonto så trykker du på knappen nedenfor (NB! brukerkonto vil bli tapt):</p>
 <div class="mt-4">
     <button id="deleteAccountBtn" class="btn btn-danger">Slett bruker</button>
 </div>
