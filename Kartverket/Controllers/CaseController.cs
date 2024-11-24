@@ -101,7 +101,7 @@ namespace Kartverket.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditDescription(int caseId, string newDescription)
+        public IActionResult EditCase(int caseId, int newIssueType, int newStatus, string newDescription)
         {
             var sanitizer = new HtmlSanitizer();
             var sanitizedDescription = sanitizer.Sanitize(newDescription);
@@ -110,16 +110,22 @@ namespace Kartverket.Controllers
             var caseItem = _context.Case.FirstOrDefault(c => c.CaseNo == caseId);
             if (caseItem != null)
             {
-                // OUpdates description and saves changes
+                // Updates issue type, description, and status, then saves changes
+                caseItem.Issue_IssueNr = newIssueType;
                 caseItem.Description = sanitizedDescription;
+                caseItem.StatusNo = newStatus;
                 _context.SaveChanges();
+
+                var issueTypeName = _context.Issues.FirstOrDefault(i => i.issueNo == newIssueType)?.IssueType;
+                var statusName = _context.Status.FirstOrDefault(s => s.StatusNo == newStatus)?.StatusName;
+
+                return Json(new { caseId, newIssueTypeName = issueTypeName, newDescription = sanitizedDescription, newStatusName = statusName });
             }
 
-            // Goes back to AreaChangeOverview. MIGHT NEED TO MAKE IT SO THAT THE ACCORDION STAYS OPEN??
-            return RedirectToAction("HasProfileCaseOverview");
+            return BadRequest();
         }
 
-        
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

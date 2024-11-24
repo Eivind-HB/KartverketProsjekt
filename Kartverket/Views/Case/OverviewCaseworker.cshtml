@@ -90,17 +90,17 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td>@change.CaseNo</td>
-                                                                <td>@issueType</td>
-                                                                <td>@statusType</td>
+                                                                <td>
+                                                                    <span id="issueType-@change.CaseNo">@issueType</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span id="status-@change.CaseNo">@statusType</span>
+                                                                </td>
                                                                 <td>@change.Date</td>
                                                                 <td>@change.LocationInfo</td>
                                                                 <td>
                                                                     <span id="description-@change.CaseNo">@change.Description</span>
-                                                                    <!-- Edit Form -->
-                                                                    <form id="edit-form-@change.CaseNo" asp-action="EditDescription" asp-controller="Case" method="post" style="display:none;">
-                                                                        <input type="hidden" name="caseId" value="@change.CaseNo" />
-                                                                        <textarea name="newDescription" class="form-control">@change.Description</textarea>
-                                                                    </form>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -126,6 +126,49 @@
                                                         </tbody>
                                                     </table>
 
+                                                   <!-- Combined Edit Form -->
+                                                    <form id="edit-form-@change.CaseNo" asp-action="EditCase" asp-controller="Case" method="post" style="display:none;" onsubmit="submitEditForm(event, @change.CaseNo)">
+                                                        <input type="hidden" name="caseId" value="@change.CaseNo" />
+                                                        <div>
+                                                            <label for="newIssueType">Saks Type:</label>
+                                                            <select name="newIssueType" class="form-control">
+                                                                @foreach (var issue in Model.Issues)
+                                                                {
+                                                                    if (issue.issueNo == change.Issue_IssueNr)
+                                                                    {
+                                                                        <option value="@issue.issueNo" selected>@issue.IssueType</option>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="@issue.issueNo">@issue.IssueType</option>
+                                                                    }
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                        <div>
+                                                            <label for="newStatus">Status:</label>
+                                                            <select name="newStatus" class="form-control">
+                                                                @foreach (var status in Model.Status)
+                                                                {
+                                                                    if (status.StatusNo == change.StatusNo)
+                                                                    {
+                                                                        <option value="@status.StatusNo" selected>@status.StatusName</option>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="@status.StatusNo">@status.StatusName</option>
+                                                                    }
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                        <div>
+                                                            <label for="newDescription">Beskrivelse:</label>
+                                                            <textarea name="newDescription" class="form-control">@change.Description</textarea>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-success">Lagre</button>
+                                                        <button type="button" onclick="toggleEditForm(@change.CaseNo)" class="btn btn-secondary">Avbryt</button>
+                                                    </form>
+
                                                     <!-- Buttons for Edit, Delete and Display Image -->
                                                     <div class="btn-group">
                                                         <!-- Deletion button -->
@@ -146,7 +189,8 @@
 
                                                     <!-- Save and Cancel buttons for Edit Form, only visible when editing -->
                                                     <div id="edit-buttons-@change.CaseNo" class="edit-form-btn" style="display: none;">
-                                                        <button form="edit-form-@change.CaseNo" type="submit" class="btn btn-success">Lagre</button>
+                                                        <button form="edit-status-form-@change.CaseNo" type="submit" class="btn btn-success">Lagre Status</button>
+                                                        <button form="edit-description-form-@change.CaseNo" type="submit" class="btn btn-success">Lagre Beskrivelse</button>
                                                         <button type="button" onclick="toggleEditForm(@change.CaseNo)" class="btn btn-secondary">Avbryt</button>
                                                     </div>
                                                 </div>
@@ -329,19 +373,14 @@
     <script src="~/js/mapChanges.js"></script>
     <script src="~/js/modal.js"></script>
     <script src="~/js/filter.js"></script>
+    <script src="~/js/EditCaseAJAX.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <!-- Add jQuery for AJAX functionality -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 
     <script>
-        // Toggle the edit form visibility
-        function toggleEditForm(caseNo) {
-            const form = document.getElementById(`edit-form-${caseNo}`);
-            const editButtons = document.getElementById(`edit-buttons-${caseNo}`);
-            const isHidden = form.style.display === "none";
-            
-            form.style.display = isHidden ? "block" : "none";
-            editButtons.style.display = isHidden ? "flex" : "none";
-        }
 
         // Passes the serialized AreaChanges model data to the mapChanges function
         var drawnChanges = @Html.Raw(Json.Serialize(Model.Cases));
