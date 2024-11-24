@@ -148,7 +148,7 @@ namespace Kartverket.Test
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsType<UserUpdate>(viewResult.Model);
+            var model = Assert.IsType<UserUpdateModel>(viewResult.Model);
             Assert.Equal(userId, model.UserID);
             Assert.Equal("testuser", model.UserName);
             Assert.Equal("testuser@example.com", model.Mail);

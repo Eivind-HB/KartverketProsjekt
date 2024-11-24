@@ -45,5 +45,5 @@ namespace Kartverket.Test
             Assert.Equal(expectedKommuneInfo.kommunenummer, kommuneInfo.kommunenummer);
             Assert.Equal(expectedKommuneInfo.kommunenavn, kommuneInfo.kommunenavn);
         }
-    }
+    }    
 }
