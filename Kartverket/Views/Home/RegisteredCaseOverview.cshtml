@@ -1,11 +1,14 @@
 @model Kartverket.Data.Case
 
 @{
-    ViewData["Title"] = "Ny Registrer Sak";
+    ViewData["Title"] = "Ny Registrert Sak";
 }
 
-<h2>Sak Registrert!</h2>
+<h1>Sak Registrert!</h1>
 
+
+<h3> Du har send inn saken uten en brukerprofil. Om du ønsker å følge saken videre MÅ du ta vare på Saksnummeret.
+      Med Saksnummeret kan du søke etter saken i "registrerte rettelser" siden </h3>
 <div class="page-container">
     <div class="issue-location-details">
         <!-- Case detail table -->
@@ -13,29 +16,24 @@
             <thead>
                 <tr>
                     <th>Saksnummer</th>
-                    <th>Saks Type</th>
-                    <th>Saks Dato</th>
+                    <th>Type Sak</th>
+                    <th>Sak status</th>
+                    <th>Innmeldings dato</th>
                     <th>GeoJson</th>
-                    <th>Beskrivelse</th>                   
+                    <th>Beskrivelse</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>@Model.CaseNo</td>
                     <td>@Model.Issue_IssueNr</td>
+                    <td>@Model.StatusNo</td>
                     <td>@Model.Date</td>
                     <td>@Model.LocationInfo</td>
                     <td>@Model.Description</td>                    
                 </tr>
             </tbody>
-        </table>
-        <table class="table table-compact">
-            <tbody>
-                <tr>
-                    <td>Du har send inn saken uten en brukerprofil, så du MÅ huske saksnummeret for å kunne se oppdateringer! Saksnummeret kan søkes på "registrerte rettelser" siden</td>
-                </tr>
-            </tbody>
-        </table>
+        </table>        
     </div>
 
     <div class="btn-group">

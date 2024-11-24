@@ -1,13 +1,12 @@
 ﻿@model Kartverket.Data.User
 
 <div class="page-container ud-overview-container">
-    <h1>Du har nå registrert deg</h1>
-    <p class="lead">Her er en oversikt over din registrerte informasjon:</p>
+    <h1>Du har nå registrert deg</h1>    
 
     @if (Model != null)
     {
         <div class="user-info-card">
-            <h2>Din informasjon</h2>
+            <h2>Din informasjon:</h2>
         <div class="info-item">
             <strong>Navn:</strong>
             <span>@Model.UserName</span>
@@ -24,7 +23,7 @@
     }
     else 
     {
-        <p>Det ser ut som at noe har gått galt her. Prøv å registrere deg igjen <a href="/Home/RegistrationForm">her</a></p>
+        <p>Det ser ut som at noe har gått galt. Prøv å registrere deg igjen <a href="/Home/RegistrationForm">her</a></p>
     }
 @section Scripts {
     <script>
