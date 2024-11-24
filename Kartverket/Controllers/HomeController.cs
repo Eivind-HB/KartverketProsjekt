@@ -180,6 +180,13 @@ namespace Kartverket.Controllers
             bool loggedIn = User.Identity.IsAuthenticated;//if the user is logged inn
             bool admin = User.IsInRole("Admin");//id the user is logged inn as an admin
 
+            if (description.Length > 1000) //Max 1000 characters in DB
+            {
+                // Store error message in ViewBag
+                ViewBag.ErrorMessage = "Beskrivelse kan maks være 1000 tegn!";
+                return View("RoadCorrection"); // Return to the same view with the model
+            }
+
             Geometry geometry;
             try
             {
@@ -219,7 +226,7 @@ namespace Kartverket.Controllers
             }
 
             //creates the information that will actually be fed into mariaDB
-            var newGeoChange = new Case
+            var newCase = new Case
             {
                 CaseNo = CaseNoNumber,
                 LocationInfo = geoJson,
@@ -228,14 +235,14 @@ namespace Kartverket.Controllers
                 User_UserID = userId, 
                 Issue_IssueNr = (int)issueNo, //it says it 'may be null', but its already been checked earlier in the code
                 Images = areaModel.ImageData,
-                KommuneNo = (int)kommuneNo, //^^^^
-                FylkesNo = (int)fylkesNo, //  ^^^^
+                KommuneNo = (int)kommuneNo, //  ^^^^
+                FylkesNo = (int)fylkesNo, //    ^^^^
                 StatusNo = 1 //default statusnumber, "Sendt"
 
             };
 
             // Save to the database
-            _context.Case.Add(newGeoChange);
+            _context.Case.Add(newCase);
             _context.SaveChanges();
             if (loggedIn)
             {
@@ -244,7 +251,7 @@ namespace Kartverket.Controllers
             //SingleCaseModel
             var viewModel = new Kartverket.Models.SingleCaseModel
             {
-                Case = newGeoChange,
+                Case = newCase,
                 Issues = _context.Issues.ToList(),
                 KommuneInfos = _context.KommuneInfo.ToList(),
                 FylkesInfos = _context.FylkesInfo.ToList(),
