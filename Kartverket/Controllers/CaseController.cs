@@ -64,8 +64,8 @@ namespace Kartverket.Controllers
                 FylkesInfos = _context.FylkesInfo.ToList(),
                 Users = _context.Users.ToList(),
                 CaseWorkers = _context.CaseWorkers.ToList(),
-                Employees = _context.KartverketEmployee.ToList()
-
+                Employees = _context.KartverketEmployee.ToList(),
+                Status = _context.Status.ToList()
             };
             return View(viewModel);
         }
