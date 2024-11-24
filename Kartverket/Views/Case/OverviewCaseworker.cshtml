@@ -112,8 +112,9 @@
 
                                                    <!-- Combined Edit Form -->
                                                     <form id="edit-form-@change.CaseNo" asp-action="EditCase" asp-controller="Case" method="post" style="display:none;" onsubmit="submitEditForm(event, @change.CaseNo)">
-                                                        <input type="hidden" name="caseId" value="@change.CaseNo" />
-                                                        <div>
+                                                    <input type="hidden" name="caseId" value="@change.CaseNo" />
+                                                    <div class="form-row">
+                                                        <div class="form-group">
                                                             <label for="newIssueType">Saks Type:</label>
                                                             <select name="newIssueType" class="form-control">
                                                                 @foreach (var issue in Model.AllIssues)
@@ -129,7 +130,7 @@
                                                                 }
                                                             </select>
                                                         </div>
-                                                        <div>
+                                                        <div class="form-group">
                                                             <label for="newStatus">Status:</label>
                                                             <select name="newStatus" class="form-control">
                                                                 @foreach (var status in Model.AllStatus)
@@ -145,9 +146,14 @@
                                                                 }
                                                             </select>
                                                         </div>
-                                                        <div>
-                                                            <label for="newDescription">Beskrivelse:</label>
-                                                            <textarea name="newDescription" class="form-control">@change.Description</textarea>
+                                                            <div class="form-group">
+                                                                <label for="newDescription">Beskrivelse:</label>
+                                                                <textarea name="newDescription" class="form-control">@change.Description</textarea>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="newComment">Kommentar:</label>
+                                                                <textarea name="newComment" class="form-control">@change.CommentCaseWorker</textarea>
+                                                            </div>
                                                         </div>
                                                         <button type="submit" class="btn btn-success">Lagre</button>
                                                         <button type="button" onclick="toggleEditForm(@change.CaseNo)" class="btn btn-secondary">Avbryt</button>
