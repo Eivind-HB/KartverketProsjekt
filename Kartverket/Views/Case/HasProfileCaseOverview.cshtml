@@ -67,8 +67,7 @@
                                             <input type="hidden" name="caseId" value="@individualCase.CaseNo" />
                                             <textarea name="newDescription" class="form-control">@individualCase.Description</textarea>
                                     </form>
-                                </td>
-                                    <td>@individualCase.User_UserID</td>
+                                </td>                                    
                             </tr>
                         </tbody>
                     </table>
@@ -139,19 +138,12 @@
     <script src="~/js/leafletMap.js"></script>
     <script src="~/js/modal.js"></script>
     <script src="~/js/DrawnCase.js"></script>
+    <script src="~/js/EditForm.js"></script>
+    
 
     <script>
-
-        multipleDrawnChanges();
-
-        function toggleEditForm(caseNo) {
-            const form = document.getElementById(`edit-form-${caseNo}`);
-            const editButtons = document.getElementById(`edit-buttons-${caseNo}`);
-            const isHidden = form.style.display === "none";
-
-            form.style.display = isHidden ? "block" : "none";
-            editButtons.style.display = isHidden ? "flex" : "none";
-        }
+        multipleDrawnChanges();         
+        
 
         // Accordion functionality
         document.querySelectorAll('.accordion-header').forEach(button => {
