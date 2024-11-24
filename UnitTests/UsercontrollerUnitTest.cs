@@ -18,6 +18,13 @@ using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using Kartverket.Models;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.ViewFeatures; // For TempData
+using Microsoft.AspNetCore.Routing; // For RouteData
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Controllers;
+
 
 namespace Kartverket.Tests
 {
@@ -393,5 +400,150 @@ namespace Kartverket.Tests
             Assert.Equal("RegistrationForm", viewResult.ViewName);
             Assert.IsType<User>(viewResult.Model);
         }
+
+
+        [Fact]
+        public async Task DeleteAccount_UserExists_DeletesUserAndRedirects()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
+
+            var mockLogger = new Mock<ILogger<UserController>>();
+            var mockPasswordHasher = new Mock<IPasswordHasher<User>>();
+
+            using var dbContext = new ApplicationDbContext(options);
+
+            // Create a test user
+            var testUser = new User { UserID = 1, UserName = "testuser", Mail = "test@example.com", Password = "hashedpassword" };
+            dbContext.Users.Add(testUser);
+            await dbContext.SaveChangesAsync();
+
+            // Set up claims for the authenticated user
+            var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier, testUser.UserID.ToString())
+        };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+
+            // Set up the service collection
+            var services = new ServiceCollection();
+            services.AddLogging(); // Add logging services
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options => { /* Configure cookie options if needed */ });
+
+            // Add MVC services to support TempData and Url helpers
+            services.AddControllersWithViews(); // This includes TempData and Url helpers
+
+            // Build the service provider
+            var serviceProvider = services.BuildServiceProvider();
+
+            // Mock authentication service
+            var authServiceMock = new Mock<IAuthenticationService>();
+            authServiceMock.Setup(a => a.SignOutAsync(It.IsAny<HttpContext>(), CookieAuthenticationDefaults.AuthenticationScheme, null))
+                .Returns(Task.CompletedTask);
+
+            // Create controller and set HttpContext
+            var controller = new UserController(mockLogger.Object, dbContext, mockPasswordHasher.Object)
+            {
+                ControllerContext = new ControllerContext
+                {
+                    HttpContext = new DefaultHttpContext
+                    {
+                        User = principal,
+                        RequestServices = serviceProvider
+                    },
+                    RouteData = new RouteData(), // Ensure RouteData is initialized
+                    ActionDescriptor = new ControllerActionDescriptor() // Ensure ActionDescriptor is initialized correctly
+                }
+            };
+
+            // Act
+            var result = await controller.DeleteAccount();
+
+            // Assert
+            var redirectResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Index", redirectResult.ActionName);
+
+            // Verify that the user was deleted
+            var deletedUser = await dbContext.Users.FindAsync(testUser.UserID);
+            Assert.Null(deletedUser);
+
+            // Check TempData message
+            Assert.True(controller.TempData.ContainsKey("Message"));
+            Assert.Equal("Brukeren din har nå blitt slettet.", controller.TempData["Message"]);
+        }
+
+
+
+        [Fact]
+        public async Task DeleteAccount_UserNotFound_ReturnsNotFound()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
+
+            var mockLogger = new Mock<ILogger<UserController>>();
+            var mockPasswordHasher = new Mock<IPasswordHasher<User>>();
+
+            using var dbContext = new ApplicationDbContext(options);
+
+            // Set up claims for an authenticated user that does not exist in the database
+            var claims = new List<Claim>
+    {
+        new Claim(ClaimTypes.NameIdentifier, "999") // Non-existing user ID
+    };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+
+            var controller = new UserController(mockLogger.Object, dbContext, mockPasswordHasher.Object)
+            {
+                ControllerContext = new ControllerContext
+                {
+                    HttpContext = new DefaultHttpContext { User = principal }
+                }
+            };
+
+            // Act
+            var result = await controller.DeleteAccount();
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async Task DeleteAccount_UserNotAuthenticated_RedirectsToLogin()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
+
+            var mockLogger = new Mock<ILogger<UserController>>();
+            var mockPasswordHasher = new Mock<IPasswordHasher<User>>();
+
+            using var dbContext = new ApplicationDbContext(options);
+
+            var controller = new UserController(mockLogger.Object, dbContext, mockPasswordHasher.Object)
+            {
+                ControllerContext = new ControllerContext
+                {
+                    HttpContext = new DefaultHttpContext() // No user is set here
+                }
+            };
+
+            // Act
+            var result = await controller.DeleteAccount();
+
+            // Assert
+            var redirectResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("LogInForm", redirectResult.ActionName);
+        }
+
     }
 }
