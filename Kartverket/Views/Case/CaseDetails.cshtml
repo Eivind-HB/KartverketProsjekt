@@ -53,23 +53,7 @@
     <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Tilbake til oversikt</a>
 </div>
 
-<!-- Image Modal -->
-<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="imageModalLabel">Vedlagt Bilde</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <img id="modalImage" src="" alt="Case Image" class="img-fluid" />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Lukk</button>
-            </div>
-        </div>
-    </div>
-</div>
+@await Html.PartialAsync("_ImageModal")
 
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
