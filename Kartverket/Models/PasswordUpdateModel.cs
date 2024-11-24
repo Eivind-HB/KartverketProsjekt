@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace Kartverket.Data
+namespace Kartverket.Models
 
 {
-    public class PasswordUpdate
+    public class PasswordUpdateModel
     {
         [Required(ErrorMessage = "Nåværende passord er påkrevet")]
         [DataType(DataType.Password)]
