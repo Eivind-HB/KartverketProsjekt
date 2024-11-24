@@ -16,28 +16,15 @@ namespace Kartverket.Controllers
         private readonly ILogger<MapController> _logger;
 
 
+        /// <summary>
+        /// Initializes the MapController class.
+        /// </summary>
+        /// <param name="logger">The logger used for logging information and errors.</param>
+        /// <param name="kommuneInfoApiService">The service used to retrieve municipality info from Kartverkets KommuneInfoApi </param>       
         public MapController(ILogger<MapController> logger, IKommuneInfoApiService kommuneInfoApiService)
         {
             _logger = logger;
             _KommuneInfoApiService = kommuneInfoApiService;
-        }
-
-        [HttpGet]
-        public IActionResult CorrectMap()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult CorrectMap(PositionModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                positions.Add(model);
-                
-                return View("CorrectionOverview", positions);
-            }
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -46,7 +33,16 @@ namespace Kartverket.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        //Fetching of kommuneinfo
+        /// <summary>
+        /// Retrieves municipality information from Kartverkets KommuneInfoApi based on the provided geographical coordinates.
+        /// </summary>
+        /// <param name="latitude">The latitude of the location.</param>
+        /// <param name="longitude">The longitude of the location.</param>
+        /// <returns>A JSON object containing municipalityname, municipalitynumber, countyname and countynumber.</returns>
+        /// <remarks>
+        /// This method uses an external service (_KommuneInfoApiService) to fetch the information.
+        /// The method is asynchronous.
+        /// </remarks>
         [HttpGet("GetKommuneInfo")]
         public async Task<IActionResult> GetKommuneInfo(double latitude, double longitude)
         {
