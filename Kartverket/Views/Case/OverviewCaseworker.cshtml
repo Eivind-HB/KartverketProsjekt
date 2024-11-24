@@ -12,7 +12,6 @@
     <div class="accordion" id="parentAccordion">
                 <button class="accordion-container-header accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAllCases" aria-expanded="false" aria-controls="collapseAllCases">
                     Alle Saker
-
                 </button>
                     <div id="collapseAllCases" class="accordion-item collapse" aria-labelledby="headingAllCases" data-bs-parent="#parentAccordion">
                         <div class="accordion-body">
@@ -41,6 +40,8 @@
                                     var issueType = @change.Issue_IssueNr.ToString();
                                     var kommuneName = change.KommuneNo.ToString();
                                     var fylkeName = change.FylkesNo.ToString();
+                                    var statusDict = Model.Status.ToDictionary(x => x.StatusNo, x => x.StatusName);
+                                    var statusType = statusDict.ContainsKey(change.StatusNo) ? statusDict[change.StatusNo] : "Ukjent status";           
                                     <!-- Individual Case Section -->
                                             
                                             <button class="accordion-container-header accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCase-@change.CaseNo" aria-expanded="false" aria-controls="collapseCase-@change.CaseNo">
@@ -80,6 +81,7 @@
                                                             <tr>
                                                                 <th>Saks Nummer</th>
                                                                 <th>Saks Type</th>
+                                                                <th>Sak Status</th>
                                                                 <th>Saks Dato</th>
                                                                 <th>GeoJson</th>
                                                                 <th>Beskrivelse</th>
@@ -89,6 +91,7 @@
                                                             <tr>
                                                                 <td>@change.CaseNo</td>
                                                                 <td>@issueType</td>
+                                                                <td>@statusType</td>
                                                                 <td>@change.Date</td>
                                                                 <td>@change.LocationInfo</td>
                                                                 <td>
