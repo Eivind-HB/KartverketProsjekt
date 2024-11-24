@@ -149,9 +149,10 @@ textarea {
     padding: 1em;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 20rem; /* Adjust width for a compact look */ 
-    text-decoration: none; /* Remove underline from links */ 
+    width: 20rem; /* Adjust width for a compact look */
+    text-decoration: none; /* Remove underline from links */
     transition: transform 0.2s ease; /* Optional hover effect */
+    white-space: nowrap;
 }
 
     .link-box:hover {
