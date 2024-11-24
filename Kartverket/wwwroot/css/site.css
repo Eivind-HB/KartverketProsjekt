@@ -23,7 +23,6 @@ html {
 }
 
 body {
-    margin-bottom: 60px;
     padding-top: 150px;
     font-family: var(--main-font);
 }
@@ -105,15 +104,6 @@ body {
     padding-left: 2rem;
 }
 
-/* Footer */
-footer {
-    border-top: 8px solid var(--primary-green);
-    background: var(--gray-bg);
-    padding: 35px 0 18px;
-    position: relative;
-    margin-top: 18px;
-}
-
 /* Common container styles */
 .page-container {
     background-color: #ffffff;
@@ -123,6 +113,47 @@ footer {
     margin: 2rem auto;
     animation: fadeIn 0.5s ease-out;
 }
+
+body.no-profile-case-search {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+    body.no-profile-case-search .container {
+        flex: 1;
+    }
+
+    body.no-profile-case-search footer {
+        margin-top: auto;
+    }
+
+/* Additional styles for the logout page */
+.logout-container {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: var (--shadow-md);
+    margin: 4.2rem auto;
+    max-width: 600px;
+}
+
+    .logout-container h2 {
+        color: var(--primary-green);
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .logout-container p {
+        color: #333;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .logout-container .btn {
+        margin: 0.5rem;
+    }
 
 .index-container, .privacy-container {
     max-width: 800px;
