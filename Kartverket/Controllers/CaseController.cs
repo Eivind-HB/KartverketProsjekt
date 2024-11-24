@@ -72,9 +72,8 @@ namespace Kartverket.Controllers
             };
             return View(viewModel);
         }
+                
 
-
-        //Case Deletion
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteCase(int caseId)
@@ -102,6 +101,21 @@ namespace Kartverket.Controllers
             }
         }
 
+        /// <summary>        
+        /// Edits existing case by updating type, status and description.
+        /// Sanatizes description from XSS attacks        
+        /// </summary>
+        /// <param name="caseId">The caseID of the case you want to be edited.</param>
+        /// <param name="newIssueType">The new issue type you want to assing the case.</param>
+        /// <param name="newStatus">The new status you want to give to the case.</param>
+        /// <param name="newDescription">The new description text for the case.</param>
+        /// <returns>
+        /// - If the case is successfully updated: Returns a JSON object with the updated case information.
+        /// - If the case is not found: Returns a BadRequest result.
+        /// </returns>
+        /// <remarks>  
+        /// [ValidateAntiForgeryToken] attributes protects against CSRF attacks.
+        /// </remarks>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EditCase(int caseId, int newIssueType, int newStatus, string newDescription)
@@ -129,7 +143,17 @@ namespace Kartverket.Controllers
         }
 
 
-
+        /// <summary>
+        /// Searches for case, makes a singleCaseModel        
+        /// </summary>
+        /// <param name="CaseNo"> The case number of the wanted case.</param>
+        /// <returns>
+        /// - If the case is found: Returns the "CaseDetails" view populated with the case information and related data.
+        /// - If the case is not found: Sets an error message in TempData and returns the "NoProfileCaseSearch" view.
+        /// </returns>
+        /// <remarks> 
+        /// [ValidateAntiForgeryToken] attributes protects against CSRF attacks.       
+        /// </remarks>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CaseSearch(int CaseNo)
@@ -158,7 +182,14 @@ namespace Kartverket.Controllers
         }
 
 
-
+        /// <summary>
+        /// Checks database if case exists and if it has an image. Converts image to base64 string      
+        /// </summary>
+        /// <param name="caseId">The caseId which the image is requested.</param>
+        /// <returns>
+        /// - If the case is found and has an associated image: Returns a JSON object containing the base64-encoded image source.
+        /// - If the case is not found or does not have an associated image: Returns a NotFound result.
+        /// </returns>        
         [HttpGet]
         public IActionResult GetCaseImage(int caseId)
         {
@@ -171,6 +202,28 @@ namespace Kartverket.Controllers
             }
             return NotFound();
         }
-    }
 
+        [HttpPost]
+        public IActionResult AssignCaseworker(int caseNo, int caseworkerID, decimal paidHours)
+        {
+            // Check if the assignment already exists
+            var existingAssignment = _context.CaseWorkerAssignment
+                .FirstOrDefault(c => c.CaseNo == caseNo && c.CaseWorkerID == caseworkerID);
+
+            if (existingAssignment == null)
+            {
+                var caseWorkerAssignment = new CaseWorkerAssignment
+                {
+                    CaseNo = caseNo,
+                    CaseWorkerID = caseworkerID,
+                    PaidHours = paidHours
+                };
+
+                _context.CaseWorkerAssignment.Add(caseWorkerAssignment);
+                _context.SaveChanges();
+            }
+
+            return Json(new { caseNo, caseworkerID });
+        }
+    }
 }

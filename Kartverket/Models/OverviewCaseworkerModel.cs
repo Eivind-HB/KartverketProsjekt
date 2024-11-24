@@ -8,7 +8,7 @@
         public List<Kartverket.Data.User> Users { get; set; }
         public List<Kartverket.Data.CaseWorker> CaseWorkers { get; set; }
         public List<Kartverket.Data.KartverketEmployee> Employees { get; set; }
-
+        public List<Kartverket.Data.CaseWorkerAssignment> CaseWorkerAssignment { get; set; }
 
     }
 }

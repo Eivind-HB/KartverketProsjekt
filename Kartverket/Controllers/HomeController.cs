@@ -1,51 +1,20 @@
+using Ganss.Xss;
+using Kartverket.Data;
 using Kartverket.Models;
 using Kartverket.Services;
-using Kartverket.API_Models;
-using Kartverket.Data;
-
-using MySqlConnector;
-
-using NetTopologySuite.IO;
-using NetTopologySuite.Geometries;
-
-using Newtonsoft.Json;
-
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Data;
-using System.Diagnostics;
-using System.Security.Claims;
-using static System.Net.WebRequestMethods;
-using Microsoft.EntityFrameworkCore;
-using System.Formats.Asn1;
-using System.Globalization;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
-using Ganss.Xss;
-using static Dapper.SqlMapper;
+using Microsoft.AspNetCore.Mvc;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.IO;
+using System.Security.Claims;
 
 namespace Kartverket.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IKommuneInfoApiService _KommuneInfoApiService;
-        //EF
+        private readonly ILogger<HomeController> _logger;        
         private readonly ApplicationDbContext _context;
-        //Hashing av passord
-        private readonly PasswordHasher<User> _passwordHasher;
+        
 
         //In-memory lagring av lister
         private static List<AreaChange> areaChanges = new List<AreaChange>();
@@ -57,8 +26,7 @@ namespace Kartverket.Controllers
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
-            _context = context;
-            _passwordHasher = new PasswordHasher<User>();
+            _context = context;            
         }
 
         public IActionResult Index()
@@ -72,11 +40,21 @@ namespace Kartverket.Controllers
             return View();
         }
 
+
+        /// <summary>
+        /// Redirects user to Kartverkets about us page. That page is made by Kartverket, not by group 13!
+        /// </summary>
+        /// <returns>Redirects to "Om Oss" at Kartverkets site</returns>
         public IActionResult OmOss()
         {
             return Redirect("https://www.kartverket.no/om-kartverket");
         }
 
+
+        /// <summary>
+        /// Redirects user to Kartverkets contact us page. That page is made by Kartverket, not by group 13!
+        /// </summary>
+        /// <returns>Redirects to "Kontakt oss" at Kartverkets site</returns>
         public IActionResult KontaktOss()
         {
             return Redirect("https://www.kartverket.no/om-kartverket/kontakt-oss");
@@ -97,7 +75,9 @@ namespace Kartverket.Controllers
             return View();
         }
 
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterAreaChange(AreaChange areaModel, UserData userModel, IFormFile ImageUpload)
         {
             //Sanitizes GeoJson, Username and Kommuneinfo
@@ -180,6 +160,13 @@ namespace Kartverket.Controllers
             bool loggedIn = User.Identity.IsAuthenticated;//if the user is logged inn
             bool admin = User.IsInRole("Admin");//id the user is logged inn as an admin
 
+            if (description.Length > 1000) //Max 1000 characters in DB
+            {
+                // Store error message in ViewBag
+                ViewBag.ErrorMessage = "Beskrivelse kan maks være 1000 tegn!";
+                return View("RoadCorrection"); // Return to the same view with the model
+            }
+
             Geometry geometry;
             try
             {
@@ -219,7 +206,7 @@ namespace Kartverket.Controllers
             }
 
             //creates the information that will actually be fed into mariaDB
-            var newGeoChange = new Case
+            var newCase = new Case
             {
                 CaseNo = CaseNoNumber,
                 LocationInfo = geoJson,
@@ -228,14 +215,14 @@ namespace Kartverket.Controllers
                 User_UserID = userId, 
                 IssueNo = (int)issueNo, //it says it 'may be null', but its already been checked earlier in the code
                 Images = areaModel.ImageData,
-                KommuneNo = (int)kommuneNo, //^^^^
-                FylkesNo = (int)fylkesNo, //  ^^^^
+                KommuneNo = (int)kommuneNo, //  ^^^^
+                FylkesNo = (int)fylkesNo, //    ^^^^
                 StatusNo = 1 //default statusnumber, "Sendt"
 
             };
 
             // Save to the database
-            _context.Case.Add(newGeoChange);
+            _context.Case.Add(newCase);
             _context.SaveChanges();
             if (loggedIn)
             {

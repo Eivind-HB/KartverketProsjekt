@@ -21,3 +21,34 @@ function submitEditForm(event, caseNo) {
         }
     });
 }
+
+function assignCaseworker(caseNo) {
+    var caseworkerID = prompt("Enter Caseworker ID:");
+    if (caseworkerID) {
+        $.ajax({
+            type: 'POST',
+            url: '/Case/AssignCaseworker',
+            data: {
+                caseNo: caseNo,
+                caseworkerID: caseworkerID,
+                paidHours: 0
+            },
+            success: function (response) {
+                alert('Caseworker assigned successfully.');
+                // Update the UI with the new case assignment
+                var caseworkerCasesList = $('#caseworker-cases-' + caseworkerID);
+                if (caseworkerCasesList.length) {
+                    caseworkerCasesList.append('<li>' + caseNo + '</li>');
+                } else {
+                    // If the list doesn't exist, create it
+                    $('#caseworker-' + caseworkerID).append('<ul id="caseworker-cases-' + caseworkerID + '"><li>' + caseNo + '</li></ul>');
+                }
+                // Refresh the page to update the UI
+                location.reload();
+            },
+            error: function () {
+                alert('Error assigning caseworker.');
+            }
+        });
+    }
+}

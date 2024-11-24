@@ -7,7 +7,7 @@ Applikasjonen ble utviklet i VisualStudio 2022, med C# som hoved programmeringss
 Prosjektet bruker MVC design mønster, som deler den i tre forskjellige lag: Model, View og Controller.
 
 ## Forrutsetninger:
-Git, Docker, MariaDB
+Git, Visual Studio, Docker, MariaDB
 
 
 ## Installasjon:
@@ -20,4 +20,12 @@ Git, Docker, MariaDB
 
 
 til info: 
-Leaflet kartet er litt sta så noen ganger etter man har lagd et "point", firkant, polygon osv. så må man trykke på kartet ved siden av det du tegnet for at kommune- og fylkesinformasjonen skal hentes av API. Hvis du får en feil etter at du har opprettet en sak så kan det være en god ide å sjekke nederst på "rett i kartet"-siden at det er fyllt inn informasjon under "Kommune Informasjon". 
+Leaflet kartet er litt sta så noen ganger etter man har lagd et "point", firkant osv. så må man trykke på kartet ved siden av det du tegnet for at kommune- og fylkesinformasjonen skal hentes av API. Hvis du får en feil etter at du har opprettet en sak så kan det være en god ide å sjekke nederst på "rett i kartet"-siden at det er fyllt inn informasjon under "Kommune Informasjon". 
+
+## Admin bruker funksjon:
+Admin brukere er automatisk foret inn i MariaDB ved bruk av Dataseeder når du tar 'Update-Database' i PMG. Når man skal bruke disse admin brukerene, altså CaseWorker i DB-en, så må du bruke innloggingen som er automatisk satt inn i DB. MAN KAN IKKE REGISTRERE EN NY ADMIN I NETTLESEREN HVOR LOCALHOST VISES, disse kan bare lages i cmd docker MariaDB containeren. Det trengs ikke å lage nye instanser av disse for å prøve/teste prosjektet, da brukes en av de som er automatisk lagd. For å logge inn trenger man Mail og passord. Passordet til de automatisk skapte Admin brukerene er "default", men dette passordet må man endre ved andre innlogging på den samme admin brukeren. Mailene til de automatisk lagde admin brukerene er: admin@kartverket.no, erik.hansen@kartverket.no, maria.olsen@kartverket.no, anders.berg@kartverket.no, sofia.larsen@kartverket.no. "Admin" "Adminsen" er en generell admin bruker. 
+Logge seg inn som admin:
+1. Trykk på den grønne sirkelen øverst til høyre
+2. Trykk på "Logg inn"
+3. Trykk på den grå "Admin knappen"
+4. Fyll inn Email og Passord feltene, trykk deretter på "Logg inn"-knappen. For generell admin er det da "admin@kartverket.no" for Email og "default" for Passord.

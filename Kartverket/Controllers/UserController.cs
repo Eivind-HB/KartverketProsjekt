@@ -174,7 +174,17 @@ namespace Kartverket.Controllers
             return View(new User());
         }
 
-        //Profile 
+        /// <summary>
+        /// Retrieves, validates and find user in DB using userId, creates a UserUpdateModel
+        /// </summary>
+        /// <returns>
+        /// - If the user is authenticated and found: Returns the "Profile" view with the user's information.
+        /// - If user ID is invalid or not found: Redirects to the "LogInForm" action of the "Home" controller.
+        /// </returns>
+        /// <remarks>
+        /// [ValidateAntiForgeryToken], and [Authorize] attributes
+        /// protect against CSRF attacks, and restricts this to authenticated users only.
+        /// </remarks> 
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Profile()
@@ -191,7 +201,7 @@ namespace Kartverket.Controllers
                 return RedirectToAction("LogInForm", "Home");
             }
 
-            var viewModel = new UserUpdate
+            var viewModel = new UserUpdateModel
             {
                 UserID = user.UserID,
                 UserName = user.UserName,
@@ -201,10 +211,26 @@ namespace Kartverket.Controllers
             return View(viewModel);
         }
 
+
+        /// <summary>
+        /// Validates UserUpdateModel, retrieves user, checks if email is inuse, 
+        /// sanitizes input against XSS attacks, updates the user info 
+        /// </summary>
+        /// <param name="model">A UserUpdateModel object containing the updated user information.</param>
+        /// <returns>
+        /// - If successful: Redirects to the "Profile" view with a success message.
+        /// - If model is invalid: Returns the current view with the model.
+        /// - If user not found: Redirects to the "LogInForm" action of "Home" controller.
+        /// - If new email already exists: Returns the view with an error message.
+        /// </returns>
+        /// <remarks> 
+        /// [ValidateAntiForgeryToken], and [Authorize] attributes
+        /// protect against CSRF attacks, and restricts this to authenticated users only.
+        /// </remarks>
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Profile(UserUpdate model)
+        public async Task<IActionResult> Profile(UserUpdateModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -240,8 +266,7 @@ namespace Kartverket.Controllers
             TempData["Message"] = "Profilen har blitt oppdatert!";
             return RedirectToAction("Profile");
         }
-
-        //Password update
+                
         [Authorize]
         [HttpGet]
         public IActionResult ChangePassword()
@@ -249,10 +274,26 @@ namespace Kartverket.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Validates the PasswordUpdate Model.
+        /// Finds user with userID. Verifies their current password, if verified, hashes and updates the new password.
+        /// Saves changes to the database.
+        /// </summary>
+        /// <param name="model">A PasswordUpdateModel containing the current and new password.</param>
+        /// <returns>
+        /// - If successful: Redirects to the "Profile" action with a success message.
+        /// - If model is invalid: Returns the current view with the model.
+        /// - If user ID is invalid or user not found: Redirects to the "LogInForm" action of "Home" controller.
+        /// - If current password is incorrect: Returns the view with an error message.
+        /// </returns>
+        /// <remarks>        
+        /// [ValidateAntiForgeryToken], and [Authorize] attributes
+        /// protect against CSRF attacks, and restricts this to authenticated users only.
+        /// </remarks>
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePassword(PasswordUpdate model)
+        public async Task<IActionResult> ChangePassword(PasswordUpdateModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -285,7 +326,18 @@ namespace Kartverket.Controllers
             return RedirectToAction("Profile");
         }
 
-        //Delete user
+        /// <summary>
+        /// Retrives userID, finds and removes user from DB, signs user out of session. Gives a temp message of account deletion
+        /// </summary>
+        /// <returns>
+        /// - If successful: Redirects to the "Index" action of "Home" controller with a success message.
+        /// - If userID is invalid or not found: Redirects to the "LogInForm" action of "Home" controller.
+        /// - If user not found in database: Returns a NotFound result.
+        /// </returns>
+        /// <remarks>
+        /// [ValidateAntiForgeryToken], and [Authorize] attributes
+        /// protect against CSRF attacks, and restricts this to authenticated users only.
+        /// </remarks>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
