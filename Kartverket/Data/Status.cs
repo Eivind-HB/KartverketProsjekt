@@ -9,5 +9,6 @@ namespace Kartverket.Data
         [Key]
         public int StatusNo { get; set; }
         public string? StatusName { get; set; }
+        public ICollection<Case> Cases { get; set; }
     }
 }

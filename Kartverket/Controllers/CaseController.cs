@@ -35,13 +35,14 @@ namespace Kartverket.Controllers
 
             var userId = int.Parse(userIdClaim.Value);
 
-            var viewModel = new Kartverket.Models.AreaChangeOverviewModel
+            var viewModel = new Kartverket.Models.MultipleCasesModel
             {
-                Cases = _context.Case.Where(c => c.User_UserID == userId).ToList(),
-                Issues = _context.Issues.ToList(),
-                KommuneInfos = _context.KommuneInfo.ToList(),
-                FylkesInfos = _context.FylkesInfo.ToList(),
-                Status = _context.Status.ToList()
+                Cases = _context.Case
+                .Include(c => c.KommuneInfo) // Include KommuneInfo
+                .Include(c => c.Status) // Include KommuneInfo
+                .Include(c => c.FylkesInfo) // Include KommuneInfo
+                .Include(c => c.Issue) // Include KommuneInfo
+                .Where(c => c.User_UserID == userId).ToList()
             };
 
             return View(viewModel);
@@ -58,16 +59,16 @@ namespace Kartverket.Controllers
         {
             var viewModel = new Kartverket.Models.OverviewCaseworkerModel
             {
-                Cases = _context.Case.ToList(),
-                Issues = _context.Issues.ToList(),
-                KommuneInfos = _context.KommuneInfo.ToList(),
-                FylkesInfos = _context.FylkesInfo.ToList(),
+                Cases = _context.Case
+                .Include(c => c.KommuneInfo) // Include KommuneInfo
+                .Include(c => c.Status) // Include KommuneInfo
+                .Include(c => c.FylkesInfo) // Include KommuneInfo
+                .Include(c => c.Issue).ToList(), // Include KommuneInfo
+                AllIssues = _context.Issues.ToList(),
+                AllStatus = _context.Status.ToList(),
                 Users = _context.Users.ToList(),
                 CaseWorkers = _context.CaseWorkers.ToList(),
-                Employees = _context.KartverketEmployee.ToList(),
-                Status = _context.Status.ToList(),
-                CaseWorkerAssignment = _context.CaseWorkerAssignment.ToList()
-
+                Employees = _context.KartverketEmployee.ToList()
             };
             return View(viewModel);
         }
@@ -127,7 +128,7 @@ namespace Kartverket.Controllers
             if (caseItem != null)
             {
                 // Updates issue type, description, and status, then saves changes
-                caseItem.Issue_IssueNr = newIssueType;
+                caseItem.IssueNo = newIssueType;
                 caseItem.Description = sanitizedDescription;
                 caseItem.StatusNo = newStatus;
                 _context.SaveChanges();
@@ -157,23 +158,29 @@ namespace Kartverket.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CaseSearch(int CaseNo)
         {
-            var cases = await _context.Case.FirstOrDefaultAsync(c => c.CaseNo == CaseNo);
-            if (cases != null)
+            // Retrieve a single case with related data
+            var singleCase = await _context.Case
+                .Include(c => c.KommuneInfo)  // Include KommuneInfo
+                .Include(c => c.Status)        // Include Status
+                .Include(c => c.FylkesInfo)    // Include FylkesInfo
+                .Include(c => c.Issue)         // Include Issue
+                .FirstOrDefaultAsync(c => c.CaseNo == CaseNo); // Filter by CaseNo
+
+            if (singleCase != null)
             {
-                //SingleCaseModel
+                // Create the view model for a single case
                 var viewModel = new Kartverket.Models.SingleCaseModel
                 {
-                    Case = cases,
-                    Issues = _context.Issues.ToList(),
-                    KommuneInfos = _context.KommuneInfo.ToList(),
-                    FylkesInfos = _context.FylkesInfo.ToList(),
-                    Status = _context.Status.ToList()
+                    Case = singleCase // Assign the retrieved case directly
                 };
+
                 return View("CaseDetails", viewModel);
             }
+
             TempData["ErrorMessage"] = "Saken ble ikke funnet.";
             return View("NoProfileCaseSearch");
         }
+
 
         /// <summary>
         /// Checks database if case exists and if it has an image. Converts image to base64 string      

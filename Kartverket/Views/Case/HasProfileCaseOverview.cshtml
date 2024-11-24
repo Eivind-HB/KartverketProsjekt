@@ -1,4 +1,4 @@
-﻿@model Kartverket.Models.AreaChangeOverviewModel
+﻿@model Kartverket.Models.MultipleCasesModel
 @using System.Security.Claims
 
 @{
@@ -7,10 +7,10 @@
     int userId = userIdClaim != null ? int.Parse(userIdClaim.Value) : 0;
 
     // Uses dictionaries for faster access to information.
-    var issueDict = Model.Issues.ToDictionary(x => x.issueNo, x => x.IssueType);
-    var kommuneDict = Model.KommuneInfos.ToDictionary(x => x.KommuneInfoID, x => x.KommuneName);
-    var fylkeDict = Model.FylkesInfos.ToDictionary(x => x.FylkesNameID, x => x.FylkesName);
-    var statusDict = Model.Status.ToDictionary(x => x.StatusNo, x => x.StatusName);
+    //var issueDict = Model.Issues.ToDictionary(x => x.issueNo, x => x.IssueType);
+    //var kommuneDict = Model.KommuneInfos.ToDictionary(x => x.KommuneInfoID, x => x.KommuneName);
+    //var fylkeDict = Model.FylkesInfos.ToDictionary(x => x.FylkesNameID, x => x.FylkesName);
+    //var statusDict = Model.Status.ToDictionary(x => x.StatusNo, x => x.StatusName);
 }
 
 
@@ -19,19 +19,22 @@
 
     <div class="accordion-container">
 
-        <a class="nav-link text-dark" asp-controller="User" asp-action="Profile">Hei, @User.Identity.Name!, her er dine innmeldte saker</a>
+    @foreach (var individualCase in Model.Cases)
+    {        
+        // Bruk ordbøkene for rask oppslag av data
+            //var issueType = issueDict.ContainsKey(individualCase.IssueNo) ? issueDict[individualCase.IssueNo] : "Ukjent";
+            //var kommuneName = kommuneDict.ContainsKey(individualCase.KommuneNo) ? kommuneDict[individualCase.KommuneNo] : "Ukjent kommune";
+            var kommuneName = individualCase.KommuneInfo?.KommuneName ?? "Ukjent kommune"; // Accessing KommuneName directly
+            var fylkeName = individualCase.FylkesInfo?.FylkesName ?? "Ukjent fylke"; // Accessing KommuneName directly
+            var statusType = individualCase.Status?.StatusName ?? "Ukjent status"; // Accessing KommuneName directly
+            var issueType = individualCase.Issue?.IssueType ?? "Ukjent issue"; // Accessing KommuneName directly
 
-        @foreach (var individualCase in Model.Cases)
-        {        
-            // Bruk ordbøkene for rask oppslag av data
-            var issueType = issueDict.ContainsKey(individualCase.Issue_IssueNr) ? issueDict[individualCase.Issue_IssueNr] : "Ukjent";
-            var kommuneName = kommuneDict.ContainsKey(individualCase.KommuneNo) ? kommuneDict[individualCase.KommuneNo] : "Ukjent kommune";
-            var fylkeName = fylkeDict.ContainsKey(individualCase.FylkesNo) ? fylkeDict[individualCase.FylkesNo] : "Ukjent fylke";
-            var statusType = statusDict.ContainsKey(individualCase.StatusNo) ? statusDict[individualCase.StatusNo] : "Ukjent status";
-            bool commented = individualCase.CommentCaseWorker != null; //if the case has been commented
-            <!-- Individual Case Section -->
-            <div class="accordion-item">
-                <button class="accordion-header">
+            //var fylkeName = fylkeDict.ContainsKey(individualCase.FylkesNo) ? fylkeDict[individualCase.FylkesNo] : "Ukjent fylke";
+            //var statusType = statusDict.ContainsKey(individualCase.StatusNo) ? statusDict[individualCase.StatusNo] : "Ukjent status";
+
+        <!-- Individual Case Section -->
+        <div class="accordion-item">
+            <button class="accordion-header">
                     Sak ID: @individualCase.CaseNo
                     <span class="accordion-icon">▼</span>
                 </button>

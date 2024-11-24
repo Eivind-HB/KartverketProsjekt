@@ -213,7 +213,7 @@ namespace Kartverket.Controllers
                 Description = description,
                 Date = dateNow,
                 User_UserID = userId, 
-                Issue_IssueNr = (int)issueNo, //it says it 'may be null', but its already been checked earlier in the code
+                IssueNo = (int)issueNo, //it says it 'may be null', but its already been checked earlier in the code
                 Images = areaModel.ImageData,
                 KommuneNo = (int)kommuneNo, //  ^^^^
                 FylkesNo = (int)fylkesNo, //    ^^^^
@@ -228,14 +228,18 @@ namespace Kartverket.Controllers
             {
                 return RedirectToAction("HasProfileCaseOverview", "Case");
             }
-            //SingleCaseModel
+
+            // Retrieve a single case with related data
+            var singleCase = await _context.Case
+                .Include(c => c.KommuneInfo)  // Include KommuneInfo
+                .Include(c => c.Status)        // Include Status
+                .Include(c => c.FylkesInfo)    // Include FylkesInfo
+                .Include(c => c.Issue)         // Include Issue
+                .FirstOrDefaultAsync(c => c.CaseNo == newGeoChange.CaseNo); // Get the specific case
+                                                                            // Create the view model for a single case
             var viewModel = new Kartverket.Models.SingleCaseModel
             {
-                Case = newCase,
-                Issues = _context.Issues.ToList(),
-                KommuneInfos = _context.KommuneInfo.ToList(),
-                FylkesInfos = _context.FylkesInfo.ToList(),
-                Status = _context.Status.ToList()
+                Case = singleCase // Assign the retrieved case directly
             };
             return View("RegisteredCaseOverview", viewModel);
         }

@@ -45,7 +45,7 @@ namespace Kartverket.Test
                 Description = "a description",
                 Date = DateOnly.FromDateTime(DateTime.Now),
                 User_UserID = 1,
-                Issue_IssueNr = 1,
+                IssueNo = 1,
                 Images = null,
                 KommuneNo = 0312,
                 FylkesNo = 03
@@ -163,25 +163,16 @@ namespace Kartverket.Test
             var model = Assert.IsAssignableFrom<OverviewCaseworkerModel>(viewResult.Model);
 
             Assert.NotNull(model.Cases);
-            Assert.NotNull(model.Issues);
-            Assert.NotNull(model.KommuneInfos);
-            Assert.NotNull(model.FylkesInfos);
             Assert.NotNull(model.Users);
             Assert.NotNull(model.CaseWorkers);
             Assert.NotNull(model.Employees);
 
             Assert.NotEmpty(model.Cases);
-            Assert.NotEmpty(model.Issues);
-            Assert.NotEmpty(model.KommuneInfos);
-            Assert.NotEmpty(model.FylkesInfos);
             Assert.NotEmpty(model.Users);
             Assert.NotEmpty(model.CaseWorkers);
             Assert.NotEmpty(model.Employees);
 
             Assert.Contains(model.Cases, c => c == _caseTestValue);
-            Assert.Contains(model.Issues, i => i == _issueTestValue);
-            Assert.Contains(model.KommuneInfos, k => k == _kommuneInfoTestValue);
-            Assert.Contains(model.FylkesInfos, f => f == _fylkesInfoTestValue);
             Assert.Contains(model.Users, u => u == _userTestValue);
             Assert.Contains(model.CaseWorkers, cw => cw == _caseWorkerTestValue);
             Assert.Contains(model.Employees, e => e == _employeeTestValue);

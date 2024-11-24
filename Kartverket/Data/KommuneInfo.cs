@@ -10,5 +10,6 @@ namespace Kartverket.Data
         [Key]
         public int KommuneInfoID { get; set; }
         public string KommuneName { get; set; }
+        public ICollection<Case> Cases { get; set; }
     }
 }

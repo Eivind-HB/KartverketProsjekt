@@ -3,17 +3,10 @@
 @{
     ViewData["Title"] = "Ny Registrert Sak";
 
-    // Uses dictionaries for faster access to information.
-    var issueDict = Model.Issues.ToDictionary(x => x.issueNo, x => x.IssueType);
-    var kommuneDict = Model.KommuneInfos.ToDictionary(x => x.KommuneInfoID, x => x.KommuneName);
-    var fylkeDict = Model.FylkesInfos.ToDictionary(x => x.FylkesNameID, x => x.FylkesName);
-    var statusDict = Model.Status.ToDictionary(x => x.StatusNo, x => x.StatusName);
-
-    // Bruk ordbøkene for rask oppslag av data
-    var issueType = issueDict.ContainsKey(Model.Case.Issue_IssueNr) ? issueDict[Model.Case.Issue_IssueNr] : "Ukjent";
-    var kommuneName = kommuneDict.ContainsKey(Model.Case.KommuneNo) ? kommuneDict[Model.Case.KommuneNo] : "Ukjent kommune";
-    var fylkeName = fylkeDict.ContainsKey(Model.Case.FylkesNo) ? fylkeDict[Model.Case.FylkesNo] : "Ukjent fylke";
-    var statusType = statusDict.ContainsKey(Model.Case.StatusNo) ? statusDict[Model.Case.StatusNo] : "Ukjent status";
+    var kommuneName = Model.Case.KommuneInfo?.KommuneName ?? "Ukjent kommune"; // Accessing KommuneName directly
+    var fylkeName = Model.Case.FylkesInfo?.FylkesName ?? "Ukjent fylke"; // Accessing KommuneName directly
+    var statusType = Model.Case.Status?.StatusName ?? "Ukjent status"; // Accessing KommuneName directly
+    var issueType = Model.Case.Issue?.IssueType ?? "Ukjent issue"; // Accessing KommuneName directly
 
 }
 

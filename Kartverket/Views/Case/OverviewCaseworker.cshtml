@@ -37,11 +37,16 @@
                                 </form>
                                 @foreach (var change in Model.Cases)
                                 {
-                                    var issueType = @change.Issue_IssueNr.ToString();
-                                    var kommuneName = change.KommuneNo.ToString();
-                                    var fylkeName = change.FylkesNo.ToString();
-                                    var statusDict = Model.Status.ToDictionary(x => x.StatusNo, x => x.StatusName);
-                                    var statusType = statusDict.ContainsKey(change.StatusNo) ? statusDict[change.StatusNo] : "Ukjent status";           
+                                    var kommuneName = change.KommuneInfo?.KommuneName ?? "Ukjent kommune"; // Accessing KommuneName directly
+                                    var fylkeName = change.FylkesInfo?.FylkesName ?? "Ukjent fylke"; // Accessing KommuneName directly
+                                    var statusType = change.Status?.StatusName ?? "Ukjent status"; // Accessing KommuneName directly
+                                    var issueType = change.Issue?.IssueType ?? "Ukjent issue"; // Accessing KommuneName directly
+
+                                    //var issueType = @change.IssueNo.ToString();
+                                    //var kommuneName = change.KommuneNo.ToString();
+                                    //var fylkeName = change.FylkesNo.ToString();
+                                    //var statusDict = Model.Status.ToDictionary(x => x.StatusNo, x => x.StatusName);
+                                    //var statusType = statusDict.ContainsKey(change.StatusNo) ? statusDict[change.StatusNo] : "Ukjent status";           
                                     <!-- Individual Case Section -->
                                             
                                             <button class="accordion-container-header accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCase-@change.CaseNo" aria-expanded="false" aria-controls="collapseCase-@change.CaseNo">
@@ -51,30 +56,6 @@
                                             <div class="accordion">
                                                 <!-- Case and location tables in 1 accordion per case -->
                                                 <div class="issue-location-details">
-                                                    @foreach (var differentIssues in Model.Issues)
-                                                    {
-                                                        var CaseIssue = @change.Issue_IssueNr;
-                                                        if (CaseIssue == @differentIssues.issueNo)
-                                                        {
-                                                            issueType = @differentIssues.IssueType;
-                                                        }
-                                                    }
-                                                    @foreach (var differentKommuneNos in Model.KommuneInfos)
-                                                    {
-                                                        var CaseKommuneNo = @change.KommuneNo;
-                                                        if (CaseKommuneNo == @differentKommuneNos.KommuneInfoID)
-                                                        {
-                                                            kommuneName = @differentKommuneNos.KommuneName;
-                                                        }
-                                                    }
-                                                    @foreach (var differentFylkeNos in Model.FylkesInfos)
-                                                    {
-                                                        var CaseFylkeNo = @change.FylkesNo;
-                                                        if (CaseFylkeNo == @differentFylkeNos.FylkesNameID)
-                                                        {
-                                                            fylkeName = @differentFylkeNos.FylkesName;
-                                                        }
-                                                    }
                                                     <!-- Case detail table -->
                                                     <table class="table table-compact">
                                                         <thead>
@@ -132,9 +113,9 @@
                                                         <div>
                                                             <label for="newIssueType">Saks Type:</label>
                                                             <select name="newIssueType" class="form-control">
-                                                                @foreach (var issue in Model.Issues)
+                                                                @foreach (var issue in Model.AllIssues)
                                                                 {
-                                                                    if (issue.issueNo == change.Issue_IssueNr)
+                                                                    if (issue.issueNo == change.IssueNo)
                                                                     {
                                                                         <option value="@issue.issueNo" selected>@issue.IssueType</option>
                                                                     }
@@ -148,7 +129,7 @@
                                                         <div>
                                                             <label for="newStatus">Status:</label>
                                                             <select name="newStatus" class="form-control">
-                                                                @foreach (var status in Model.Status)
+                                                                @foreach (var status in Model.AllStatus)
                                                                 {
                                                                     if (status.StatusNo == change.StatusNo)
                                                                     {
