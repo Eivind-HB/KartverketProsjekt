@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace Kartverket.Controllers
 {
-  
+
     public class CaseController : Controller
     {
 
@@ -72,7 +72,7 @@ namespace Kartverket.Controllers
             };
             return View(viewModel);
         }
-                
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -84,20 +84,20 @@ namespace Kartverket.Controllers
                 if (caseToDelete == null)
                 {
                     TempData["Message"] = "Saken ble ikke funnet.";
-                    return RedirectToAction("HasProfileCaseOverview"); 
+                    return RedirectToAction("HasProfileCaseOverview");
                 }
 
                 _context.Case.Remove(caseToDelete);
                 _context.SaveChanges();
 
                 TempData["Message"] = "Saken ble slettet.";
-                return RedirectToAction("HasProfileCaseOverview"); 
+                return RedirectToAction("HasProfileCaseOverview");
             }
             catch (Exception ex)
             {
                 // Log eventual errors
                 TempData["Message"] = "Det oppsto en feil under sletting av saken.";
-                return RedirectToAction("HasProfileCaseOverview"); 
+                return RedirectToAction("HasProfileCaseOverview");
             }
         }
 
@@ -224,6 +224,43 @@ namespace Kartverket.Controllers
             }
 
             return Json(new { caseNo, caseworkerID });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditCaseUser(int caseId, int newIssueType, string newDescription)
+        {
+            if (ModelState.IsValid)
+            {
+                var caseToUpdate = await _context.Case.FindAsync(caseId);
+                if (caseToUpdate == null)
+                {
+                    return NotFound();
+                }
+
+                caseToUpdate.IssueNo = newIssueType;
+                caseToUpdate.Description = newDescription;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_context.Case.Any(e => e.CaseNo == caseId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return RedirectToAction(nameof(HasProfileCaseOverview));
+            }
+
+            return View(caseId);
         }
     }
 }
