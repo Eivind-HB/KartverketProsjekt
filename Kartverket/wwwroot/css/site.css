@@ -556,3 +556,16 @@ textarea {
     box-shadow: 0px 0px 0.5rem rgba(0, 0, 0, 0.1);
 }
 
+body.no-profile-case-search {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+body.no-profile-case-search .container {
+    flex: 1;
+}
+
+body.no-profile-case-search footer {
+    margin-top: auto;
+}
