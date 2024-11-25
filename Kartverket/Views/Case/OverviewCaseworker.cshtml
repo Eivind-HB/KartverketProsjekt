@@ -50,7 +50,7 @@
                                     //var statusType = statusDict.ContainsKey(change.StatusNo) ? statusDict[change.StatusNo] : "Ukjent status";           
                                     <!-- Individual Case Section -->
                                             
-                                            <button class="accordion-container-header accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCase-@change.CaseNo" aria-expanded="false" aria-controls="collapseCase-@change.CaseNo">
+                                            <button class="accordion-container-header accordion-button collapsed case-accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCase-@change.CaseNo" aria-expanded="false" aria-controls="collapseCase-@change.CaseNo">
                                                 Saks ID: @change.CaseNo
                                             </button>
                                         <div id="collapseCase-@change.CaseNo" class="accordion-collapse collapse" aria-labelledby="headingCase-@change.CaseNo" data-bs-parent="#casesAccordion">
@@ -183,6 +183,31 @@
                                                     
                                                 </div>
                                             </div>
+
+                                            <div>
+
+                                <button onclick="caseWorkerMap()">Vis kart</button>
+                                <!--Stores the case-data to be used in DrawnCase.js. Safer than html.raw -->
+                                <div class="case-data"
+                                     data-case-no="@change.CaseNo"
+                                     data-geojson="@change.LocationInfo">
+                                </div>
+
+                                            </div>
+
+
+                                            <div class="map-change-container">
+                                <div id="map" class="change-map-section"></div>
+                                             </div>
+
+                                            <!--HERE IS THE MAPPPPPPPPPPPPPPPPPPPPPPPPPPP
+                                                HERE IS THE MAPPPPPPPPPPPPPPPPPPPPPPPPPPP
+                                                HERE IS THE MAPPPPPPPPPPPPPPPPPPPPPPPPPPP
+                                                HERE IS THE MAPPPPPPPPPPPPPPPPPPPPPPPPPPP
+                                                HERE IS THE MAPPPPPPPPPPPPPPPPPPPPPPPPPPP
+                                                HERE IS THE MAPPPPPPPPPPPPPPPPPPPPPPPPPPP
+                                            --> 
+                                            
                                         </div>
                                 }
                             </div>
@@ -372,7 +397,7 @@
   
 @section Scripts {
     <script src="~/js/leafletMap.js"></script>
-    <script src="~/js/mapChanges.js"></script>
+    <script src="~/js/DrawnCase.js"></script>
     <script src="~/js/modal.js"></script>
     <script src="~/js/filter.js"></script>
     <script src="~/js/EditCaseAJAX.js"></script>
@@ -382,16 +407,68 @@
 
     <script src="~/js/EditForm.js"></script>
     <script src="~/js/Accordion.js"></script>
+    
 
     <script>
-        // initializesAccordion using function from Accordion.js
-        initializeAccordion('.accordion-container', map);
-        
-        document.addEventListener('DOMContentLoaded', function () {
-            const homeNavItem = document.querySelector('.nav-item a[href*="OverviewCaseworker"]');
-            if (homeNavItem) {
-                homeNavItem.parentElement.style.backgroundColor = 'var(--light-green)';
+
+        function caseWorkerMap() {
+            const map = initializeLeafletMap();
+            const caseDataElement = document.querySelector('.case-data');            
+            if (caseDataElement) {
+                singleDrawnChange(
+                    JSON.parse(caseDataElement.getAttribute('data-geojson')),
+                    caseDataElement.getAttribute('data-case-no')
+                );
             }
+        }
+        @* 
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.case-accordion-button').forEach(button => {
+                button.addEventListener('click', function () {
+                    const content = this.nextElementSibling;
+
+                    // Listen for the collapse event
+                    content.addEventListener('shown.bs.collapse', function () {
+                        const mapContainer = content.querySelector('.map-section');
+                        if (mapContainer && !mapContainer.mapInitialized) {
+                            const map = initializeLeafletMap(mapContainer.id);
+                            mapContainer.map = map;
+                            mapContainer.mapInitialized = true;
+                        } else if (mapContainer && mapContainer.map) {
+                            mapContainer.map.invalidateSize();
+                        }
+                    }, { once: true }); // Ensure this only runs once per open
+                });
+            });
         });
+        *@
+
+@*
+document.addEventListener('.case-accordion-button', function () {
+    const mapContainer = this.querySelector('.map-section');
+    console.log(`Initializing map on container with ID: ${mapContainer.id}`);
+    if (mapContainer && !mapContainer.mapInitialized) {
+        setTimeout(() => {
+            const map = initializeLeafletMap(mapContainer.id);
+            if (map) {
+                mapContainer.map = map;
+                mapContainer.mapInitialized = true;
+            }
+        }, 10000); // Adjust delay as needed
+    } else if (mapContainer && mapContainer.map) {
+        mapContainer.map.invalidateSize();
+    }
+}, { once: true });
+*@
+@*
+    const button = document.querySelector('.case-accordion-button')
+    button.addEventListener('click', function() {
+         const map = initializeLeafletMap(mapContainer.id);
+    console.log('Button clicked!');
+}); 
+*@
+
+        // initializesAccordion using function from Accordion.js
+        initializeAccordion('.accordion-container');      
     </script>
 }
