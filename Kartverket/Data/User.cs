@@ -22,9 +22,10 @@ namespace Kartverket.Data
         [Required(ErrorMessage = "Passord er påkrevd")]
         [StringLength(100, ErrorMessage = "Passordet må være mellom {2} og {1} tegn.", MinimumLength = 6)]
         public string Password { get; set; }
-
+        //explains the relation between caseworker and user, 1:1
         public int? CaseWorkerUser { get; set; }
         public CaseWorker CaseWorker { get; set; }
+        //explains the relation between User and Cases, 1:n
         public ICollection<Case> Cases { get; set; }
     }
 }

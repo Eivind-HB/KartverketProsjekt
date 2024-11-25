@@ -190,16 +190,19 @@ namespace Kartverket.Controllers
                     var caseWorkerIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
                     if (caseWorkerIdClaim != null)
                     {
+                        //the logged in users ID
                         var LoggedInCaseWorkersID = int.Parse(caseWorkerIdClaim.Value);
+                        //searches through Users and looks for a Users.CaseWorkeruser FK that is the same as the logged in usersID
                         var CaseWorkerInUser = await _context.Users
                             .FirstOrDefaultAsync(c => c.CaseWorkerUser == LoggedInCaseWorkersID);
+                        //if the CaseWorker has a Users profile that is connected to it
                         bool CaseWorkerHasUser = CaseWorkerInUser != null;
                         if (CaseWorkerHasUser)
                         {
+                            //set the userId in the case to the Users instance that is connected to the logged in user
                             userId = CaseWorkerInUser.UserID;
-                            //userId = LoggedInCaseWorkersID;
                         }
-                        else 
+                        else //if the logged in caseworker dosent already have a user instance connected to it then it creates one that is
                         {
                             //Random ID for the User which is made for the CaseWorker, it has a 1:1 relation
                             int AutoUserID = rnd.Next(100000, 999999);

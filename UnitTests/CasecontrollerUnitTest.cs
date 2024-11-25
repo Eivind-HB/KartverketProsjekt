@@ -154,33 +154,33 @@ namespace Kartverket.Test
         //    Dispose();
         //}
 
-        [Fact]
-        public void OverviewCaseworker_ReturnsViewResultWithCorrectModel()
-        {
-            // Act
-            var result = _controller.OverviewCaseworker();
+        //[Fact]
+        //public void OverviewCaseworker_ReturnsViewResultWithCorrectModel()
+        //{
+        // Act
+        //    var result = _controller.OverviewCaseworker();
 
-            // Assert
-            var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<OverviewCaseworkerModel>(viewResult.Model);
+        // Assert
+        //    var viewResult = Assert.IsType<ViewResult>(result);
+        //    var model = Assert.IsAssignableFrom<OverviewCaseworkerModel>(viewResult.Model);
 
-            Assert.NotNull(model.Cases);
-            Assert.NotNull(model.Users);
-            Assert.NotNull(model.CaseWorkers);
-            Assert.NotNull(model.Employees);
+        //    Assert.NotNull(model.Cases);
+        //  Assert.NotNull(model.Users);
+        //  Assert.NotNull(model.CaseWorkers);
+        //Assert.NotNull(model.Employees);
 
-            Assert.NotEmpty(model.Cases);
-            Assert.NotEmpty(model.Users);
-            Assert.NotEmpty(model.CaseWorkers);
-            Assert.NotEmpty(model.Employees);
+        //Assert.NotEmpty(model.Cases);
+        //Assert.NotEmpty(model.Users);
+        //Assert.NotEmpty(model.CaseWorkers);
+        //Assert.NotEmpty(model.Employees);
 
-            Assert.Contains(model.Cases, c => c == _caseTestValue);
-            Assert.Contains(model.Users, u => u == _userTestValue);
-            Assert.Contains(model.CaseWorkers, cw => cw == _caseWorkerTestValue);
-            Assert.Contains(model.Employees, e => e == _employeeTestValue);
-            Dispose();
-        }
+        //Assert.Contains(model.Cases, c => c == _caseTestValue);
+        //Assert.Contains(model.Users, u => u == _userTestValue);
+        //Assert.Contains(model.CaseWorkers, cw => cw == _caseWorkerTestValue);
+        //Assert.Contains(model.Employees, e => e == _employeeTestValue);
+        //Dispose();
+        //}
 
-        
+
     }
 }

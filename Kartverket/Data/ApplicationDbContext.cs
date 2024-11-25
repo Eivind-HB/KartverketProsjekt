@@ -30,12 +30,15 @@ namespace Kartverket.Data
 
             base.OnModelCreating(modelBuilder);
 
+            //explains that the FK isnt required, EFCore needs more than just ? in the class
             modelBuilder.Entity<CaseWorker>()
                 .HasOne(cw => cw.User)
                 .WithOne(u => u.CaseWorker)
                 .HasForeignKey<User>(u => u.CaseWorkerUser)
                 .IsRequired(false);
 
+
+            //which entities are loaded into dataseeder
             modelBuilder.Entity<KommuneInfo>()
                 .HasKey(k => k.KommuneInfoID);
 

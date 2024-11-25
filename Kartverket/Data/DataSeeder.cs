@@ -17,42 +17,49 @@ public class DataSeeder
         SeedUser(modelBuilder);
     }
 
+    //finds link and starts SeedFromCsv()
     private static void SeedKommuneInfo(ModelBuilder modelBuilder)
     {
         string path = Path.Combine("Data", "kommuneinfo.csv");
         SeedFromCsv<KommuneInfo>(modelBuilder, path, new KommuneInfoMap());
     }
 
+    //finds link and starts SeedFromCsv()
     private static void SeedFylkesInfo(ModelBuilder modelBuilder)
     {
         string path = Path.Combine("Data", "fylkeinfo.csv");
         SeedFromCsv<FylkesInfo>(modelBuilder, path, new FylkesInfoMap());
     }
 
+    //finds link and starts SeedFromCsv()
     private static void SeedIssue(ModelBuilder modelBuilder)
     {
         string path = Path.Combine("Data", "issue.csv");
         SeedFromCsv<Issue>(modelBuilder, path, new IssueMap());
     }
 
+    //finds link and starts SeedFromCsv()
     private static void SeedStatus(ModelBuilder modelBuilder)
     {
         string path = Path.Combine("Data", "Status.csv");
         SeedFromCsv<Status>(modelBuilder, path, new StatusMap());
     }
 
+    //finds link and starts SeedFromCsv()
     private static void SeedEmployees(ModelBuilder modelBuilder)
     {
         string path = Path.Combine("Data", "KartverketEmployee.csv");
         SeedFromCsv<KartverketEmployee>(modelBuilder, path, new KartverketEmployeeMap());
     }
 
+    //finds link and starts SeedFromCsv()
     private static void SeedCaseWorker(ModelBuilder modelBuilder)
     {
         string path = Path.Combine("Data", "CaseWorker.csv");
         SeedFromCsv<CaseWorker>(modelBuilder, path, new CaseWorkerMap());
     }
 
+    //finds link and starts SeedFromCsv()
     private static void SeedUser(ModelBuilder modelBuilder)
     {
         string path = Path.Combine("Data", "User.csv");
@@ -78,7 +85,9 @@ public class DataSeeder
         }
     }
 }
-
+/// <summary>
+/// The ClassMaps sets and explains the information that is gathered by dataseeder
+/// </summary>
 public class KommuneInfoMap : ClassMap<KommuneInfo>
 {
     public KommuneInfoMap()
