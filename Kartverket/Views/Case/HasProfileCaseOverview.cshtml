@@ -65,13 +65,6 @@
                                 @if (commented){<td>@individualCase.CommentCaseWorker</td>}
                                 <td>
                                         <span id="description-@individualCase.CaseNo"><textarea readonly="readonly">@individualCase.Description</textarea></span>
-
-                                    <!-- Edit Form -->
-                                        <form id="edit-form-@individualCase.CaseNo" asp-action="EditDescription" asp-controller="Case" method="post" style="display:none;">
-                                        @Html.AntiForgeryToken()
-                                            <input type="hidden" name="caseId" value="@individualCase.CaseNo" />
-                                            <textarea name="newDescription" class="form-control">@individualCase.Description</textarea>
-                                    </form>
                                 </td>                                  
                             </tr>
                         </tbody>
@@ -96,6 +89,27 @@
                             </tr>
                         </tbody>
                     </table>
+
+                    <!-- Edit Form -->
+                        <form id="edit-form-@individualCase.CaseNo" asp-action="EditCaseUser" asp-controller="Case" method="post" style="display:none;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="caseId" value="@individualCase.CaseNo" />
+                            <textarea name="newDescription" class="form-control">@individualCase.Description</textarea>
+                            <select class="form-control" name="IssueNo" required>
+                                <option value="" disabled selected>-- Velg type problem --</option>
+                                @foreach (var issue in Model.AllIssues)
+                                {
+                                    if (issue.issueNo == @individualCase.IssueNo)
+                                    {
+                                        <option value="@issue.issueNo" selected>@issue.IssueType</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@issue.issueNo">@issue.IssueType</option>
+                                    }
+                                }
+                            </select>
+                        </form>
 
                     <!-- Buttons for Edit and Delete -->
                     <div class="btn-group">
