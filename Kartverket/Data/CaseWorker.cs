@@ -15,6 +15,7 @@ namespace Kartverket.Data
         public bool MustChangePassword { get; set; } = false;
         [ForeignKey("KartverketEmployee_EmployeeID")]
         public KartverketEmployee KartverketEmployee { get; set; }
+        public User User { get; set; }
         public ICollection<CaseWorkerAssignment> CaseWorkerAssignments { get; set; }
     }
 }

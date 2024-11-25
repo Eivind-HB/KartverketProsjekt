@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kartverket.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241124235654_InitialCreate")]
+    [Migration("20241125012217_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -2428,6 +2428,9 @@ namespace Kartverket.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("UserID"));
 
+                    b.Property<int?>("CaseWorkerUser")
+                        .HasColumnType("int");
+
                     b.Property<string>("Mail")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -2444,6 +2447,9 @@ namespace Kartverket.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.HasKey("UserID");
+
+                    b.HasIndex("CaseWorkerUser")
+                        .IsUnique();
 
                     b.ToTable("Users");
 
@@ -2530,6 +2536,15 @@ namespace Kartverket.Migrations
                     b.Navigation("CaseWorkers");
                 });
 
+            modelBuilder.Entity("Kartverket.Data.User", b =>
+                {
+                    b.HasOne("Kartverket.Data.CaseWorker", "CaseWorker")
+                        .WithOne("User")
+                        .HasForeignKey("Kartverket.Data.User", "CaseWorkerUser");
+
+                    b.Navigation("CaseWorker");
+                });
+
             modelBuilder.Entity("Kartverket.Data.Case", b =>
                 {
                     b.Navigation("CaseWorkerAssignments");
@@ -2538,6 +2553,9 @@ namespace Kartverket.Migrations
             modelBuilder.Entity("Kartverket.Data.CaseWorker", b =>
                 {
                     b.Navigation("CaseWorkerAssignments");
+
+                    b.Navigation("User")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Kartverket.Data.FylkesInfo", b =>

@@ -190,8 +190,38 @@ namespace Kartverket.Controllers
                     var caseWorkerIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
                     if (caseWorkerIdClaim != null)
                     {
-                        //userId is set to the admins (caseworkers) userid
-                        userId = int.Parse(caseWorkerIdClaim.Value);
+                        var LoggedInCaseWorkersID = int.Parse(caseWorkerIdClaim.Value);
+                        var CaseWorkerInUser = await _context.Users
+                            .FirstOrDefaultAsync(c => c.CaseWorkerUser == LoggedInCaseWorkersID);
+                        bool CaseWorkerHasUser = CaseWorkerInUser != null;
+                        if (CaseWorkerHasUser)
+                        {
+                            userId = CaseWorkerInUser.UserID;
+                            //userId = LoggedInCaseWorkersID;
+                        }
+                        else 
+                        {
+                            //Random ID for the User which is made for the CaseWorker, it has a 1:1 relation
+                            int AutoUserID = rnd.Next(100000, 999999);
+                            //finds the individual caseworker, that is logged in, in the DB
+                            var CaseWorker = await _context.CaseWorkers
+                                .FirstOrDefaultAsync(c => c.CaseWorkerID == LoggedInCaseWorkersID);
+                            //then finds them in KartverketEmployee
+                            var KartverketEmployeeInfo = await _context.KartverketEmployee
+                                .FirstOrDefaultAsync(c => c.EmployeeID == CaseWorker.KartverketEmployee_EmployeeID);
+                            var newUserForCaseWorker = new User
+                            {
+                                UserID = AutoUserID,
+                                UserName = KartverketEmployeeInfo.Firstname,
+                                Mail = KartverketEmployeeInfo.Mail,
+                                Password = "default",
+                                CaseWorkerUser = LoggedInCaseWorkersID
+                            };
+                            //CaseWorkerSearch.CaseWorkerUser = AutoUserID;
+
+                            _context.Users.Add(newUserForCaseWorker);
+                            await _context.SaveChangesAsync();
+                            }
                     }
                 }
                 else //if the user isnt an admin...

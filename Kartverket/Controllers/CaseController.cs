@@ -66,9 +66,11 @@ namespace Kartverket.Controllers
                 .Include(c => c.Issue).ToList(), // Include KommuneInfo
                 AllIssues = _context.Issues.ToList(),
                 AllStatus = _context.Status.ToList(),
-                Users = _context.Users.ToList(),
+                Users = _context.Users
+                .Include(c => c.Cases).ToList(),
                 CaseWorkers = _context.CaseWorkers.ToList(),
-                Employees = _context.KartverketEmployee.ToList()
+                Employees = _context.KartverketEmployee
+                .Include(c => c.CaseWorkers).ToList()
             };
             return View(viewModel);
         }

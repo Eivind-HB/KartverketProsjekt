@@ -118,25 +118,6 @@ namespace Kartverket.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    UserID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Mail = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Password = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.UserID);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "CaseWorkers",
                 columns: table => new
                 {
@@ -156,6 +137,31 @@ namespace Kartverket.Migrations
                         principalTable: "KartverketEmployee",
                         principalColumn: "EmployeeID",
                         onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    UserID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UserName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Mail = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Password = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CaseWorkerUser = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.UserID);
+                    table.ForeignKey(
+                        name: "FK_Users_CaseWorkers_CaseWorkerUser",
+                        column: x => x.CaseWorkerUser,
+                        principalTable: "CaseWorkers",
+                        principalColumn: "CaseWorkerID");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -682,8 +688,8 @@ namespace Kartverket.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "UserID", "Mail", "Password", "UserName" },
-                values: new object[] { 404, "NoUser@kartverket.no", "password", "NoUserProfile" });
+                columns: new[] { "UserID", "CaseWorkerUser", "Mail", "Password", "UserName" },
+                values: new object[] { 404, null, "NoUser@kartverket.no", "password", "NoUserProfile" });
 
             migrationBuilder.InsertData(
                 table: "CaseWorkers",
@@ -731,6 +737,12 @@ namespace Kartverket.Migrations
                 name: "IX_CaseWorkers_KartverketEmployee_EmployeeID",
                 table: "CaseWorkers",
                 column: "KartverketEmployee_EmployeeID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_CaseWorkerUser",
+                table: "Users",
+                column: "CaseWorkerUser",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -743,13 +755,7 @@ namespace Kartverket.Migrations
                 name: "CaseWorkerAssignment");
 
             migrationBuilder.DropTable(
-                name: "CaseWorkers");
-
-            migrationBuilder.DropTable(
                 name: "Case");
-
-            migrationBuilder.DropTable(
-                name: "KartverketEmployee");
 
             migrationBuilder.DropTable(
                 name: "FylkesInfo");
@@ -765,6 +771,12 @@ namespace Kartverket.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "CaseWorkers");
+
+            migrationBuilder.DropTable(
+                name: "KartverketEmployee");
         }
     }
 }

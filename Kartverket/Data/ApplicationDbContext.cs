@@ -26,7 +26,15 @@ namespace Kartverket.Data
         public DbSet<CaseWorkerAssignment> CaseWorkerAssignment { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
+
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<CaseWorker>()
+                .HasOne(cw => cw.User)
+                .WithOne(u => u.CaseWorker)
+                .HasForeignKey<User>(u => u.CaseWorkerUser)
+                .IsRequired(false);
 
             modelBuilder.Entity<KommuneInfo>()
                 .HasKey(k => k.KommuneInfoID);
