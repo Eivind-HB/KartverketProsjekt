@@ -8,6 +8,10 @@ using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Globalization;
 
 namespace Kartverket.Controllers
 {
@@ -15,7 +19,8 @@ namespace Kartverket.Controllers
     {
         private readonly ILogger<HomeController> _logger;        
         private readonly ApplicationDbContext _context;
-        
+        private readonly IHttpClientFactory _httpClientFactory;
+
 
         //In-memory lagring av lister
         private static List<AreaChange> areaChanges = new List<AreaChange>();
@@ -24,10 +29,11 @@ namespace Kartverket.Controllers
         private static readonly List<User> Usersinfo = new List<User>();
 
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
-            _context = context;            
+            _context = context;
+            _httpClientFactory = httpClientFactory;
         }
 
         public IActionResult Index()
@@ -206,20 +212,38 @@ namespace Kartverket.Controllers
                 }
             }
 
+            string address = "Address not found"; // Default address
+            try
+            {
+                var coordinates = ExtractCoordinates(areaModel.GeoJson);
+                if (coordinates != null)
+                {
+                    address = await FetchAddressFromApiAsync(coordinates.Value.Lat, coordinates.Value.Lon);
+                }
+                else
+                {
+                    address = "Adresse ikke funnet";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching address: {ex.Message}");
+            }
+
             //creates the information that will actually be fed into mariaDB
             var newCase = new Case
             {
                 CaseNo = CaseNoNumber,
-                LocationInfo = geoJson,
-                Description = description,
-                Date = dateNow,
-                User_UserID = userId, 
-                IssueNo = (int)issueNo, //it says it 'may be null', but its already been checked earlier in the code
+                LocationInfo = areaModel.GeoJson,
+                Address = address, // Save the address in the database
+                Description = areaModel.Description,
+                Date = DateOnly.FromDateTime(DateTime.Now),
+                User_UserID = userId,
+                IssueNo = (int)issueNo,
                 Images = areaModel.ImageData,
-                KommuneNo = (int)kommuneNo, //  ^^^^
-                FylkesNo = (int)fylkesNo, //    ^^^^
-                StatusNo = 1 //default statusnumber, "Sendt"
-
+                KommuneNo = (int)areaModel.Kommunenummer,
+                FylkesNo = (int)areaModel.Fylkesnummer,
+                StatusNo = 1 // Default status: "Sendt"
             };
 
             // Save to the database
@@ -250,5 +274,72 @@ namespace Kartverket.Controllers
         {
             return View(positions);
         }
+
+        private async Task<string> FetchAddressFromApiAsync(double latitude, double longitude)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.DefaultRequestHeaders.Add("User-Agent", "KartverketProject (your.email@kartverket.com)");
+
+            // Ensure culture-invariant coordinate formatting
+            var url = $"https://nominatim.openstreetmap.org/reverse?format=json&lat={latitude.ToString(CultureInfo.InvariantCulture)}&lon={longitude.ToString(CultureInfo.InvariantCulture)}";
+            Console.WriteLine($"Request URL: {url}");
+
+            try
+            {
+                var response = await client.GetAsync(url);
+                var content = await response.Content.ReadAsStringAsync();
+
+                Console.WriteLine($"Response Code: {response.StatusCode}");
+                Console.WriteLine($"Response Content: {content}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    try
+                    {
+                        var jsonResponse = JsonConvert.DeserializeObject<dynamic>(content);
+                        return jsonResponse?.display_name?.ToString() ?? "Address not found";
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error parsing JSON response: {ex.Message}");
+                        return "Address parsing failed";
+                    }
+                }
+
+                Console.WriteLine($"API error: {response.StatusCode}");
+                return "Address not available";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception occurred: {ex.Message}");
+                return "Failed to fetch address";
+            }
+        }
+
+
+
+        private (double Lat, double Lon)? ExtractCoordinates(string geoJson)
+        {
+            try
+            {
+                var geoJsonObj = JsonConvert.DeserializeObject<dynamic>(geoJson);
+                var coordinates = geoJsonObj?.geometry?.coordinates;
+                if (coordinates != null && coordinates.Count >= 2)
+                {
+                    // Ensure culture-invariant parsing
+                    double latitude = Convert.ToDouble(coordinates[1], CultureInfo.InvariantCulture);
+                    double longitude = Convert.ToDouble(coordinates[0], CultureInfo.InvariantCulture);
+                    return (latitude, longitude);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging purposes
+                Console.WriteLine($"Error extracting coordinates: {ex.Message}");
+            }
+            return null;
+        }
+
+
     }
 }

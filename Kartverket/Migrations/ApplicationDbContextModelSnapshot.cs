@@ -53,6 +53,9 @@ namespace Kartverket.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CaseNo"));
 
+                    b.Property<string>("Address")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("CommentCaseWorker")
                         .HasMaxLength(1000)
                         .HasColumnType("varchar(1000)");

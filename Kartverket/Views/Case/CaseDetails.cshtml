@@ -23,7 +23,7 @@
                     <th>Saks Type</th>
                     <th>Sak Status</th>
                     <th>Saks Dato</th>
-                    <th>GeoJson</th>
+                    <th>Addresse</th>
                     <th>Beskrivelse</th>
                     @if (commented){<th>Kommentar fra Kartverket</th>}
                     <th>Fylke</th>
@@ -36,7 +36,7 @@
                     <td>@issueType</td>
                     <td>@statusType</td>
                     <td>@Model.Case.Date</td>
-                    <td>@Model.Case.LocationInfo</td>
+                    <td>@Model.Case.Address</td>
                     <td><textarea readonly="readonly">@Model.Case.Description</textarea></td>
                     @if (commented){<th>Kartverkets Kommentar</th>}
                     <td>@fylkeName</td>

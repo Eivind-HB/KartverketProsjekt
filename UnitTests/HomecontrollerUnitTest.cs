@@ -34,7 +34,11 @@ namespace Kartverket.Test
             var mockTempDataDictionary = Substitute.For<ITempDataDictionary>();
             mockTempDataDictionaryFactory.GetTempData(Arg.Any<HttpContext>()).Returns(mockTempDataDictionary);
 
-            var controller = new HomeController(mockLogger, dbContext);
+            // Create a mock for IHttpClientFactory
+            var mockHttpClientFactory = Substitute.For<IHttpClientFactory>();
+
+            // Pass the mockHttpClientFactory to the HomeController
+            var controller = new HomeController(mockLogger, dbContext, mockHttpClientFactory);
             controller.TempData = mockTempDataDictionary;
 
             var httpContext = Substitute.For<HttpContext>();
@@ -72,7 +76,9 @@ namespace Kartverket.Test
             var mockTempDataDictionary = Substitute.For<ITempDataDictionary>();
             mockTempDataDictionaryFactory.GetTempData(Arg.Any<HttpContext>()).Returns(mockTempDataDictionary);
 
-            var controller = new HomeController(mockLogger, dbContext);
+            var mockHttpClientFactory = Substitute.For<IHttpClientFactory>(); // Mock IHttpClientFactory
+
+            var controller = new HomeController(mockLogger, dbContext, mockHttpClientFactory);
             controller.TempData = mockTempDataDictionary;
 
             var httpContext = Substitute.For<HttpContext>();
@@ -110,7 +116,9 @@ namespace Kartverket.Test
             var mockTempDataDictionary = Substitute.For<ITempDataDictionary>();
             mockTempDataDictionaryFactory.GetTempData(Arg.Any<HttpContext>()).Returns(mockTempDataDictionary);
 
-            var controller = new HomeController(mockLogger, dbContext);
+            var mockHttpClientFactory = Substitute.For<IHttpClientFactory>(); // Mock IHttpClientFactory
+
+            var controller = new HomeController(mockLogger, dbContext, mockHttpClientFactory);
             controller.TempData = mockTempDataDictionary;
 
             // Act
@@ -129,7 +137,9 @@ namespace Kartverket.Test
                 .UseInMemoryDatabase(databaseName: "TestDatabase")
                 .Options;
             var dbContext = new ApplicationDbContext(options);
-            var controller = new HomeController(mockLogger, dbContext);
+            var mockHttpClientFactory = Substitute.For<IHttpClientFactory>(); // Mock IHttpClientFactory
+
+            var controller = new HomeController(mockLogger, dbContext, mockHttpClientFactory);
 
             // Act
             var result = controller.OmOss();
@@ -149,7 +159,9 @@ namespace Kartverket.Test
                 .UseInMemoryDatabase(databaseName: "TestDatabase")
                 .Options;
             var mockDbContext = new ApplicationDbContext(options);
-            var controller = new HomeController(mockLogger, mockDbContext);
+            var mockHttpClientFactory = Substitute.For<IHttpClientFactory>(); // Mock IHttpClientFactory
+
+            var controller = new HomeController(mockLogger, mockDbContext, mockHttpClientFactory);
 
             // Act
             var result = controller.KontaktOss();
@@ -169,7 +181,9 @@ namespace Kartverket.Test
                 .UseInMemoryDatabase(databaseName: "TestDatabase")
                 .Options;
             var dbContext = new ApplicationDbContext(options);
-            var controller = new HomeController(mockLogger, dbContext);
+            var mockHttpClientFactory = Substitute.For<IHttpClientFactory>(); // Mock IHttpClientFactory
+
+            var controller = new HomeController(mockLogger, dbContext, mockHttpClientFactory);
 
             // Act
             var result = controller.RoadCorrection();
@@ -187,7 +201,9 @@ namespace Kartverket.Test
                 .UseInMemoryDatabase(databaseName: "TestDatabase")
                 .Options;
             var dbContext = new ApplicationDbContext(options);
-            var controller = new HomeController(mockLogger, dbContext);
+            var mockHttpClientFactory = Substitute.For<IHttpClientFactory>(); // Mock IHttpClientFactory
+
+            var controller = new HomeController(mockLogger, dbContext, mockHttpClientFactory);
 
             // Act
             var result = controller.RegisterAreaChange();
@@ -205,7 +221,9 @@ namespace Kartverket.Test
                 .UseInMemoryDatabase(databaseName: "TestDatabase")
                 .Options;
             var dbContext = new ApplicationDbContext(options);
-            var controller = new HomeController(mockLogger, dbContext);
+            var mockHttpClientFactory = Substitute.For<IHttpClientFactory>(); // Mock IHttpClientFactory
+
+            var controller = new HomeController(mockLogger, dbContext, mockHttpClientFactory);
 
             // Act
             var result = controller.RegisteredCaseOverview();
@@ -228,7 +246,9 @@ namespace Kartverket.Test
 
             using var context = new ApplicationDbContext(options);
             var mockLogger = new Mock<ILogger<HomeController>>();
-            var controller = new HomeController(mockLogger.Object, context);
+            var mockHttpClientFactory = Substitute.For<IHttpClientFactory>(); // Mock IHttpClientFactory
+
+            var controller = new HomeController(mockLogger.Object, context, mockHttpClientFactory);
 
             // Set up user authentication
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
@@ -292,7 +312,9 @@ namespace Kartverket.Test
                 .Options;
 
             var dbContext = new ApplicationDbContext(options);
-            var controller = new HomeController(mockLogger, dbContext);
+            var mockHttpClientFactory = Substitute.For<IHttpClientFactory>(); // Mock IHttpClientFactory
+
+            var controller = new HomeController(mockLogger, dbContext, mockHttpClientFactory);
 
             // Create an AreaChange model with valid GeoJson but invalid Kommune name
             var areaModel = new AreaChange
@@ -327,7 +349,9 @@ namespace Kartverket.Test
                 .Options;
 
             var dbContext = new ApplicationDbContext(options);
-            var controller = new HomeController(mockLogger, dbContext);
+            var mockHttpClientFactory = Substitute.For<IHttpClientFactory>(); // Mock IHttpClientFactory
+
+            var controller = new HomeController(mockLogger, dbContext, mockHttpClientFactory);
 
             // Create an AreaChange model with invalid GeoJson (empty string)
             var areaModel = new AreaChange

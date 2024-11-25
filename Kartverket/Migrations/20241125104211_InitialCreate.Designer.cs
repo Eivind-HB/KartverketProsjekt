@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kartverket.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241124192136_InitialCreate")]
+    [Migration("20241125104211_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -55,6 +55,9 @@ namespace Kartverket.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CaseNo"));
+
+                    b.Property<string>("Address")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("CommentCaseWorker")
                         .HasMaxLength(1000)

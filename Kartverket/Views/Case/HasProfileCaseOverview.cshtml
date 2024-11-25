@@ -50,7 +50,7 @@
                                     <th>Type Sak</th>
                                     <th>Sak status</th>
                                     <th>Innmeldings dato</th>
-                                    <th>GeoJson</th>
+                                    <th>Addresse</th>
                                     @if (commented){<th>Kartverkets Kommentar</th>}
                                     <th>Beskrivelse</th>
                                 </tr>
@@ -61,7 +61,7 @@
                                 <td>@issueType</td>
                                 <td>@statusType</td>
                                 <td>@individualCase.Date</td>
-                                <td>@individualCase.LocationInfo</td>
+                                <td>@individualCase.Address</td>
                                 @if (commented){<td>@individualCase.CommentCaseWorker</td>}
                                 <td>
                                         <span id="description-@individualCase.CaseNo"><textarea readonly="readonly">@individualCase.Description</textarea></span>

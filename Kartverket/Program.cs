@@ -32,6 +32,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     .EnableSensitiveDataLogging()
     );
 
+void ConfigureServices(IServiceCollection services)
+{
+    services.AddHttpClient();  // Registers IHttpClientFactory
+
+    services.AddControllersWithViews();  // Register MVC controllers
+}
+
 
 // Register PasswordHasher<User>
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();

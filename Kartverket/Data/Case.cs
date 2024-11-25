@@ -13,6 +13,8 @@ namespace Kartverket.Data
         public int CaseNo { get; set; }
         [Required]
         public string LocationInfo { get; set; }
+        public string? Address { get; set; }
+
         [StringLength(1000, ErrorMessage = "Beskrivelsen kan ikke være lengre enn 1000 tegn.")]
         public string? Description { get; set; }
         [StringLength(1000, ErrorMessage = "Kommentaren kan ikke være lengre enn 1000 tegn.")]

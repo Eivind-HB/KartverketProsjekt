@@ -4,16 +4,19 @@ using Kartverket.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 
 namespace Kartverket.Controllers
 {
-  
+
     public class CaseController : Controller
     {
 
         private readonly ApplicationDbContext _context;
-
 
         public CaseController(ApplicationDbContext context)
         {
@@ -72,7 +75,7 @@ namespace Kartverket.Controllers
             };
             return View(viewModel);
         }
-                
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -84,20 +87,20 @@ namespace Kartverket.Controllers
                 if (caseToDelete == null)
                 {
                     TempData["Message"] = "Saken ble ikke funnet.";
-                    return RedirectToAction("HasProfileCaseOverview"); 
+                    return RedirectToAction("HasProfileCaseOverview");
                 }
 
                 _context.Case.Remove(caseToDelete);
                 _context.SaveChanges();
 
                 TempData["Message"] = "Saken ble slettet.";
-                return RedirectToAction("HasProfileCaseOverview"); 
+                return RedirectToAction("HasProfileCaseOverview");
             }
             catch (Exception ex)
             {
                 // Log eventual errors
                 TempData["Message"] = "Det oppsto en feil under sletting av saken.";
-                return RedirectToAction("HasProfileCaseOverview"); 
+                return RedirectToAction("HasProfileCaseOverview");
             }
         }
 
@@ -227,5 +230,8 @@ namespace Kartverket.Controllers
 
             return Json(new { caseNo, caseworkerID });
         }
+
+
+       
     }
 }
