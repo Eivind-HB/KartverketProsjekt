@@ -44,11 +44,12 @@ namespace Kartverket.Test
                 LocationInfo = "{'type':'Point','coordinates':[10.0, 60.0]}",
                 Description = "a description",
                 Date = DateOnly.FromDateTime(DateTime.Now),
-                User_UserID = 1,
+                User_UserID = 100000,
                 IssueNo = 1,
                 Images = null,
                 KommuneNo = 0312,
-                FylkesNo = 03
+                FylkesNo = 03,
+                CommentCaseWorker = "halla"
             };
             _issueTestValue = new Issue {
                 issueNo = 1,
@@ -69,7 +70,8 @@ namespace Kartverket.Test
                 UserID = 100000,
                 UserName = "Erik",
                 Mail = "Erik@gmail.com",
-                Password = "test123"
+                Password = "test123",
+                CaseWorkerUser = null
             };
             _caseWorkerTestValue = new CaseWorker {
                 CaseWorkerID = 1,

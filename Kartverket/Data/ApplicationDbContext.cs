@@ -16,8 +16,6 @@ namespace Kartverket.Data
 
         public DbSet<Case> Case { get; set; }
         public DbSet<CaseWorker> CaseWorkers { get; set; }
-        public DbSet<CaseWorkerList> CaseWorkerLists { get; set; }
-        public DbSet<CaseWorkerOverview> CaseWorkerOverviews { get; set; }
         public DbSet<Issue> Issues { get; set; }
         public DbSet<Status> Status { get; set; }
         public DbSet<User> Users { get; set; }
@@ -28,7 +26,15 @@ namespace Kartverket.Data
         public DbSet<CaseWorkerAssignment> CaseWorkerAssignment { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
+
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<CaseWorker>()
+                .HasOne(cw => cw.User)
+                .WithOne(u => u.CaseWorker)
+                .HasForeignKey<User>(u => u.CaseWorkerUser)
+                .IsRequired(false);
 
             modelBuilder.Entity<KommuneInfo>()
                 .HasKey(k => k.KommuneInfoID);
@@ -44,6 +50,9 @@ namespace Kartverket.Data
 
             modelBuilder.Entity<KartverketEmployee>()
                 .HasKey(f => f.EmployeeID);
+
+            modelBuilder.Entity<User>()
+                .HasKey(f => f.UserID);
 
             modelBuilder.Entity<CaseWorker>()
                 .HasKey(f => f.CaseWorkerID);

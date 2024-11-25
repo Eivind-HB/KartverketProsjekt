@@ -1,4 +1,5 @@
-﻿using MySqlConnector;
+﻿using AngleSharp.Dom;
+using MySqlConnector;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection.Metadata;
 
@@ -21,5 +22,9 @@ namespace Kartverket.Data
         [Required(ErrorMessage = "Passord er påkrevd")]
         [StringLength(100, ErrorMessage = "Passordet må være mellom {2} og {1} tegn.", MinimumLength = 6)]
         public string Password { get; set; }
+
+        public int? CaseWorkerUser { get; set; }
+        public CaseWorker CaseWorker { get; set; }
+        public ICollection<Case> Cases { get; set; }
     }
 }
