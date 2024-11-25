@@ -2,6 +2,25 @@
 
 @{
     ViewData["Title"] = "Søk på Saker";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <style>
+        body.no-profile-case-search {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+            body.no-profile-case-search .container {
+                flex: 1;
+            }
+
+            body.no-profile-case-search footer {
+                margin-top: auto;
+            }
+    </style>
 }
 
 <div class="page-container">

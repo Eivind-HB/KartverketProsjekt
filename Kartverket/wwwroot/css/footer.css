@@ -3,9 +3,23 @@ footer {
     border-top: 8px solid var(--primary-green);
     background: var(--gray-bg);
     padding: 35px 0 18px;
-    position: relative; /* Change from relative to absolute */
+    position: relative;
     bottom: 0;
     left: 0;
     width: 100%; /* Ensure the footer spans the entire width */
     margin-top: 18px; /* Reset any top margin */
 }
+
+body.no-profile-case-search {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+    body.no-profile-case-search .container {
+        flex: 1;
+    }
+
+    body.no-profile-case-search footer {
+        margin-top: auto;
+    }

@@ -14,6 +14,7 @@ function submitEditForm(event, caseNo) {
             $('#issueType-' + caseNo).text(response.newIssueTypeName);
             $('#status-' + caseNo).text(response.newStatusName);
             $('#description-' + caseNo).text(response.newDescription);
+            $('#comment-' + caseNo).text(response.newComment); // Update the comment field
             toggleEditForm(caseNo);
         },
         error: function () {

@@ -120,25 +120,27 @@ namespace Kartverket.Controllers
         /// </remarks>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditCase(int caseId, int newIssueType, int newStatus, string newDescription)
+        public IActionResult EditCase(int caseId, int newIssueType, int newStatus, string newDescription, string newComment)
         {
             var sanitizer = new HtmlSanitizer();
             var sanitizedDescription = sanitizer.Sanitize(newDescription);
+            var sanitizedComment = sanitizer.Sanitize(newComment);
 
             // Fetches case based on CaseNo
             var caseItem = _context.Case.FirstOrDefault(c => c.CaseNo == caseId);
             if (caseItem != null)
             {
-                // Updates issue type, description, and status, then saves changes
+                // Updates issue type, description, status, and comment, then saves changes
                 caseItem.IssueNo = newIssueType;
                 caseItem.Description = sanitizedDescription;
                 caseItem.StatusNo = newStatus;
+                caseItem.CommentCaseWorker = sanitizedComment;
                 _context.SaveChanges();
 
                 var issueTypeName = _context.Issues.FirstOrDefault(i => i.issueNo == newIssueType)?.IssueType;
                 var statusName = _context.Status.FirstOrDefault(s => s.StatusNo == newStatus)?.StatusName;
 
-                return Json(new { caseId, newIssueTypeName = issueTypeName, newDescription = sanitizedDescription, newStatusName = statusName });
+                return Json(new { caseId, newIssueTypeName = issueTypeName, newDescription = sanitizedDescription, newStatusName = statusName, newComment = sanitizedComment });
             }
 
             return BadRequest();

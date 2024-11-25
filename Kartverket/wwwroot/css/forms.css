@@ -81,3 +81,14 @@
     margin: 0 auto; 
     width: fit-content; 
 }
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+    .form-row .form-group {
+        flex: 1;
+        min-width: 200px;
+    }

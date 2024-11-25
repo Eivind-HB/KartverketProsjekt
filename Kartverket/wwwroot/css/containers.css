@@ -45,3 +45,30 @@
     border-radius: 0.5rem;
     margin-top: 0.2rem;
 }
+
+/* Additional styles for the logout page */
+.logout-container {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: var (--shadow-md);
+    margin: 6.3rem auto;
+    max-width: 600px;
+}
+
+    .logout-container h2 {
+        color: var(--primary-green);
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .logout-container p {
+        color: #333;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .logout-container .btn {
+        margin: 0.5rem;
+    }
