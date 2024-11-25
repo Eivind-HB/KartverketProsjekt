@@ -46,8 +46,11 @@ namespace Kartverket.Controllers
             {
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.Mail == model.Mail);
                 //default userID is 404, default user is used for userless 'Case' registrations
-                //bool UserNotDefaultUser = user.UserID != 404;
-                if (user != null)// && UserNotDefaultUser)
+                bool UserNotDefaultUser = user.UserID != 404;
+                //User isnt an automatically made user for caseworker, those users are not inloggable
+                //due to caseworkers not needing a regular userpage
+                bool UserNotCaseworkerUser = user.CaseWorkerUser == null;
+                if (user != null && UserNotDefaultUser && UserNotCaseworkerUser)
                 {
                     var result = _passwordHasher.VerifyHashedPassword(user, user.Password, model.Password);
                     if (result == PasswordVerificationResult.Success)
@@ -120,7 +123,9 @@ namespace Kartverket.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UDOverview(User model)
         {
-            if (ModelState.IsValid)
+            bool MailInModel = model.Mail != null;
+            bool PasswordInModel = model.Password != null;
+            if (MailInModel && PasswordInModel)
             {
                 var sanitizer = new HtmlSanitizer();
                 model.Mail = sanitizer.Sanitize(model.Mail);
@@ -141,7 +146,8 @@ namespace Kartverket.Controllers
                     UserID = AutoUserID,
                     UserName = model.UserName,
                     Mail = model.Mail,
-                    Password = _passwordHasher.HashPassword(null, model.Password)
+                    Password = _passwordHasher.HashPassword(null, model.Password),
+                    CaseWorkerUser = null
                 };
                 _context.Users.Add(newUser);
                 await _context.SaveChangesAsync();
