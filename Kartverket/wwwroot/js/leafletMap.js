@@ -1,4 +1,13 @@
-﻿function initializeLeafletMap() {
+﻿function initializeLeafletMap(containerId = 'map') {
+    // Get the map container element by ID sets default to 'map'
+    const container = document.getElementById(containerId);
+
+    // Check if the container exists
+    if (!container) {
+        console.error('Map container not found:', containerId);
+        return null;
+    }
+
     // Makes the map, showcasing Kristiansand. Uses code from https://leafletjs.com/
     var map = L.map('map').setView([58.1467, 7.996], 9.6);
 
