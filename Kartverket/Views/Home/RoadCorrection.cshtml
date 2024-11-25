@@ -87,34 +87,18 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/leafletMap.js"></script>
-    <script src="~/js/leafletDraw.js"></script>
+    <script src="~/js/leafletMap.js"></script>  
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 
 
-    <script>
-        // Assuming 'map' is already initialized in leafletMap.js
+    <script>        
+       const map = initializeLeafletMap();
+       initializeLeafletDraw(map);
+       addLocateButton(map);
 
-        // Add locate control under the layers control
-        L.control.locate({
-            position: 'topleft',
-            strings: {
-                title: "Finn min posisjon"
-            },
-            locateOptions: {
-                enableHighAccuracy: true,
-                maxZoom: 18
-            },
-            flyTo: true,
-            onLocationFound: function (e) {
-                this._map.setView(e.latlng, 18, {
-                    animate: true,
-                    duration: 1
-                });
-            }
-        }).addTo(map);
 
-        // Existing functionality for map click event
+
+    // Finds the coordinates on the point clicked when activate map click event        
         map.on('click', function (e) {
             var latitude = e.latlng.lat;
             var longitude = e.latlng.lng;
@@ -122,7 +106,7 @@
             getKommuneInfo(latitude, longitude);
         });
 
-// Function to send coordinates to the API
+     // Function to send coordinates to the API
         function getKommuneInfo(latitude, longitude) {
             fetch(`/api/map/GetKommuneInfo?latitude=${latitude}&longitude=${longitude}`)
                 .then(response => {

@@ -148,15 +148,13 @@
     
 
     <script>
+        const map = initializeLeafletMap();
         multipleDrawnChanges();
         
         // initializesAccordion using function from Accordion.js
         initializeAccordion('.accordion-container', map);
         
-         // Highlights current views navItem when DOM is loaded. 
-        document.addEventListener('DOMContentLoaded', function () {
-            highlightNavItem('HasProfileCaseOverview');
-        });
+       
 
         
 
