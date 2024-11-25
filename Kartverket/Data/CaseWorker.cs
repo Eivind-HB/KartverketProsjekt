@@ -1,5 +1,6 @@
 ﻿using MySqlConnector;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection.Metadata;
 
 namespace Kartverket.Data
@@ -12,5 +13,8 @@ namespace Kartverket.Data
         public string Password { get; set; }
 
         public bool MustChangePassword { get; set; } = false;
+        [ForeignKey("KartverketEmployee_EmployeeID")]
+        public KartverketEmployee KartverketEmployee { get; set; }
+        public ICollection<CaseWorkerAssignment> CaseWorkerAssignments { get; set; }
     }
 }

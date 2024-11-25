@@ -45,7 +45,9 @@ namespace Kartverket.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.Mail == model.Mail);
-                if (user != null)
+                //default userID is 404, default user is used for userless 'Case' registrations
+                bool UserNotDefaultUser = user.UserID == 404;
+                if (user != null && UserNotDefaultUser)
                 {
                     var result = _passwordHasher.VerifyHashedPassword(user, user.Password, model.Password);
                     if (result == PasswordVerificationResult.Success)

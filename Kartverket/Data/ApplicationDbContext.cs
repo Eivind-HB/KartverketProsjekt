@@ -16,8 +16,6 @@ namespace Kartverket.Data
 
         public DbSet<Case> Case { get; set; }
         public DbSet<CaseWorker> CaseWorkers { get; set; }
-        public DbSet<CaseWorkerList> CaseWorkerLists { get; set; }
-        public DbSet<CaseWorkerOverview> CaseWorkerOverviews { get; set; }
         public DbSet<Issue> Issues { get; set; }
         public DbSet<Status> Status { get; set; }
         public DbSet<User> Users { get; set; }
@@ -44,6 +42,9 @@ namespace Kartverket.Data
 
             modelBuilder.Entity<KartverketEmployee>()
                 .HasKey(f => f.EmployeeID);
+
+            modelBuilder.Entity<User>()
+                .HasKey(f => f.UserID);
 
             modelBuilder.Entity<CaseWorker>()
                 .HasKey(f => f.CaseWorkerID);

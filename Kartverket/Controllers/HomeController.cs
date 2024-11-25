@@ -181,8 +181,8 @@ namespace Kartverket.Controllers
                 return BadRequest("Invalid GeoJson format.");
             }
 
-            //random id nummer for users without login
-            var userId = rnd.Next(100000, 999999);
+            //id number for users without login
+            var userId = 404;
             if (loggedIn)
             {
                 if (admin)

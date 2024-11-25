@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kartverket.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241124192136_InitialCreate")]
+    [Migration("20241124235654_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -100,6 +100,8 @@ namespace Kartverket.Migrations
 
                     b.HasIndex("StatusNo");
 
+                    b.HasIndex("User_UserID");
+
                     b.ToTable("Case");
                 });
 
@@ -122,6 +124,8 @@ namespace Kartverket.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("CaseWorkerID");
+
+                    b.HasIndex("KartverketEmployee_EmployeeID");
 
                     b.ToTable("CaseWorkers");
 
@@ -166,10 +170,7 @@ namespace Kartverket.Migrations
             modelBuilder.Entity("Kartverket.Data.CaseWorkerAssignment", b =>
                 {
                     b.Property<int>("CaseNo")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CaseNo"));
 
                     b.Property<int>("CaseWorkerID")
                         .HasColumnType("int");
@@ -177,48 +178,11 @@ namespace Kartverket.Migrations
                     b.Property<decimal>("PaidHours")
                         .HasColumnType("decimal(65,30)");
 
-                    b.HasKey("CaseNo");
+                    b.HasKey("CaseNo", "CaseWorkerID");
+
+                    b.HasIndex("CaseWorkerID");
 
                     b.ToTable("CaseWorkerAssignment");
-                });
-
-            modelBuilder.Entity("Kartverket.Data.CaseWorkerList", b =>
-                {
-                    b.Property<int>("Case_CaseNo")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Case_CaseNo"));
-
-                    b.Property<string>("AmountWorkers")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("CaseWorkerOverview_CaseWorkerID")
-                        .HasColumnType("int");
-
-                    b.HasKey("Case_CaseNo");
-
-                    b.ToTable("CaseWorkerLists");
-                });
-
-            modelBuilder.Entity("Kartverket.Data.CaseWorkerOverview", b =>
-                {
-                    b.Property<int>("CaseWorkerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CaseWorkerId"));
-
-                    b.Property<int>("CaseWorkerList_Case_CaseNo")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PaidHours")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("CaseWorkerId");
-
-                    b.ToTable("CaseWorkerOverviews");
                 });
 
             modelBuilder.Entity("Kartverket.Data.FylkesInfo", b =>
@@ -2482,6 +2446,15 @@ namespace Kartverket.Migrations
                     b.HasKey("UserID");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            UserID = 404,
+                            Mail = "NoUser@kartverket.no",
+                            Password = "password",
+                            UserName = "NoUserProfile"
+                        });
                 });
 
             modelBuilder.Entity("Kartverket.Data.Case", b =>
@@ -2510,6 +2483,12 @@ namespace Kartverket.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Kartverket.Data.User", "User")
+                        .WithMany("Cases")
+                        .HasForeignKey("User_UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("FylkesInfo");
 
                     b.Navigation("Issue");
@@ -2517,6 +2496,48 @@ namespace Kartverket.Migrations
                     b.Navigation("KommuneInfo");
 
                     b.Navigation("Status");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Kartverket.Data.CaseWorker", b =>
+                {
+                    b.HasOne("Kartverket.Data.KartverketEmployee", "KartverketEmployee")
+                        .WithMany("CaseWorkers")
+                        .HasForeignKey("KartverketEmployee_EmployeeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("KartverketEmployee");
+                });
+
+            modelBuilder.Entity("Kartverket.Data.CaseWorkerAssignment", b =>
+                {
+                    b.HasOne("Kartverket.Data.Case", "Case")
+                        .WithMany("CaseWorkerAssignments")
+                        .HasForeignKey("CaseNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Kartverket.Data.CaseWorker", "CaseWorkers")
+                        .WithMany("CaseWorkerAssignments")
+                        .HasForeignKey("CaseWorkerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Case");
+
+                    b.Navigation("CaseWorkers");
+                });
+
+            modelBuilder.Entity("Kartverket.Data.Case", b =>
+                {
+                    b.Navigation("CaseWorkerAssignments");
+                });
+
+            modelBuilder.Entity("Kartverket.Data.CaseWorker", b =>
+                {
+                    b.Navigation("CaseWorkerAssignments");
                 });
 
             modelBuilder.Entity("Kartverket.Data.FylkesInfo", b =>
@@ -2529,12 +2550,22 @@ namespace Kartverket.Migrations
                     b.Navigation("Cases");
                 });
 
+            modelBuilder.Entity("Kartverket.Data.KartverketEmployee", b =>
+                {
+                    b.Navigation("CaseWorkers");
+                });
+
             modelBuilder.Entity("Kartverket.Data.KommuneInfo", b =>
                 {
                     b.Navigation("Cases");
                 });
 
             modelBuilder.Entity("Kartverket.Data.Status", b =>
+                {
+                    b.Navigation("Cases");
+                });
+
+            modelBuilder.Entity("Kartverket.Data.User", b =>
                 {
                     b.Navigation("Cases");
                 });
