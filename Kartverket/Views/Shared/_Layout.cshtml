@@ -27,8 +27,9 @@
     <link rel="stylesheet" href="~/Kartverket.styles.css" asp-append-version="true" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+    @RenderSection("Styles", required: false)
 </head>
-<body class="custom-background">
+<body class="custom-background @(string.Equals(ViewData["Title"] as string, "Søk på Saker") ? "no-profile-case-search" : "")">
     <header class="NavHeader">
         <nav class="navbar navbar-expand-lg navbar-light bg-white mb-0">
             <div class="container-fluid">

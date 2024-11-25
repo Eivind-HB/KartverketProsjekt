@@ -128,6 +128,24 @@ namespace Kartverket.Test
 
         }
 
+        public void UserTestCsvFileReading()
+        {
+            // Arrange
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string projectDirectory = Directory.GetParent(baseDirectory).Parent.Parent.Parent.Parent.FullName;
+            string csvFilePath = Path.Combine(projectDirectory, "Kartverket", "Data", "User.csv");
+
+            // Act
+            var records = ReadCsvFile<UserTestRecord>(csvFilePath);
+
+            // Assert
+            Assert.NotNull(records);
+            Assert.Single(records); // Checking that the CSV file has 4 records
+            Assert.Equal(404, records.First().UserID);
+            Assert.Equal("NoUserProfile", records.First().UserName);
+
+        }
+
 
 
         private IEnumerable<T> ReadCsvFile<T>(string filePath)
@@ -179,5 +197,11 @@ namespace Kartverket.Test
     {
         public int issueNo { get; set; }
         public string IssueType { get; set; }
+    }
+
+    public class UserTestRecord
+    {
+        public int UserID { get; set; }
+        public string UserName { get; set; }
     }
 }

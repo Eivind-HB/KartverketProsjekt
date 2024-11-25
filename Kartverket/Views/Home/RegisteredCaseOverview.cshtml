@@ -78,11 +78,12 @@
     <script src="~/js/modal.js"></script>
     <script src="~/js/DrawnCase.js"></script>
 
-    
+    <script>
+        const map = initializeLeafletMap();
+
     @* This function fetches GeoJSON and caseNo from the case model using DOM
        The function is from DrawnCase.js
-    *@
-        <script>
+    *@  
              // Fetches case data from DOM
         const caseDataElement = document.querySelector('.case-data');
 
@@ -94,11 +95,9 @@
             );
         }
 
+          // Highlights current views navItem when DOM is loaded. 
         document.addEventListener('DOMContentLoaded', function () {
-                const homeNavItem = document.querySelector('.nav-item a[href*="HasProfileCaseOverview"]');
-                if (homeNavItem) {
-                    homeNavItem.parentElement.style.backgroundColor = 'var(--light-green)';
-                }
-            });
+            highlightNavItem('HasProfileCaseOverview');
+        });
         </script>
 }

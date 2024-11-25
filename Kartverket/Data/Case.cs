@@ -37,6 +37,9 @@ namespace Kartverket.Data
         public KommuneInfo KommuneInfo { get; set; }
         [ForeignKey("IssueNo")]
         public Issue Issue {  get; set; }
+        [ForeignKey("User_UserID")]
+        public User User { get; set; }
+        public ICollection<CaseWorkerAssignment> CaseWorkerAssignments { get; set; }
 
 
     }

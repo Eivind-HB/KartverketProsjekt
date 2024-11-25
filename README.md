@@ -3,6 +3,8 @@ Dette er Gruppe 13s prosjekt for semester 3. av IT og Informasjons systemer. Pro
 Innmeldingene blir gjort via en Leaflet og LeafletDraw kart GUI. Som gir lokasjons data via GeoJSON og kommune informasjon med bruk av Kartverkets egen KommuneInfoAPI. 
 Bruker gir informasjon om innsendte feil via en tekst beskrivelse, en dropdown meny for type feilmelding og valgfritt bilde av problemet.
 
+github link: https://github.com/Eivind-HB/KartverketProsjekt
+
 Applikasjonen ble utviklet i VisualStudio 2022, med C# som hoved programmeringsspråk, men også med JavaScript ettersom Leaflet er basert på dette. Applikasjonen kjører i Docker via docker-compose. Prosjektet er også koblet til MariaDB database som lagrer data ved bruk av Entity Framework. Det gjør at både prosjektet og databasen kjører i samme container i Docker, noe som er essensielt for at data blir lagret på riktig måte. En Migration tabell er også oprettet for å holde databasen oppdatert med ny data.
 Prosjektet bruker MVC design mønster, som deler den i tre forskjellige lag: Model, View og Controller.
 

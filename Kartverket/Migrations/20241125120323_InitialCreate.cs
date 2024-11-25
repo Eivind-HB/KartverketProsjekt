@@ -35,70 +35,6 @@ namespace Kartverket.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "CaseWorkerAssignment",
-                columns: table => new
-                {
-                    CaseNo = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    CaseWorkerID = table.Column<int>(type: "int", nullable: false),
-                    PaidHours = table.Column<decimal>(type: "decimal(65,30)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CaseWorkerAssignment", x => x.CaseNo);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "CaseWorkerLists",
-                columns: table => new
-                {
-                    Case_CaseNo = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    AmountWorkers = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    CaseWorkerOverview_CaseWorkerID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CaseWorkerLists", x => x.Case_CaseNo);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "CaseWorkerOverviews",
-                columns: table => new
-                {
-                    CaseWorkerId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    CaseWorkerList_Case_CaseNo = table.Column<int>(type: "int", nullable: false),
-                    PaidHours = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CaseWorkerOverviews", x => x.CaseWorkerId);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "CaseWorkers",
-                columns: table => new
-                {
-                    CaseWorkerID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    KartverketEmployee_EmployeeID = table.Column<int>(type: "int", nullable: false),
-                    Password = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    MustChangePassword = table.Column<bool>(type: "tinyint(1)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CaseWorkers", x => x.CaseWorkerID);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "FylkesInfo",
                 columns: table => new
                 {
@@ -182,6 +118,29 @@ namespace Kartverket.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "CaseWorkers",
+                columns: table => new
+                {
+                    CaseWorkerID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    KartverketEmployee_EmployeeID = table.Column<int>(type: "int", nullable: false),
+                    Password = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    MustChangePassword = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CaseWorkers", x => x.CaseWorkerID);
+                    table.ForeignKey(
+                        name: "FK_CaseWorkers_KartverketEmployee_KartverketEmployee_EmployeeID",
+                        column: x => x.KartverketEmployee_EmployeeID,
+                        principalTable: "KartverketEmployee",
+                        principalColumn: "EmployeeID",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -192,11 +151,17 @@ namespace Kartverket.Migrations
                     Mail = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Password = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CaseWorkerUser = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.UserID);
+                    table.ForeignKey(
+                        name: "FK_Users_CaseWorkers_CaseWorkerUser",
+                        column: x => x.CaseWorkerUser,
+                        principalTable: "CaseWorkers",
+                        principalColumn: "CaseWorkerID");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -247,20 +212,40 @@ namespace Kartverket.Migrations
                         principalTable: "Status",
                         principalColumn: "StatusNo",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Case_Users_User_UserID",
+                        column: x => x.User_UserID,
+                        principalTable: "Users",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
-            migrationBuilder.InsertData(
-                table: "CaseWorkers",
-                columns: new[] { "CaseWorkerID", "KartverketEmployee_EmployeeID", "MustChangePassword", "Password" },
-                values: new object[,]
+            migrationBuilder.CreateTable(
+                name: "CaseWorkerAssignment",
+                columns: table => new
                 {
-                    { 1, 1, false, "default" },
-                    { 201, 101, false, "default" },
-                    { 202, 102, false, "default" },
-                    { 203, 103, false, "default" },
-                    { 204, 104, false, "default" }
-                });
+                    CaseNo = table.Column<int>(type: "int", nullable: false),
+                    CaseWorkerID = table.Column<int>(type: "int", nullable: false),
+                    PaidHours = table.Column<decimal>(type: "decimal(65,30)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CaseWorkerAssignment", x => new { x.CaseNo, x.CaseWorkerID });
+                    table.ForeignKey(
+                        name: "FK_CaseWorkerAssignment_CaseWorkers_CaseWorkerID",
+                        column: x => x.CaseWorkerID,
+                        principalTable: "CaseWorkers",
+                        principalColumn: "CaseWorkerID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CaseWorkerAssignment_Case_CaseNo",
+                        column: x => x.CaseNo,
+                        principalTable: "Case",
+                        principalColumn: "CaseNo",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.InsertData(
                 table: "FylkesInfo",
@@ -701,6 +686,23 @@ namespace Kartverket.Migrations
                     { 5, "Avvist" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserID", "CaseWorkerUser", "Mail", "Password", "UserName" },
+                values: new object[] { 404, null, "NoUser@kartverket.no", "password", "NoUserProfile" });
+
+            migrationBuilder.InsertData(
+                table: "CaseWorkers",
+                columns: new[] { "CaseWorkerID", "KartverketEmployee_EmployeeID", "MustChangePassword", "Password" },
+                values: new object[,]
+                {
+                    { 1, 1, false, "default" },
+                    { 201, 101, false, "default" },
+                    { 202, 102, false, "default" },
+                    { 203, 103, false, "default" },
+                    { 204, 104, false, "default" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Case_FylkesNo",
                 table: "Case",
@@ -720,6 +722,27 @@ namespace Kartverket.Migrations
                 name: "IX_Case_StatusNo",
                 table: "Case",
                 column: "StatusNo");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Case_User_UserID",
+                table: "Case",
+                column: "User_UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CaseWorkerAssignment_CaseWorkerID",
+                table: "CaseWorkerAssignment",
+                column: "CaseWorkerID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CaseWorkers_KartverketEmployee_EmployeeID",
+                table: "CaseWorkers",
+                column: "KartverketEmployee_EmployeeID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_CaseWorkerUser",
+                table: "Users",
+                column: "CaseWorkerUser",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -729,25 +752,10 @@ namespace Kartverket.Migrations
                 name: "Admin");
 
             migrationBuilder.DropTable(
-                name: "Case");
-
-            migrationBuilder.DropTable(
                 name: "CaseWorkerAssignment");
 
             migrationBuilder.DropTable(
-                name: "CaseWorkerLists");
-
-            migrationBuilder.DropTable(
-                name: "CaseWorkerOverviews");
-
-            migrationBuilder.DropTable(
-                name: "CaseWorkers");
-
-            migrationBuilder.DropTable(
-                name: "KartverketEmployee");
-
-            migrationBuilder.DropTable(
-                name: "Users");
+                name: "Case");
 
             migrationBuilder.DropTable(
                 name: "FylkesInfo");
@@ -760,6 +768,15 @@ namespace Kartverket.Migrations
 
             migrationBuilder.DropTable(
                 name: "Status");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "CaseWorkers");
+
+            migrationBuilder.DropTable(
+                name: "KartverketEmployee");
         }
     }
 }
