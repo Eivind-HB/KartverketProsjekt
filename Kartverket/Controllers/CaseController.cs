@@ -42,7 +42,9 @@ namespace Kartverket.Controllers
                 .Include(c => c.Status) // Include KommuneInfo
                 .Include(c => c.FylkesInfo) // Include KommuneInfo
                 .Include(c => c.Issue) // Include KommuneInfo
-                .Where(c => c.User_UserID == userId).ToList()
+                .Where(c => c.User_UserID == userId).ToList(),
+                AllIssues = _context.Issues.ToList()
+
             };
 
             return View(viewModel);
@@ -226,6 +228,35 @@ namespace Kartverket.Controllers
             }
 
             return Json(new { caseNo, caseworkerID });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditCaseUser(int caseId, string newDescription, int IssueNo)
+        {
+            // Check if the IssueNo exists in the Issues table
+            var issueExists = _context.Issues.Any(i => i.issueNo == IssueNo);
+            if (!issueExists)
+            {
+                // Return an error message if the IssueNo does not exist
+                TempData["Message"] = "Ugyldig IssueNo.";
+                return RedirectToAction("HasProfileCaseOverview");
+            }
+
+            // Fetch the case from the database
+            var caseToUpdate = _context.Case.Find(caseId);
+            if (caseToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            // Update the case properties
+            caseToUpdate.Description = newDescription;
+            caseToUpdate.IssueNo = IssueNo;
+
+            // Save the changes to the database
+            _context.SaveChanges();
+
+            return RedirectToAction("HasProfileCaseOverview");
         }
     }
 }
