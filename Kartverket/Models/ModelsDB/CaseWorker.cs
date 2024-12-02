@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection.Metadata;
 
-namespace Kartverket.Data
+namespace Kartverket.Models.ModelsDB
 {
     public class CaseWorker
     {

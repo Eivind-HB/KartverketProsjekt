@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Ganss.Xss;
 using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
-using Kartverket.Models;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ViewFeatures; // For TempData
@@ -24,6 +23,8 @@ using Microsoft.AspNetCore.Routing; // For RouteData
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Kartverket.Models.ModelsDB;
+using Kartverket.Models.UserAndAdmin;
 
 
 namespace Kartverket.Test

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Kartverket.Data
+namespace Kartverket.Models.ModelsDB
 {
     public class Case
     {
@@ -36,7 +36,7 @@ namespace Kartverket.Data
         [ForeignKey("KommuneNo")]
         public KommuneInfo KommuneInfo { get; set; }
         [ForeignKey("IssueNo")]
-        public Issue Issue {  get; set; }
+        public Issue Issue { get; set; }
         [ForeignKey("User_UserID")]
         public User User { get; set; }
         public ICollection<CaseWorkerAssignment> CaseWorkerAssignments { get; set; }

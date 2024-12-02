@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Kartverket.Models;
+using Kartverket.Models.ModelsDB;
+using Kartverket.Models.Logins;
+using Kartverket.Models.UserAndAdmin;
 
 namespace Kartverket.Controllers
 {

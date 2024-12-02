@@ -14,6 +14,7 @@ using Moq;
 using System.ComponentModel.DataAnnotations;
 using NetTopologySuite.Geometries;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Kartverket.Models.ModelsDB;
 
 namespace Kartverket.Test
 {

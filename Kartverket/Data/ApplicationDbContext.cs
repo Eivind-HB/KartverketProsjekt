@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Kartverket.Models;
 using System.Reflection.Emit;
+using Kartverket.Models.ModelsDB;
 
 namespace Kartverket.Data
 {

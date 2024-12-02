@@ -1,6 +1,9 @@
 ﻿using Kartverket.Controllers;
 using Kartverket.Data;
 using Kartverket.Models;
+using Kartverket.Models.Logins;
+using Kartverket.Models.ModelsDB;
+using Kartverket.Models.UserAndAdmin;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;

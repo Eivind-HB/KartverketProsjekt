@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration;
-using Kartverket.Data;
+using Kartverket.Models.ModelsDB;
 using Microsoft.EntityFrameworkCore;
 
 public class DataSeeder
@@ -20,49 +20,49 @@ public class DataSeeder
     //finds link and starts SeedFromCsv()
     private static void SeedKommuneInfo(ModelBuilder modelBuilder)
     {
-        string path = Path.Combine("Data", "kommuneinfo.csv");
+        string path = Path.Combine("wwwroot", "csv", "kommuneinfo.csv");
         SeedFromCsv<KommuneInfo>(modelBuilder, path, new KommuneInfoMap());
     }
 
     //finds link and starts SeedFromCsv()
     private static void SeedFylkesInfo(ModelBuilder modelBuilder)
     {
-        string path = Path.Combine("Data", "fylkeinfo.csv");
+        string path = Path.Combine("wwwroot", "csv", "fylkeinfo.csv");
         SeedFromCsv<FylkesInfo>(modelBuilder, path, new FylkesInfoMap());
     }
 
     //finds link and starts SeedFromCsv()
     private static void SeedIssue(ModelBuilder modelBuilder)
     {
-        string path = Path.Combine("Data", "issue.csv");
+        string path = Path.Combine("wwwroot", "csv", "issue.csv");
         SeedFromCsv<Issue>(modelBuilder, path, new IssueMap());
     }
 
     //finds link and starts SeedFromCsv()
     private static void SeedStatus(ModelBuilder modelBuilder)
     {
-        string path = Path.Combine("Data", "Status.csv");
+        string path = Path.Combine("wwwroot", "csv", "Status.csv");
         SeedFromCsv<Status>(modelBuilder, path, new StatusMap());
     }
 
     //finds link and starts SeedFromCsv()
     private static void SeedEmployees(ModelBuilder modelBuilder)
     {
-        string path = Path.Combine("Data", "KartverketEmployee.csv");
+        string path = Path.Combine("wwwroot", "csv", "KartverketEmployee.csv");
         SeedFromCsv<KartverketEmployee>(modelBuilder, path, new KartverketEmployeeMap());
     }
 
     //finds link and starts SeedFromCsv()
     private static void SeedCaseWorker(ModelBuilder modelBuilder)
     {
-        string path = Path.Combine("Data", "CaseWorker.csv");
+        string path = Path.Combine("wwwroot", "csv", "CaseWorker.csv");
         SeedFromCsv<CaseWorker>(modelBuilder, path, new CaseWorkerMap());
     }
 
     //finds link and starts SeedFromCsv()
     private static void SeedUser(ModelBuilder modelBuilder)
     {
-        string path = Path.Combine("Data", "User.csv");
+        string path = Path.Combine("wwwroot", "csv", "User.csv");
         SeedFromCsv<User>(modelBuilder, path, new UserMap());
     }
 

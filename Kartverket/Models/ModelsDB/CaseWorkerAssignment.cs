@@ -5,14 +5,14 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection.Metadata;
 
-namespace Kartverket.Data
+namespace Kartverket.Models.ModelsDB
 {
     [PrimaryKey(nameof(CaseNo), nameof(CaseWorkerID))]
     public class CaseWorkerAssignment
     {
 
         //[Key]
-        
+
         public int CaseNo { get; set; }
         public int CaseWorkerID { get; set; }
         public decimal PaidHours { get; set; }

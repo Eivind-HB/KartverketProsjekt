@@ -3,7 +3,7 @@ using System.Reflection.Metadata;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Kartverket.Data
+namespace Kartverket.Models.ModelsDB
 {
     public class KommuneInfo
     {

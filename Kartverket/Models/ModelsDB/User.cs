@@ -3,7 +3,7 @@ using MySqlConnector;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection.Metadata;
 
-namespace Kartverket.Data
+namespace Kartverket.Models.ModelsDB
 {
     public class User
     {

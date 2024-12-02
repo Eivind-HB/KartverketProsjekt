@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using FluentAssertions.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using Kartverket.Models.ModelsDB;
 
 var builder = WebApplication.CreateBuilder(args);
 

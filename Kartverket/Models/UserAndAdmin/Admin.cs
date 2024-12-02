@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection.Metadata;
 
-namespace Kartverket.Data
+namespace Kartverket.Models.UserAndAdmin
 {
     public class Admin
     {

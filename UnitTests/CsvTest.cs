@@ -19,7 +19,7 @@ namespace Kartverket.Test
             // Arrange
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string projectDirectory = Directory.GetParent(baseDirectory).Parent.Parent.Parent.Parent.FullName;
-            string csvFilePath = Path.Combine(projectDirectory, "Kartverket", "Data", "CaseWorker.csv");
+            string csvFilePath = Path.Combine(projectDirectory, "Kartverket", "wwwroot", "csv", "CaseWorker.csv");
 
             // Act
             var records = ReadCsvFile<CaseWorkerTestRecord>(csvFilePath);
@@ -37,7 +37,7 @@ namespace Kartverket.Test
             // Arrange
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string projectDirectory = Directory.GetParent(baseDirectory).Parent.Parent.Parent.Parent.FullName;
-            string csvFilePath = Path.Combine(projectDirectory, "Kartverket", "Data", "fylkeinfo.csv");
+            string csvFilePath = Path.Combine(projectDirectory, "Kartverket", "wwwroot", "csv", "fylkeinfo.csv");
 
             // Act
             var records = ReadCsvFile<FylkeInfoTestRecord>(csvFilePath);
@@ -55,7 +55,7 @@ namespace Kartverket.Test
             // Arrange
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string projectDirectory = Directory.GetParent(baseDirectory).Parent.Parent.Parent.Parent.FullName;
-            string csvFilePath = Path.Combine(projectDirectory, "Kartverket", "Data", "kommuneinfo.csv");
+            string csvFilePath = Path.Combine(projectDirectory, "Kartverket", "wwwroot", "csv", "kommuneinfo.csv");
 
             // Act
             var records = ReadCsvFile<KommmuneInfoTestRecord>(csvFilePath);
@@ -73,7 +73,7 @@ namespace Kartverket.Test
             // Arrange
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string projectDirectory = Directory.GetParent(baseDirectory).Parent.Parent.Parent.Parent.FullName;
-            string csvFilePath = Path.Combine(projectDirectory, "Kartverket", "Data", "Status.csv");
+            string csvFilePath = Path.Combine(projectDirectory, "Kartverket", "wwwroot", "csv", "Status.csv");
 
             // Act
             var records = ReadCsvFile<StatusTestRecord>(csvFilePath);
@@ -91,7 +91,7 @@ namespace Kartverket.Test
             // Arrange
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string projectDirectory = Directory.GetParent(baseDirectory).Parent.Parent.Parent.Parent.FullName;
-            string csvFilePath = Path.Combine(projectDirectory, "Kartverket", "Data", "KartverketEmployee.csv");
+            string csvFilePath = Path.Combine(projectDirectory, "Kartverket", "wwwroot", "csv", "KartverketEmployee.csv");
 
             // Act
             var records = ReadCsvFile<KartverketEmployeeTestRecord>(csvFilePath);
@@ -115,7 +115,7 @@ namespace Kartverket.Test
             // Arrange
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string projectDirectory = Directory.GetParent(baseDirectory).Parent.Parent.Parent.Parent.FullName;
-            string csvFilePath = Path.Combine(projectDirectory, "Kartverket", "Data", "issue.csv");
+            string csvFilePath = Path.Combine(projectDirectory, "Kartverket", "wwwroot", "csv", "issue.csv");
 
             // Act
             var records = ReadCsvFile<IssueTestRecord>(csvFilePath);
@@ -133,7 +133,7 @@ namespace Kartverket.Test
             // Arrange
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string projectDirectory = Directory.GetParent(baseDirectory).Parent.Parent.Parent.Parent.FullName;
-            string csvFilePath = Path.Combine(projectDirectory, "Kartverket", "Data", "User.csv");
+            string csvFilePath = Path.Combine(projectDirectory, "Kartverket", "wwwroot", "csv", "User.csv");
 
             // Act
             var records = ReadCsvFile<UserTestRecord>(csvFilePath);

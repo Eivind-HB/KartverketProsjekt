@@ -1,11 +1,12 @@
 ﻿using Kartverket.Models;
+using Kartverket.Models.Map;
 using Kartverket.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 
 namespace Kartverket.Controllers
-     
+
 {
     [Route("api/[controller]")]
     public class MapController : Controller
@@ -30,7 +31,7 @@ namespace Kartverket.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new Models.ViewModels.ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         /// <summary>

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
 using System.Runtime.CompilerServices;
 
-namespace Kartverket.Data
+namespace Kartverket.Models.ModelsDB
 {
     public class KartverketEmployee
     {

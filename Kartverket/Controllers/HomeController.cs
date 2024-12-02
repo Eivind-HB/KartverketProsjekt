@@ -1,6 +1,5 @@
 using Ganss.Xss;
 using Kartverket.Data;
-using Kartverket.Models;
 using Kartverket.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +7,9 @@ using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using Kartverket.Models.ModelsDB;
+using Kartverket.Models.UserAndAdmin;
+using Kartverket.Models.Map;
 
 namespace Kartverket.Controllers
 {
@@ -271,7 +273,7 @@ namespace Kartverket.Controllers
                 .Include(c => c.Issue)         // Include Issue
                 .FirstOrDefaultAsync(c => c.CaseNo == newCase.CaseNo); // Get the specific case
                                                                             // Create the view model for a single case
-            var viewModel = new Kartverket.Models.SingleCaseModel
+            var viewModel = new Kartverket.Models.ViewModels.SingleCaseModel
             {
                 Case = singleCase // Assign the retrieved case directly
             };

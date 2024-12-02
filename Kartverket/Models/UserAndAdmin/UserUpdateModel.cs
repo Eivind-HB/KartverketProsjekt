@@ -1,14 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace Kartverket.Data
+namespace Kartverket.Models.UserAndAdmin
 
 {
-    public class Login
+    public class UserUpdateModel
     {
-        [Key]
         public int UserID { get; set; }
 
-        [Required(ErrorMessage = "Passord er påkrevet")]
-        public string Password { get; set; }
+        [Required(ErrorMessage = "Brukernavn er påkrevet")]
+        public string UserName { get; set; }
 
         [Required(ErrorMessage = "Mail er påkrevet")]
         [EmailAddress(ErrorMessage = "Ugyldig mail")]

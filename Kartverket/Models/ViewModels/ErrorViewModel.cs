@@ -1,4 +1,4 @@
-namespace Kartverket.Models
+namespace Kartverket.Models.ViewModels
 {
     public class ErrorViewModel
     {

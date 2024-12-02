@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace Kartverket.Models
+namespace Kartverket.Models.UserAndAdmin
 
 {
     public class PasswordUpdateModel

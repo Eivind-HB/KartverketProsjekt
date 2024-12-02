@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-using Kartverket.Models;
 using Ganss.Xss;
 using Microsoft.AspNetCore.SignalR;
+using Kartverket.Models.ModelsDB;
+using Kartverket.Models.Logins;
+using Kartverket.Models.UserAndAdmin;
 
 namespace Kartverket.Controllers
 {

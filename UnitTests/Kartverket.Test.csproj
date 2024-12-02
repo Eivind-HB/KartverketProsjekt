@@ -34,22 +34,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Data\CaseWorker.csv">
+    <None Update="wwwroot\csv\CaseWorker.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Data\KartverketEmployee.csv">
+    <None Update="wwwroot\csv\KartverketEmployee.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Data\fylkeinfo.csv">
+    <None Update="wwwroot\csv\fylkeinfo.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Data\issue.csv">
+    <None Update="wwwroot\csv\issue.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Data\kommuneinfo.csv">
+    <None Update="wwwroot\csv\kommuneinfo.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Data\Status.csv">
+    <None Update="wwwroot\csv\Status.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

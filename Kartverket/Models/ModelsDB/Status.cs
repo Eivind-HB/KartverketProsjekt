@@ -2,13 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection.Metadata;
 
-namespace Kartverket.Data
+namespace Kartverket.Models.ModelsDB
 {
-    public class FylkesInfo
+    public class Status
     {
         [Key]
-        public int FylkesNameID { get; set; }
-        public string? FylkesName { get; set; }
+        public int StatusNo { get; set; }
+        public string? StatusName { get; set; }
         public ICollection<Case> Cases { get; set; }
     }
 }

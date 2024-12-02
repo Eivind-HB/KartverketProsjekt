@@ -1,9 +1,10 @@
 ﻿using Ganss.Xss;
 using Kartverket.Data;
-using Kartverket.Models;
+using Kartverket.Models.ModelsDB;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+
 
 
 namespace Kartverket.Controllers
@@ -35,7 +36,7 @@ namespace Kartverket.Controllers
 
             var userId = int.Parse(userIdClaim.Value);
 
-            var viewModel = new Kartverket.Models.MultipleCasesModel
+            var viewModel = new Kartverket.Models.ViewModels.MultipleCasesModel
             {
                 Cases = _context.Case
                 .Include(c => c.KommuneInfo) // Include KommuneInfo
@@ -59,7 +60,7 @@ namespace Kartverket.Controllers
         [HttpGet]
         public IActionResult OverviewCaseworker()
         {
-            var viewModel = new Kartverket.Models.OverviewCaseworkerModel
+            var viewModel = new Kartverket.Models.ViewModels.OverviewCaseworkerModel
             {
                 Cases = _context.Case
                 .Include(c => c.KommuneInfo) // Include KommuneInfo
@@ -175,7 +176,7 @@ namespace Kartverket.Controllers
             if (singleCase != null)
             {
                 // Create the view model for a single case
-                var viewModel = new Kartverket.Models.SingleCaseModel
+                var viewModel = new Kartverket.Models.ViewModels.SingleCaseModel
                 {
                     Case = singleCase // Assign the retrieved case directly
                 };

@@ -51,6 +51,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\csv\CaseWorker.csv" />
+    <None Include="wwwroot\csv\fylkeinfo.csv" />
+    <None Include="wwwroot\csv\issue.csv" />
+    <None Include="wwwroot\csv\KartverketEmployee.csv" />
+    <None Include="wwwroot\csv\kommuneinfo.csv" />
+    <None Include="wwwroot\csv\Status.csv" />
+    <None Include="wwwroot\csv\User.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="Views\Home\_LinkBox.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
