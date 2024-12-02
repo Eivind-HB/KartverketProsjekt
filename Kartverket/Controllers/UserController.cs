@@ -46,10 +46,15 @@ namespace Kartverket.Controllers
             {
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.Mail == model.Mail);
                 //default userID is 404, default user is used for userless 'Case' registrations
-                bool UserNotDefaultUser = user.UserID != 404;
+                bool UserNotDefaultUser = false;
+                bool UserNotCaseworkerUser = false;
+                if (user != null)
+                {
+                    UserNotDefaultUser = user.UserID != 404;
+                    UserNotCaseworkerUser = user.CaseWorkerUser == null;
+                }
                 //User isnt an automatically made user for caseworker, those users are not inloggable
                 //due to caseworkers not needing a regular userpage
-                bool UserNotCaseworkerUser = user.CaseWorkerUser == null;
                 if (user != null && UserNotDefaultUser && UserNotCaseworkerUser)
                 {
                     var result = _passwordHasher.VerifyHashedPassword(user, user.Password, model.Password);
